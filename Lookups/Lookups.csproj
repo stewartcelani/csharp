@@ -10,6 +10,7 @@
     <ItemGroup>
       <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
       <PackageReference Include="Bogus" Version="34.0.2" />
+      <PackageReference Include="System.Runtime.Caching" Version="7.0.0-preview.3.22175.4" />
     </ItemGroup>
 
 </Project>

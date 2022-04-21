@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dictionary", "Dictionary\Dictionary.csproj", "{1DAC1821-A66A-4A46-86DF-23FA6364EACE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lookups", "Lookups\Lookups.csproj", "{1DAC1821-A66A-4A46-86DF-23FA6364EACE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template", "Template\Template.csproj", "{2AD93E8C-FAA5-4ADD-9A1A-DBE41D8E7050}"
 EndProject

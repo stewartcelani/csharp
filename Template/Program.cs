@@ -23,7 +23,7 @@ namespace Template
 
         private void SetupForBenchmark()
         {
-           var faker = new Faker("en");
+           var faker = new Faker();
 
         }
         
