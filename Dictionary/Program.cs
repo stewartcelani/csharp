@@ -3,7 +3,7 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using Bogus;
 
-namespace Dictionary // Note: actual namespace depends on the project name.
+namespace Dictionary
 {
     internal class Program
     {
@@ -16,7 +16,7 @@ namespace Dictionary // Note: actual namespace depends on the project name.
     [MemoryDiagnoser()]
     public class Benchy
     {
-        ConcurrentDictionary<Guid, Person> PersonDictionary = new ConcurrentDictionary<Guid, Person>();
+        private readonly ConcurrentDictionary<Guid, Person> _personDictionary = new ConcurrentDictionary<Guid, Person>();
 
         public Benchy()
         {
@@ -28,14 +28,14 @@ namespace Dictionary // Note: actual namespace depends on the project name.
             var faker = new Faker("en");
             for (int i = 0; i < 1000; i++)
             {
-                PersonDictionary[Guid.NewGuid()] = new Person(faker.Name.FullName(), faker.Random.Number(18, 67));
+                _personDictionary[Guid.NewGuid()] = new Person(faker.Name.FullName(), faker.Random.Number(18, 67));
             }
         }
         
         [Benchmark]
         public void ValuesLoop()
         {
-            foreach (Person p in PersonDictionary.Values)
+            foreach (Person p in _personDictionary.Values)
             {
                 p.Age++;
             }
@@ -44,9 +44,9 @@ namespace Dictionary // Note: actual namespace depends on the project name.
         [Benchmark]
         public void KeysLoop()
         {
-            foreach (Guid iGuid in PersonDictionary.Keys)
+            foreach (Guid g in _personDictionary.Keys)
             {
-                PersonDictionary[iGuid].Age++;
+                _personDictionary[g].Age++;
             }
         }
     }
