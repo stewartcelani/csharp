@@ -1,2 +1,2 @@
-# Benchmarks
-[Lookups](Lookups/README.md)
+[Benchmarks](Benchmarks/README.md)
+- [Lookups](Benchmarks/Lookups/README.md)

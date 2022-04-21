@@ -4,32 +4,32 @@ using BenchmarkDotNet.Running;
 using Bogus;
 using System.Runtime.Caching;
 
-namespace Lookups
+namespace Benchmarks.Lookups
 {
     internal class Program
     {
         private static void Main(string[] args)
         {
-            BenchmarkRunner.Run<Benchy>();
+            BenchmarkRunner.Run<Benchmark>();
         }
     }
 
     [MemoryDiagnoser()]
-    public class Benchy
+    public class Benchmark
     {
         private readonly Dictionary<Guid, Person> _dictionary = new();
         private readonly ConcurrentDictionary<Guid, Person> _concurrentDictionary = new();
         private readonly List<Person> _list = new();
         private readonly MemoryCache _memoryCache = MemoryCache.Default;
 
-        public Benchy()
+        public Benchmark()
         {
                 SeedDictionary();
         }
 
         private void SeedDictionary()
         {
-            var faker = new Faker();
+            Faker faker = new Faker();
             DateTimeOffset fiveMinutesFromNow = DateTimeOffset.UtcNow.AddMinutes(5);
             for (int i = 0; i < 100000; i++)
             {

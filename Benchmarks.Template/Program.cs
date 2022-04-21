@@ -2,20 +2,20 @@
 using BenchmarkDotNet.Running;
 using Bogus;
 
-namespace Template
+namespace Benchmarks.Template
 {
     internal class Program
     {
         private static void Main(string[] args)
         {
-            BenchmarkRunner.Run<Benchy>();
+            BenchmarkRunner.Run<Benchmark>();
         }
     }
 
     [MemoryDiagnoser()]
-    public class Benchy
+    public class Benchmark
     {
-        public Benchy()
+        public Benchmark()
         {
             // Any Setup
             SetupForBenchmark();
