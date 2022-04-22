@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keywords.Event", "Keywords.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercises.FizzBuzz", "Exercises.FizzBuzz\Exercises.FizzBuzz.csproj", "{A09CC77E-C777-47E5-A1C2-CA44970463F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms.BubbleSort", "Algorithms.BubbleSort\Algorithms.BubbleSort.csproj", "{A87C7690-93EA-4DC8-BC61-8A496C64FEDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{A09CC77E-C777-47E5-A1C2-CA44970463F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A09CC77E-C777-47E5-A1C2-CA44970463F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A09CC77E-C777-47E5-A1C2-CA44970463F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A87C7690-93EA-4DC8-BC61-8A496C64FEDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A87C7690-93EA-4DC8-BC61-8A496C64FEDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A87C7690-93EA-4DC8-BC61-8A496C64FEDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A87C7690-93EA-4DC8-BC61-8A496C64FEDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
