@@ -29,7 +29,7 @@ namespace Benchmarks.Lookups
 
         private void SeedDictionary()
         {
-            Faker faker = new Faker();
+            var faker = new Faker();
             DateTimeOffset fiveMinutesFromNow = DateTimeOffset.UtcNow.AddMinutes(5);
             for (int i = 0; i < 100000; i++)
             {
