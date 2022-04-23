@@ -1,19 +1,33 @@
-﻿IDog japanezeSpitz = new JapanezeSpitz();
+﻿var japanezeSpitz = new JapanezeSpitz();
+japanezeSpitz.Name = "Lynx";
 japanezeSpitz.Bark(); // Woof woof!
+japanezeSpitz.Sleep(); // Zzz...
 
-IDog bulldog = new Bulldog();
+var bulldog = new Bulldog();
 bulldog.Bark(); // Grrrrrrr!
 
 interface IDog
 {
-    public void Bark();
+    void Bark();
 }
 
-public class JapanezeSpitz : IDog
+interface IAnimal
 {
+    void Sleep();
+}
+
+public class JapanezeSpitz : IDog, IAnimal
+{
+    public string Name { get; set; }
+
     public void Bark()
     {
         Console.WriteLine("Woof woof!");
+    }
+
+    public void Sleep()
+    {
+        Console.WriteLine("Zzz...");
     }
 }
 

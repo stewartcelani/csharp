@@ -24,7 +24,7 @@ namespace Benchmarks.Lookups
 
         public Benchmark()
         {
-                SeedDictionary();
+            SeedDictionary();
         }
 
         private void SeedDictionary()

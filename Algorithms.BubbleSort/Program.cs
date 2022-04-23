@@ -3,19 +3,48 @@ using Algorithms.BubbleSort;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
+/*
+var a = new Benchmark();
+a.PrintArray();
+a.BubbleSortImproved();
+a.PrintArray();
+Console.WriteLine();
+
 var b = new Benchmark();
 b.PrintArray();
-b.BubbleSort();
+b.BubbleSortImproved();
 b.PrintArray();
+Console.WriteLine();
+*/
 
-//BenchmarkRunner.Run<Benchmark>();
+BenchmarkRunner.Run<Benchmark>();
 
 namespace Algorithms.BubbleSort
 {
     [MemoryDiagnoser()]
     public class Benchmark
     {
-        private int[] _array = new int[] { 5, 232, 3, 1231, 2, 100, 1312, 6, 23, 21, 15, 9, 29321, 1, 2 };
+        private readonly int[] _array;
+        private readonly int[] _arrayDesc;
+
+        public Benchmark()
+        {
+            var rand = new Random();
+            var tempList = new List<int>();
+            var tempDescList = new List<int>();
+            for (var i = 1; i <= 1000; i++)
+            {
+                int x = rand.Next(1, 1001);
+                tempList.Add(x);
+            }
+
+            for (var i = 1000; i >= 1; i--)
+            {
+                tempDescList.Add(i);
+            }
+            _array = tempList.ToArray();
+            _arrayDesc = tempDescList.ToArray();
+        }
 
         public void PrintArray()
         {
@@ -37,11 +66,60 @@ namespace Algorithms.BubbleSort
                 }
             }
         }
+        
+        [Benchmark]
+        public void BubbleSortWorstCase()
+        {
+            for (var j = 0; j < _arrayDesc.Length - 1; j++)
+            {
+                for (var i = 0; i < _arrayDesc.Length - 1; i++)
+                {
+                    int current = _arrayDesc[i];
+                    int next = _arrayDesc[i + 1];
+                    if (current <= next) continue;
+                    _arrayDesc[i] = next;
+                    _arrayDesc[i + 1] = current;
+                }
+            }
+        }
 
         [Benchmark]
-        public void LinqOrderBy()
+        public void BubbleSortImprovedWorstCase()
         {
-            _array = _array.OrderBy(i => i).ToArray();
+            while (true)
+            {
+                var swapped = false;
+                for (var i = 0; i < _arrayDesc.Length - 1; i++)
+                {
+                    int current = _arrayDesc[i];
+                    int next = _arrayDesc[i + 1];
+                    if (current <= next) continue;
+                    _arrayDesc[i] = next;
+                    _arrayDesc[i + 1] = current;
+                    swapped = true;
+                }
+                if (!swapped) break; // If already sorted/solved exit early
+            }
         }
+        
+        [Benchmark]
+        public void BubbleSortImproved()
+        {
+            while (true)
+            {
+                var swapped = false;
+                for (var i = 0; i < _array.Length - 1; i++)
+                {
+                    int current = _array[i];
+                    int next = _array[i + 1];
+                    if (current <= next) continue;
+                    _array[i] = next;
+                    _array[i + 1] = current;
+                    swapped = true;
+                }
+                if (!swapped) break; // If already sorted/solved exit early
+            }
+        }
+        
     }
 }
