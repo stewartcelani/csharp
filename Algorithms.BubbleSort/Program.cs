@@ -3,19 +3,12 @@ using Algorithms.BubbleSort;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
-//BenchmarkRunner.Run<Benchmark>();
-
 var b = new Benchmark();
 b.PrintArray();
 b.BubbleSort();
 b.PrintArray();
 
-/*
-var c = new Benchmark();
-c.PrintArray();
-c.LinqOrderBy();
-c.PrintArray();
-*/
+//BenchmarkRunner.Run<Benchmark>();
 
 namespace Algorithms.BubbleSort
 {
@@ -38,11 +31,9 @@ namespace Algorithms.BubbleSort
                 {
                     int current = _array[i];
                     int next = _array[i + 1];
-                    if (current > next)
-                    {
-                        _array[i] = next;
-                        _array[i + 1] = current;
-                    }
+                    if (current <= next) continue;
+                    _array[i] = next;
+                    _array[i + 1] = current;
                 }
             }
         }
