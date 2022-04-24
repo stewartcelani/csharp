@@ -10,7 +10,7 @@ var seeder = new FileSeeder(new FileSeederConfiguration()
 });
 //seeder.SeedFiles(1000);
 
-//var benchmark = new Benchmark();
-//await benchmark.ParallelLoop();
+var benchmark = new Benchmark();
+await benchmark.ParallelLoop();
 
-BenchmarkRunner.Run<Benchmark>();
+//BenchmarkRunner.Run<Benchmark>();

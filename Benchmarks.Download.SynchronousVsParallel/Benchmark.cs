@@ -39,14 +39,14 @@ public class Benchmark
     {
         foreach (FileDownloaderFile file in _files)
         {
-            await _fileDownloader.DownloadAsync(file.DownloadUrl, file.DownloadPath, new CancellationToken());
+            await _fileDownloader.DownloadAsync(file.DownloadUrl, file.DownloadPath);
         }
     }
 
     [Benchmark]
     public async Task ParallelLoop()
     {
-        await _fileDownloader.DownloadParallelAsync(_files, new CancellationToken());
+        await _fileDownloader.DownloadParallelAsync(_files);
     }
     
 }

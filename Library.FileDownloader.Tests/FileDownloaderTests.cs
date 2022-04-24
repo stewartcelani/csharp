@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace Library.FileDownloader.Tests;
 
 public class FileDownloaderTests
 {
-    private readonly FileDownloader _sut = new();
+    private readonly FileDownloader _sut;
     private readonly FileDownloaderFile _file = new()
     {
         DownloadUrl = @"https://stewartcelani-public.s3.amazonaws.com/samplefiles/1.tmp",
@@ -20,11 +20,13 @@ public class FileDownloaderTests
 
     public FileDownloaderTests()
     {
-        for (var i = 1; i <= 10; i++)
+        _sut = new FileDownloader();
+        
+        for (var i = 1; i <= 20; i++)
         {
             _fileList.Add(new FileDownloaderFile()
             {
-                DownloadUrl = _file.DownloadUrl,
+                DownloadUrl = @$"https://stewartcelani-public.s3.amazonaws.com/samplefiles/{i}.tmp",
                 DownloadPath = Path.Combine(Path.GetTempPath(), $"{i}.tmp")
             });
         }
@@ -34,6 +36,19 @@ public class FileDownloaderTests
     public async Task DownloadAsync()
     {
         FileInfo file = await _sut.DownloadAsync(_file.DownloadUrl, _file.DownloadPath);
+        file.Exists.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task DownloadAsyncWithCustomFileDownloaderConfiguration()
+    {
+        var config = new FileDownloaderConfiguration(
+            6, 
+            5, 
+            s => Console.WriteLine(s)
+        );
+        var sut = new FileDownloader(config);
+        FileInfo file = await sut.DownloadAsync(_file.DownloadUrl, _file.DownloadPath);
         file.Exists.Should().BeTrue();
     }
 
@@ -48,7 +63,7 @@ public class FileDownloaderTests
     public async Task DownloadParallelAsync()
     {
         List<FileInfo> files = await _sut.DownloadParallelAsync(_fileList);
-        files.Count.Should().Be(10);
-        files.All(x => x.Exists == true).Should().BeTrue();
+        files.Count.Should().Be(20);
+        files.All(x => x.Exists).Should().BeTrue();
     }
 }
