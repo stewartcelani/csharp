@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Seeders.Files.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seeders.Files", "Seeders.Files\Seeders.Files.csproj", "{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Download.SynchronousVsParallel", "Benchmarks.Download.SynchronousVsParallel\Benchmarks.Download.SynchronousVsParallel.csproj", "{0A6EDE54-3EDB-4186-BFCF-3B6B1CC4ED35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,5 +122,9 @@ Global
 		{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6EDE54-3EDB-4186-BFCF-3B6B1CC4ED35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6EDE54-3EDB-4186-BFCF-3B6B1CC4ED35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6EDE54-3EDB-4186-BFCF-3B6B1CC4ED35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6EDE54-3EDB-4186-BFCF-3B6B1CC4ED35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
