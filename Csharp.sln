@@ -32,6 +32,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.SortingAlgorithm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms.MergeSort", "Algorithms.MergeSort\Algorithms.MergeSort.csproj", "{614A1616-320B-49EE-8AB1-D00F7ABED180}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Seeders.Files", "Library.Seeders.Files\Library.Seeders.Files.csproj", "{44F77E0A-538D-44E7-921B-6E26A1A94555}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Seeders.Files.Tests", "Library.Seeders.Files.Tests\Library.Seeders.Files.Tests.csproj", "{D0901DF2-C103-479A-B0F8-906F9D1D7BBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seeders.Files", "Seeders.Files\Seeders.Files.csproj", "{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,5 +108,17 @@ Global
 		{614A1616-320B-49EE-8AB1-D00F7ABED180}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{614A1616-320B-49EE-8AB1-D00F7ABED180}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{614A1616-320B-49EE-8AB1-D00F7ABED180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44F77E0A-538D-44E7-921B-6E26A1A94555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44F77E0A-538D-44E7-921B-6E26A1A94555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44F77E0A-538D-44E7-921B-6E26A1A94555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44F77E0A-538D-44E7-921B-6E26A1A94555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0901DF2-C103-479A-B0F8-906F9D1D7BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0901DF2-C103-479A-B0F8-906F9D1D7BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0901DF2-C103-479A-B0F8-906F9D1D7BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0901DF2-C103-479A-B0F8-906F9D1D7BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
