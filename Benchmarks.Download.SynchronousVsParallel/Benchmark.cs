@@ -1,16 +1,21 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.TestRunAttachmentsProcessing;
+using Library.FileDownloader;
 
 namespace Benchmarks.Download.SynchronousVsParallel;
 
+/*
+ * Did 100 runs for the initial benchmark in README.md
+ * setting follow up runs to only do 5 so finish quick
+ */
+[SimpleJob(launchCount: 1, warmupCount: 2, targetCount: 5)]
 [MemoryDiagnoser()]
 public class Benchmark
 {
-    private readonly HttpClient _http = new ();
+    private readonly FileDownloader _fileDownloader = new ();
     private readonly string _downloadPath = @"C:\inetpub\wwwroot\wwwroot\temp\downloadto";
     private readonly string _baseDownloadUrl = "https://localhost/temp/downloadfrom";
-    private readonly List<File> _files = new();
+    private readonly List<FileDownloaderFile> _files = new();
 
     public Benchmark()
     {
@@ -21,7 +26,7 @@ public class Benchmark
 
         for (var i = 1; i <= 1000; i++)
         {
-            _files.Add(new File()
+            _files.Add(new FileDownloaderFile()
             {
                 DownloadPath = @$"{_downloadPath}\{i}.tmp",
                 DownloadUrl = @$"{_baseDownloadUrl}/{i}.tmp"
@@ -32,35 +37,16 @@ public class Benchmark
     [Benchmark]
     public async Task SynchronousLoop()
     {
-        foreach (File file in _files)
+        foreach (FileDownloaderFile file in _files)
         {
-            await using Stream stream = await _http.GetStreamAsync(file.DownloadUrl);
-            await using FileStream fileStream = new (file.DownloadPath, FileMode.Create);
-            await stream.CopyToAsync(fileStream);
-            //Console.WriteLine($"+ {file.DownloadPath}");
+            await _fileDownloader.DownloadAsync(file.DownloadUrl, file.DownloadPath, new CancellationToken());
         }
     }
 
     [Benchmark]
     public async Task ParallelLoop()
     {
-        var parallelOptions = new ParallelOptions()
-        {
-            MaxDegreeOfParallelism = 10
-        };
-        await Parallel.ForEachAsync(_files, parallelOptions, async (file, ct) =>
-        {
-            await using Stream stream = await _http.GetStreamAsync(file.DownloadUrl, ct);
-            await using FileStream fileStream = new(file.DownloadPath, FileMode.Create);
-            await stream.CopyToAsync(fileStream, ct);
-            //Console.WriteLine($"+ {file.DownloadPath}");
-        });
+        await _fileDownloader.DownloadParallelAsync(_files, new CancellationToken());
     }
     
-}
-
-public record File
-{
-    public string DownloadUrl { get; set; }
-    public string DownloadPath { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿Downloading 1000 randomly generated files between 0 and 5mb in size.
+﻿100 runs of downloading 1000 randomly generated files between 0 and 5mb in size.
 
 Parallel loop 45% faster in this benchmark.
 
