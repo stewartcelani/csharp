@@ -14,7 +14,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Library.FileDownloader\Library.FileDownloader.csproj" />
-      <ProjectReference Include="..\Library.Seeders.Files\Library.Seeders.Files.csproj" />
+      <ProjectReference Include="..\Library.FileSeeder\Library.FileSeeder.csproj" />
     </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@ using System.IO;
 using FluentAssertions;
 using Xunit;
 
-namespace Library.Seeders.Files.Tests;
+namespace Library.FileSeeder.Tests;
 
 public class FileSeederTests
 {

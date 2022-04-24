@@ -32,11 +32,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.SortingAlgorithm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms.MergeSort", "Algorithms.MergeSort\Algorithms.MergeSort.csproj", "{614A1616-320B-49EE-8AB1-D00F7ABED180}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Seeders.Files", "Library.Seeders.Files\Library.Seeders.Files.csproj", "{44F77E0A-538D-44E7-921B-6E26A1A94555}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.FileSeeder", "Library.FileSeeder\Library.FileSeeder.csproj", "{44F77E0A-538D-44E7-921B-6E26A1A94555}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Seeders.Files.Tests", "Library.Seeders.Files.Tests\Library.Seeders.Files.Tests.csproj", "{D0901DF2-C103-479A-B0F8-906F9D1D7BBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.FileSeeder.Tests", "Library.FileSeeder.Tests\Library.FileSeeder.Tests.csproj", "{D0901DF2-C103-479A-B0F8-906F9D1D7BBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seeders.Files", "Seeders.Files\Seeders.Files.csproj", "{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.FileSeeder.UsageExample", "Library.FileSeeder.UsageExample\Library.FileSeeder.UsageExample.csproj", "{706F5101-C5B5-4F9D-9A99-E1ED6925DAFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Download.SynchronousVsParallel", "Benchmarks.Download.SynchronousVsParallel\Benchmarks.Download.SynchronousVsParallel.csproj", "{0A6EDE54-3EDB-4186-BFCF-3B6B1CC4ED35}"
 EndProject

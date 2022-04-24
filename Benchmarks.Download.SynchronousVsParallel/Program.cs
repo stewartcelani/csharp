@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
 using Benchmarks.Download.SynchronousVsParallel;
-using Library.Seeders.Files;
+using Library.FileSeeder;
 
 var seeder = new FileSeeder(new FileSeederConfiguration()
 {

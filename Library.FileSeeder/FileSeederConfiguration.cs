@@ -1,4 +1,4 @@
-﻿namespace Library.Seeders.Files;
+﻿namespace Library.FileSeeder;
 
 public class FileSeederConfiguration
 {
