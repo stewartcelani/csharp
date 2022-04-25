@@ -12,11 +12,19 @@ public class FileSeederTests
 
     public FileSeederTests()
     {
-        _sut = new FileSeeder(new FileSeederConfiguration());
+        _sut = new FileSeeder();
     }
 
     [Fact]
-    public void Invoking_DefaultConfigurationShouldNotThrowException()
+    public void Invoking_ImplicitDefaultConfigurationShouldNotThrowException()
+    {
+        FluentActions.Invoking(() => new FileSeeder())
+            .Should()
+            .NotThrow();
+    }
+    
+    [Fact]
+    public void Invoking_ExplicitDefaultConfigurationShouldNotThrowException()
     {
         FluentActions.Invoking(() => new FileSeeder(new FileSeederConfiguration()))
             .Should()

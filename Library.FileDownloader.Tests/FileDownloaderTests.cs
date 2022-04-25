@@ -26,6 +26,10 @@ public class FileDownloaderTests
         {
             _fileList.Add(new FileDownloaderFile()
             {
+                /*
+                 * 1.tmp to 100.tmp are 0 bytes.
+                 * 101.tmp to 1000.tmp are random sizes between 0 and 5mb.
+                 */
                 DownloadUrl = @$"https://stewartcelani-public.s3.amazonaws.com/samplefiles/{i}.tmp",
                 DownloadPath = Path.Combine(Path.GetTempPath(), $"{i}.tmp")
             });

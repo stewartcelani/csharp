@@ -8,6 +8,13 @@ public class FileSeeder
 
     public List<FileInfo> Files { get; } = new();
 
+    public FileSeeder()
+    {
+        var config = new FileSeederConfiguration();
+        ValidateFileSeederConfiguration(config);
+        _config = config;
+    }
+    
     public FileSeeder(FileSeederConfiguration config)
     {
         ValidateFileSeederConfiguration(config);
@@ -37,19 +44,25 @@ public class FileSeeder
             throw new ArgumentException("FileExtensions can not be longer than 4 characters.");
     }
 
-    public List<FileInfo> SeedFiles(int numberOfFilesToSeed = 100)
+    public List<FileInfo> SeedFiles(int numberOfFilesToSeed = 10)
+    {
+        return SeedFiles(numberOfFilesToSeed, GetRandomFileSizeInBytes());
+    }
+    
+    public List<FileInfo> SeedFiles(int numberOfFilesToSeed = 10, int fileSizeInBytes = 0)
     {
         for (var i = 1; i <= numberOfFilesToSeed; i++)
         {
-            string path = Path.Combine(_rootDirectory.ToString(), $"{i}.{GetRandomFileExtension()}");
-            FileInfo file = SeedFile(path, GetRandomFileSizeInBytes());
+            string fileName = $"{i}.{GetRandomFileExtension()}";
+            FileInfo file = SeedFile(fileName, fileSizeInBytes);
             Files.Add(file);
         }
         return Files;
     }
 
-    public FileInfo SeedFile(string path, int fileSizeInBytes = 0)
+    public FileInfo SeedFile(string fileName, int fileSizeInBytes = 0)
     {
+        string path = Path.Combine(_rootDirectory.ToString(), fileName);
         File.WriteAllBytes(path, new byte[fileSizeInBytes]);
         return new FileInfo(path);
     }

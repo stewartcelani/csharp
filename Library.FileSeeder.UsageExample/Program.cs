@@ -1,8 +1,9 @@
 ﻿using Library.FileSeeder;
 
-var seeder = new FileSeeder(new FileSeederConfiguration());
-List<FileInfo> files = seeder.SeedFiles(10);
-foreach (FileInfo fileInfo in files)
+var seeder = new FileSeeder(new FileSeederConfiguration()
 {
-    Console.WriteLine(fileInfo.FullName);
-}
+    Path = Path.Combine(Path.GetTempPath(), "tempseedfiles"),
+    FileExtensions = new []{ "tmp" }
+});
+seeder.SeedFiles(1000, 0);
+

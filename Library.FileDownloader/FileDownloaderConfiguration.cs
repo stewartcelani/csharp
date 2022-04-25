@@ -30,7 +30,8 @@ public class FileDownloaderConfiguration
             .WaitAndRetry(retryAttempts, 
                 retryAttempt =>
                 {
-                    return TimeSpan.FromSeconds(retryAttempt * initialRetryDelayInSeconds);
+                    int retryDelayInSeconds = retryAttempt * initialRetryDelayInSeconds;
+                    return TimeSpan.FromSeconds(retryDelayInSeconds);
                 });
     }
 }
