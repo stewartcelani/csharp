@@ -15,6 +15,25 @@ Console.WriteLine($"Memory: {computer.Memory}"); // Memory: 16
 Console.WriteLine($"Memory: {laptop.Memory}"); // Memory: 16
 Console.WriteLine();
 
+// REFERENCE TYPE - Class in loop example
+List<Computer> computerList = new();
+for (var j = 1; j <= 10; j++)
+{
+    computerList.Add(new Computer());
+}
+Random rand = new();
+foreach (Computer c in computerList)
+{
+    if (rand.Next(0, 2) == 0)
+    {
+        Methods.IncreaseRam(c);
+    }
+}
+bool wereAnyComputersInComputerListModified = computerList.Any(x => x.Memory == 16);
+Console.WriteLine(wereAnyComputersInComputerListModified); // True
+Console.WriteLine();
+
+
 // VALUE TYPE - String
 string s = "ABC";
 Methods.ModifyString(s);

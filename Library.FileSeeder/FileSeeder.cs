@@ -1,4 +1,6 @@
-﻿namespace Library.FileSeeder;
+﻿using System.Diagnostics;
+
+namespace Library.FileSeeder;
 
 public class FileSeeder
 {
@@ -43,6 +45,7 @@ public class FileSeeder
         if (config.FileExtensions.Any(x => x.Length > 4))
             throw new ArgumentException("FileExtensions can not be longer than 4 characters.");
     }
+    
 
     public List<FileInfo> SeedFiles(int numberOfFilesToSeed = 10)
     {

@@ -16,7 +16,7 @@ public class FileDownloader
     }
 
     public async Task<FileInfo> DownloadAsync(
-        string downloadUrl, string downloadPath, CancellationToken ct = new ())
+        string downloadUrl, string downloadPath, CancellationToken ct = default)
     {
         return await _config.RetryPolicy.Execute(async () =>
         {
@@ -33,7 +33,7 @@ public class FileDownloader
         });
     }
 
-    public async Task<FileInfo> DownloadAsync(FileDownloaderFile file, CancellationToken ct = new ())
+    public async Task<FileInfo> DownloadAsync(FileDownloaderFile file, CancellationToken ct = default)
     {
         return await DownloadAsync(file.DownloadUrl, file.DownloadPath, ct);
     }
