@@ -48,7 +48,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.FileDownloader.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scratch", "Scratch\Scratch.csproj", "{9834188E-0546-4AED-9F37-5BF247CA5615}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patterns.Class.FluentApiBuilder", "Patterns.Class.FluentApiBuilder\Patterns.Class.FluentApiBuilder.csproj", "{C4DFDE15-8121-41D8-A54D-F3E3D32CFB8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patterns.FluentApiBuilder", "Patterns.FluentApiBuilder\Patterns.FluentApiBuilder.csproj", "{C4DFDE15-8121-41D8-A54D-F3E3D32CFB8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

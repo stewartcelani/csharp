@@ -1,4 +1,4 @@
-﻿namespace Patterns.Class.FluentApiBuilder;
+﻿namespace Patterns.FluentApiBuilder;
 
 public class UserBuilder
 {
