@@ -56,6 +56,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.WasmTwoWayLogging.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.WasmTwoWayLogging.Shared", "Blazor\WasmTwoWayLogging\Shared\Blazor.WasmTwoWayLogging.Shared.csproj", "{ADA946CB-70D5-4E7A-BBC3-D48B78C961A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutodeskConstructionCloud.ApiClient", "Projects\AutodeskConstructionCloudBackup\AutodeskConstructionCloud.ApiClient\AutodeskConstructionCloud.ApiClient\AutodeskConstructionCloud.ApiClient.csproj", "{061175E8-3A49-4D91-9416-0F3255B84709}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutodeskConstructionCloud.ApiClient.UsageExample", "Projects\AutodeskConstructionCloudBackup\AutodeskConstructionCloud.ApiClient.UsageExample\AutodeskConstructionCloud.ApiClient.UsageExample\AutodeskConstructionCloud.ApiClient.UsageExample.csproj", "{2A39A25A-424D-4006-98EE-C48A1AFAF3F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutodeskConstructionCloud.ApiClient.Tests", "Projects\AutodeskConstructionCloudBackup\AutodeskConstructionCloud.ApiClient.Tests\AutodeskConstructionCloud.ApiClient.Tests\AutodeskConstructionCloud.ApiClient.Tests.csproj", "{B9F93CE2-5DED-46D3-9EA9-80A64239E84D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Logger", "Library\Library.Logger\Library.Logger\Library.Logger.csproj", "{A625B23C-CEC9-4E1F-8B17-99DCF8A4F1DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Logger.Tests", "Library\Library.Logger.Tests\Library.Logger.Tests\Library.Logger.Tests.csproj", "{260F0002-3C10-4BF9-88CF-C38EF2AB5BE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Logger.UsageExample", "Library\Library.Logger.UsageExample\Library.Logger.UsageExample\Library.Logger.UsageExample.csproj", "{1FBDC5D3-6598-476F-AE93-0C03F0BD2A1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,5 +190,29 @@ Global
 		{ADA946CB-70D5-4E7A-BBC3-D48B78C961A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADA946CB-70D5-4E7A-BBC3-D48B78C961A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADA946CB-70D5-4E7A-BBC3-D48B78C961A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{061175E8-3A49-4D91-9416-0F3255B84709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{061175E8-3A49-4D91-9416-0F3255B84709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{061175E8-3A49-4D91-9416-0F3255B84709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{061175E8-3A49-4D91-9416-0F3255B84709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A39A25A-424D-4006-98EE-C48A1AFAF3F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A39A25A-424D-4006-98EE-C48A1AFAF3F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A39A25A-424D-4006-98EE-C48A1AFAF3F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A39A25A-424D-4006-98EE-C48A1AFAF3F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9F93CE2-5DED-46D3-9EA9-80A64239E84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F93CE2-5DED-46D3-9EA9-80A64239E84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F93CE2-5DED-46D3-9EA9-80A64239E84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F93CE2-5DED-46D3-9EA9-80A64239E84D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A625B23C-CEC9-4E1F-8B17-99DCF8A4F1DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A625B23C-CEC9-4E1F-8B17-99DCF8A4F1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A625B23C-CEC9-4E1F-8B17-99DCF8A4F1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A625B23C-CEC9-4E1F-8B17-99DCF8A4F1DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{260F0002-3C10-4BF9-88CF-C38EF2AB5BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{260F0002-3C10-4BF9-88CF-C38EF2AB5BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{260F0002-3C10-4BF9-88CF-C38EF2AB5BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{260F0002-3C10-4BF9-88CF-C38EF2AB5BE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FBDC5D3-6598-476F-AE93-0C03F0BD2A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FBDC5D3-6598-476F-AE93-0C03F0BD2A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FBDC5D3-6598-476F-AE93-0C03F0BD2A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FBDC5D3-6598-476F-AE93-0C03F0BD2A1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

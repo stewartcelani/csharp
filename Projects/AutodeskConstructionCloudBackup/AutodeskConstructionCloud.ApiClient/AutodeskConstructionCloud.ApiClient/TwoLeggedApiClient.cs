@@ -1,4 +1,4 @@
-﻿namespace Patterns.FluentApiBuilder;
+﻿namespace AutodeskConstructionCloud.ApiClient;
 
 public class TwoLeggedApiClient : 
     IClientIdSelectionStage, 
@@ -10,11 +10,10 @@ public class TwoLeggedApiClient :
     private string _clientId;
     private string _clientSecret;
     private string _accountId;
-    private ApiClientConfiguration _configuration;
+    private ApiClientConfiguration? _configuration;
 
     private TwoLeggedApiClient()
     {
-        _configuration = new ApiClientConfiguration();
     }
 
     public static IClientIdSelectionStage Configure()
@@ -40,9 +39,9 @@ public class TwoLeggedApiClient :
         return this;
     }
 
-    public ICreateApiClientStage WithOptions(Action<ApiClientConfiguration> config)
+    public ICreateApiClientStage WithOptions(Action<ApiClientOptions> config)
     {
-        var configuration = new ApiClientConfiguration();
+        var configuration = new ApiClientConfiguration(_clientId, _clientSecret, _accountId);
         config?.Invoke(configuration);
         _configuration = configuration;
         return this;
@@ -50,7 +49,9 @@ public class TwoLeggedApiClient :
 
     public ApiClient CreateApiClient()
     {
-        return new ApiClient(_clientId, _clientSecret, _accountId, _configuration);
+        if (_configuration is null)
+            _configuration = new ApiClientConfiguration(_clientId, _clientSecret, _accountId);
+        return new ApiClient(_configuration);
     }
 }
 
@@ -71,44 +72,11 @@ public interface IAccountIdSelectionStage
 
 public interface IOptionalConfigurationStage
 {
-    public ICreateApiClientStage WithOptions(Action<ApiClientConfiguration> config);
+    public ICreateApiClientStage WithOptions(Action<ApiClientOptions> options);
     public ApiClient CreateApiClient();
 }
 
 public interface ICreateApiClientStage
 { 
     public ApiClient CreateApiClient();
-}
-
-public class ApiClient
-{
-    public string ClientId { get; }
-    public string ClientSecret { get; }
-    public string AccountId { get; }
-
-    public ApiClientConfiguration Configuration { get; }
-    
-    private HttpClient _http = new();
-    
-    public ApiClient(string clientId, string clientSecret, string accountId, ApiClientConfiguration configuration)
-    {
-        ClientId = clientId;
-        ClientSecret = clientSecret;
-        AccountId = accountId;
-        Configuration = configuration;
-    }
-
-    public void Example()
-    {
-        Configuration.LoggingMethod?.Invoke("Example of custom logging passed via lambda config.");
-    }
-}
-
-public class ApiClientConfiguration
-{
-    public string ApiClientName { get; set; } = "Default";
-    public int MaxRetries { get; set; } = 4;
-    public int SecondsBetweenRetries { get; set; } = 15;
-    public int DegreesOfParallelism { get; set; } = 4;
-    public Action<string>? LoggingMethod { get; set; }
 }
