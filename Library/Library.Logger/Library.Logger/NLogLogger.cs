@@ -6,9 +6,9 @@ namespace Library.Logger;
 
 public class NLogLogger : ILogger
 {
-    private NLogLoggerConfiguration _config;
+    private readonly NLogLoggerConfiguration _config;
 
-    public NLog.Logger Log { get; set; }
+    private NLog.Logger Log { get; set; }
 
     public NLogLogger()
     {
