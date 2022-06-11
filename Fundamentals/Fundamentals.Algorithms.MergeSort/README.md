@@ -1,3 +1,0 @@
-﻿
-
-![MergeSort](MergeSort.png)
