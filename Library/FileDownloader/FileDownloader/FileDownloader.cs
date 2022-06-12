@@ -1,4 +1,4 @@
-﻿namespace Library.FileDownloader;
+namespace FileDownloader;
 
 public class FileDownloader
 {
@@ -20,15 +20,16 @@ public class FileDownloader
     {
         return await _config.RetryPolicy.Execute(async () =>
         {
-            await using Stream stream = await _http.GetStreamAsync(downloadUrl, ct);
-            await using FileStream fileStream = new (downloadPath, FileMode.Create);
+            await using var stream = await _http.GetStreamAsync(downloadUrl, ct);
+            await using FileStream fileStream = new(downloadPath, FileMode.Create);
             await stream.CopyToAsync(fileStream, ct);
             var fileInfo = new FileInfo(downloadPath);
             if (_config.LoggingMethod is not null)
             {
-                var fileSizeInMb = (decimal)Math.Round((((fileInfo.Length) / 1024f) / 1024f),2);
+                var fileSizeInMb = (decimal)Math.Round(fileInfo.Length / 1024f / 1024f, 2);
                 _config.LoggingMethod($"{fileInfo.FullName} ({fileSizeInMb} MB)");
             }
+
             return fileInfo;
         });
     }
@@ -42,19 +43,18 @@ public class FileDownloader
         IEnumerable<FileDownloaderFile> fileList, int maxDegreeOfParallelism = 10)
     {
         List<FileInfo> fileInfoList = new();
-        
-        var parallelOptions = new ParallelOptions()
+
+        var parallelOptions = new ParallelOptions
         {
-            MaxDegreeOfParallelism = maxDegreeOfParallelism,
+            MaxDegreeOfParallelism = maxDegreeOfParallelism
         };
-        
+
         await Parallel.ForEachAsync(fileList, parallelOptions, async (file, ct) =>
         {
-            FileInfo fileInfo = await DownloadAsync(file, ct);
+            var fileInfo = await DownloadAsync(file, ct);
             fileInfoList.Add(fileInfo);
         });
 
         return fileInfoList;
     }
-    
 }

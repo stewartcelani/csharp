@@ -1,4 +1,4 @@
-﻿namespace Library.FileDownloader;
+namespace FileDownloader;
 
 public record FileDownloaderFile
 {
