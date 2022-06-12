@@ -40,18 +40,19 @@ public class FileDownloader
     }
 
     public async Task<List<FileInfo>> DownloadParallelAsync(
-        IEnumerable<FileDownloaderFile> fileList, int maxDegreeOfParallelism = 10)
+        IEnumerable<FileDownloaderFile> fileList, int maxDegreeOfParallelism = 8, CancellationToken ct = default)
     {
         List<FileInfo> fileInfoList = new();
 
         var parallelOptions = new ParallelOptions
         {
-            MaxDegreeOfParallelism = maxDegreeOfParallelism
+            MaxDegreeOfParallelism = maxDegreeOfParallelism,
+            CancellationToken = ct
         };
 
-        await Parallel.ForEachAsync(fileList, parallelOptions, async (file, ct) =>
+        await Parallel.ForEachAsync(fileList, parallelOptions, async (file, ctx) =>
         {
-            var fileInfo = await DownloadAsync(file, ct);
+            var fileInfo = await DownloadAsync(file, ctx);
             fileInfoList.Add(fileInfo);
         });
 

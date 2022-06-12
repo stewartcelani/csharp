@@ -7,11 +7,10 @@ public class FileDownloaderConfiguration
 {
     /*
      * initialRetryDelayInSeconds doubles each retryAttempt
-     * retryAttempts 12, initialRetryDelayInSeconds 4 = 5.2 minutes
      */
     public FileDownloaderConfiguration(
-        int retryAttempts = 12,
-        int initialRetryDelayInSeconds = 4,
+        int retryAttempts = 15,
+        int initialRetryDelayInSeconds = 2,
         Action<string>? loggingMethod = null)
     {
         RetryPolicy = GetRetryPolicy(retryAttempts, initialRetryDelayInSeconds);
