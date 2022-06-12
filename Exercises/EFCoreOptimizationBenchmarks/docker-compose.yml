@@ -1,0 +1,31 @@
+version: '3.9'
+
+networks:
+  local:
+    name: local
+
+services:
+  benchmark:
+    container_name: EFCoreOptimizationBenchmarks-benchmark
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    depends_on:
+      - mssql
+    networks:
+      - local
+  
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    container_name: EFCoreOptimizationBenchmarks-mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password1!
+      - MSSQL_TCP_PORT=1433
+    restart: always
+    ports:
+      - "1433:1433"
+    networks:
+      - local
