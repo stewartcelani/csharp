@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSeeder", "FileSeeder\FileSeeder.csproj", "{0D7B259B-56DA-44D6-80AF-47BDB67435A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSeeder.Sample", "FileSeeder.Sample\FileSeeder.Sample.csproj", "{AE3632C7-C62C-4369-B033-E7B41A44A0BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSeeder.Tests", "FileSeeder.Tests\FileSeeder.Tests.csproj", "{7E69B94C-C95D-4F2C-B576-E5FF2657E39F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D7B259B-56DA-44D6-80AF-47BDB67435A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D7B259B-56DA-44D6-80AF-47BDB67435A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D7B259B-56DA-44D6-80AF-47BDB67435A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D7B259B-56DA-44D6-80AF-47BDB67435A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE3632C7-C62C-4369-B033-E7B41A44A0BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE3632C7-C62C-4369-B033-E7B41A44A0BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE3632C7-C62C-4369-B033-E7B41A44A0BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE3632C7-C62C-4369-B033-E7B41A44A0BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E69B94C-C95D-4F2C-B576-E5FF2657E39F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E69B94C-C95D-4F2C-B576-E5FF2657E39F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E69B94C-C95D-4F2C-B576-E5FF2657E39F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E69B94C-C95D-4F2C-B576-E5FF2657E39F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

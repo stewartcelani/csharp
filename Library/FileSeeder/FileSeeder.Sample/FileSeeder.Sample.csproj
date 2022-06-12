@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Library.FileSeeder\Library.FileSeeder.csproj" />
+        <ProjectReference Include="..\FileSeeder\FileSeeder.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using FluentAssertions;
 using Xunit;
 
-namespace Library.FileSeeder.Tests;
+namespace FileSeeder.Tests;
 
 public class FileSeederTests
 {
@@ -22,7 +21,7 @@ public class FileSeederTests
             .Should()
             .NotThrow();
     }
-    
+
     [Fact]
     public void Invoking_ExplicitDefaultConfigurationShouldNotThrowException()
     {
@@ -35,7 +34,7 @@ public class FileSeederTests
     public void Invoking_InsufficientPermissionsForPathShouldThrowUnauthorizedAccessException()
     {
         FluentActions.Invoking(() =>
-                new FileSeeder(new FileSeederConfiguration() { Path = @"C:\Windows\System32" })
+                new FileSeeder(new FileSeederConfiguration { Path = @"C:\Windows\System32" })
             )
             .Should()
             .Throw<UnauthorizedAccessException>();
@@ -45,7 +44,7 @@ public class FileSeederTests
     public void Invoking_InvalidPathShouldThrowDirectoryNotFoundException()
     {
         FluentActions.Invoking(() =>
-                new FileSeeder(new FileSeederConfiguration() { Path = @"Z:\InvalidPath" })
+                new FileSeeder(new FileSeederConfiguration { Path = @"Z:\InvalidPath" })
             )
             .Should()
             .Throw<DirectoryNotFoundException>();
@@ -56,31 +55,31 @@ public class FileSeederTests
     {
         FluentActions.Invoking(() =>
                 new FileSeeder(
-                    new FileSeederConfiguration() { FileExtensions = Array.Empty<string>()})
+                    new FileSeederConfiguration { FileExtensions = Array.Empty<string>() })
             )
             .Should()
             .Throw<ArgumentException>()
             .WithMessage("FileExtensions can not be empty.");
     }
-    
+
     [Fact]
     public void Invoking_FileExtensionsCanNotContainDot()
     {
         FluentActions.Invoking(() =>
                 new FileSeeder(
-                    new FileSeederConfiguration() { FileExtensions = new[] { ".pdf", ".doc"}})
+                    new FileSeederConfiguration { FileExtensions = new[] { ".pdf", ".doc" } })
             )
             .Should()
             .Throw<ArgumentException>()
             .WithMessage("FileExtensions can not contain '.'.");
     }
-    
+
     [Fact]
     public void Invoking_FileExtensionsCanNotBeLongerThanFourCharacters()
     {
         FluentActions.Invoking(() =>
                 new FileSeeder(
-                    new FileSeederConfiguration() { FileExtensions = new[] { "longerthanfourchars" } })
+                    new FileSeederConfiguration { FileExtensions = new[] { "longerthanfourchars" } })
             )
             .Should()
             .Throw<ArgumentException>()
@@ -90,7 +89,7 @@ public class FileSeederTests
     [Fact]
     public void GetRandomFileExtension()
     {
-        var seeder = new FileSeeder(new FileSeederConfiguration() { FileExtensions = new[] { "doc", "pdf", "xls" } });
+        var seeder = new FileSeeder(new FileSeederConfiguration { FileExtensions = new[] { "doc", "pdf", "xls" } });
         seeder.GetRandomFileExtension().Should().BeOneOf("doc", "pdf", "xls");
     }
 
@@ -100,7 +99,7 @@ public class FileSeederTests
     public void SeedFile(int fileSizeInBytes)
     {
         var path = @$"{Path.GetTempPath()}1.tmp";
-        FileInfo file = _sut.SeedFile(path, fileSizeInBytes);
+        var file = _sut.SeedFile(path, fileSizeInBytes);
         file.Length.Should().Be(fileSizeInBytes);
         file.Delete();
     }
@@ -111,12 +110,9 @@ public class FileSeederTests
     [InlineData(0)]
     public void SeedFiles(int filesToSeed)
     {
-        var seeder = new FileSeeder(new FileSeederConfiguration() { MaxFileSizeInMb = 1 });
-        List<FileInfo> files = seeder.SeedFiles(filesToSeed);
+        var seeder = new FileSeeder(new FileSeederConfiguration { MaxFileSizeInMb = 1 });
+        var files = seeder.SeedFiles(filesToSeed);
         files.Count.Should().Be(filesToSeed);
-        foreach (FileInfo file in files)
-        {
-            file.Delete();
-        }
+        foreach (var file in files) file.Delete();
     }
 }
