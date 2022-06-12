@@ -1,7 +1,8 @@
-﻿namespace Library.Logger;
+﻿namespace Logger;
 
 public interface ILogger
 {
+    public ILoggerConfiguration Config { get; }
     public void Trace(string s);
     public void Trace(Exception ex, string s);
     public void Debug(string s);
