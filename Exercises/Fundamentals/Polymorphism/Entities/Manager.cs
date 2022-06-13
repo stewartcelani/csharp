@@ -1,6 +1,6 @@
 namespace Polymorphism.Entities;
 
-public class Manager : Employee
+public class Manager : Employee, IEntitlements
 {
     public Manager(string name, int age) : base(name, age)
     {
@@ -21,4 +21,8 @@ public class Manager : Employee
         Console.WriteLine($"{nameof(Manager)}.{nameof(AttendManagementMeeting)}: This could have been an email...");
     }
 
+    public void CalculateEntitlements()
+    {
+        Console.WriteLine($"{nameof(Manager)}.{nameof(CalculateEntitlements)}");
+    }
 }

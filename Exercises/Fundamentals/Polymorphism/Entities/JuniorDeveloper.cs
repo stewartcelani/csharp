@@ -1,6 +1,6 @@
 namespace Polymorphism.Entities;
 
-public sealed class JuniorDeveloper : Developer
+public sealed class JuniorDeveloper : Developer, ITrainingScheme
 {
     public JuniorDeveloper(string name, int age, double productivity) : base(name, age)
     {
@@ -18,4 +18,9 @@ public sealed class JuniorDeveloper : Developer
         Console.WriteLine($"{nameof(JuniorDeveloper)}.{nameof(CalculateWage)}");
     }
 
+    public void AttendTrainingWorkshop()
+    {
+        Console.WriteLine($"{nameof(JuniorDeveloper)}.{nameof(AttendTrainingWorkshop)}");
+        
+    }
 }
