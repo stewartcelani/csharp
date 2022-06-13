@@ -23,7 +23,13 @@ public static class DataExtensions
             }
         };
 
+        var adminRole = roles.First(x => x.Name == "Admin");
+        var userRole = roles.First(x => x.Name == "User");
+
         var users = new List<User>();
+        var userRoles = new List<UserRole>();
+
+        Random rand = new();
         for (var i = 1; i <= 200; i++)
         {
             User fakeUser = new Faker<User>()
@@ -33,24 +39,17 @@ public static class DataExtensions
                 .RuleFor(u => u.Age, f => f.Random.Number(18, 67))
                 .RuleFor(u => u.TaxFileNumber, f => f.Random.Replace("###-###-###").OrNull(f, .66f));
             users.Add(fakeUser);
-        }
 
-        var userRoles = new List<UserRole>();
-        var adminRole = roles.First(x => x.Name == "Admin");
-        var userRole = roles.First(x => x.Name == "User");
-        Random rand = new();
-        foreach (var user in users)
-        {
             userRoles.Add(new UserRole
             {
-                UserId = user.Id,
+                UserId = fakeUser.Id,
                 RoleId = userRole.Id
             });
 
             if (rand.Next(0, 10) == 0)
                 userRoles.Add(new UserRole
                 {
-                    UserId = user.Id,
+                    UserId = fakeUser.Id,
                     RoleId = adminRole.Id
                 });
         }
@@ -58,7 +57,12 @@ public static class DataExtensions
         dataContext.AddRange(roles);
         dataContext.AddRange(users);
         dataContext.AddRange(userRoles);
-        dataContext.SaveChangesAsync();
+        await dataContext.SaveChangesAsync();
         dataContext.ChangeTracker.Clear();
+        users.Clear();
+        users = null;
+        userRoles.Clear();
+        userRoles = null;
+        GC.Collect();
     }
 }

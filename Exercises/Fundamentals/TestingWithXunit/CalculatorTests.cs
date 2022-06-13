@@ -1,7 +1,7 @@
 using System.Collections;
 using Xunit;
 
-namespace Fundamentals.Testing.xUnit;
+namespace TestingWithXunit;
 
 public class CalculatorTests
 {

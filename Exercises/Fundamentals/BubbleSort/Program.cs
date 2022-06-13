@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using Fundamentals.Algorithms.BubbleSort;
+using BubbleSort;
 
 /*
 var a = new Benchmark();
@@ -18,7 +18,7 @@ Console.WriteLine();
 
 BenchmarkRunner.Run<Benchmark>();
 
-namespace Fundamentals.Algorithms.BubbleSort
+namespace BubbleSort
 {
     [MemoryDiagnoser]
     public class Benchmark

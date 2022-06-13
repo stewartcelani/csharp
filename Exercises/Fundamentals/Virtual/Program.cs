@@ -1,4 +1,4 @@
-﻿using Fundamentals.Virtual;
+﻿using Virtual;
 
 var fruit = new Fruit();
 fruit.PrintName(); // Fruit
@@ -9,7 +9,7 @@ orange.PrintName(); // Orange
 var lemon = new Lemon();
 lemon.PrintName(); // Fruit
 
-namespace Fundamentals.Virtual
+namespace Virtual
 {
     public class Fruit
     {

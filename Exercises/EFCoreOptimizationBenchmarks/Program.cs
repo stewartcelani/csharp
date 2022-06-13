@@ -13,11 +13,9 @@ var host = Host.CreateDefaultBuilder(args)
         context.Configuration.GetSection(nameof(BenchmarkSettings)).Bind(benchmarkSettings);
         services.AddSingleton(benchmarkSettings);
 
-        services.AddScoped<EFCoreOptimizationBenchmarks.EFCoreOptimizationBenchmarks>();
+        services.AddScoped<App>();
     })
     .Build();
 
-await host.Services.RunPendingMigrations();
-
-var entityFrameworkOptimizationBenchmarks = host.Services.GetRequiredService<EFCoreOptimizationBenchmarks.EFCoreOptimizationBenchmarks>();
-await entityFrameworkOptimizationBenchmarks.RunAsync(args);
+var app = host.Services.GetRequiredService<App>();
+await app.RunAsync(args);

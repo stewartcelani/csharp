@@ -1,4 +1,4 @@
-﻿using Fundamentals.Abstract;
+﻿using Abstract;
 
 var kitty = new Cat();
 kitty.MakeNoise(); // Meow.
@@ -6,7 +6,7 @@ kitty.Hunt(); // Feed me, human.
 kitty.Sleep(); // Zzzzzzzzz...
 
 
-namespace Fundamentals.Abstract
+namespace Abstract
 {
     // Abstract classes can only be inherited from
     public abstract class Animal

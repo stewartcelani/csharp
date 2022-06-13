@@ -1,5 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Fundamentals.Algorithms.SelectionSort;
+using SelectionSort;
 
 var a = new Benchmark();
 a.PrintArray();
@@ -9,7 +9,7 @@ Console.WriteLine();
 
 //BenchmarkRunner.Run<Benchmark>();
 
-namespace Fundamentals.Algorithms.SelectionSort
+namespace SelectionSort
 {
     [MemoryDiagnoser]
     public class Benchmark

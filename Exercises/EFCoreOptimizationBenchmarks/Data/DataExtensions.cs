@@ -10,11 +10,8 @@ namespace EFCoreOptimizationBenchmarks.Data;
 
 public static class DataExtensions
 {
-    public static async Task RunPendingMigrations(this IServiceProvider serviceProvider)
+    public static async Task RunPendingMigrations(this DataContext dataContext)
     {
-        //using var serviceScope = app.Services.CreateScope();
-        var dataContext = serviceProvider.GetRequiredService<DataContext>();
-
         if (dataContext.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory") // IntegrationTests
             if ((await dataContext.Database.GetPendingMigrationsAsync()).Any())
                 await dataContext.Database.MigrateAsync();
@@ -36,12 +33,12 @@ public static class DataExtensions
                 Name = "Admin"
             }
         };
-
-        var userRoles = new List<UserRole>();
         var adminRole = roles.First(x => x.Name == "Admin");
         var userRole = roles.First(x => x.Name == "User");
+
         Random rand = new();
         var users = new List<User>();
+        var userRoles = new List<UserRole>();
         for (var i = 1; i <= usersToSeed; i++)
         {
             logger?.LogInformation($"Generating user #{i}");
@@ -82,5 +79,10 @@ public static class DataExtensions
         dataContext.AddRange(userRoles);
         await dataContext.SaveChangesAsync();
         dataContext.ChangeTracker.Clear();
+        users.Clear();
+        userRoles.Clear();
+        users = null;
+        userRoles = null;
+        GC.Collect();
     }
 }

@@ -1,4 +1,4 @@
-﻿using Fundamentals.Interface;
+﻿using Interface;
 
 var japanezeSpitz = new JapanezeSpitz();
 japanezeSpitz.Name = "Lynx";
@@ -8,7 +8,7 @@ japanezeSpitz.Sleep(); // Zzz...
 var bulldog = new Bulldog();
 bulldog.Bark(); // Grrrrrrr!
 
-namespace Fundamentals.Interface
+namespace Interface
 {
     internal interface IDog
     {

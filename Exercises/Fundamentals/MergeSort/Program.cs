@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using Fundamentals.Algorithms.MergeSort;
+using MergeSort;
 
 /*
  * Note: this implementation is not mine, just benchmarking
@@ -14,7 +14,7 @@ Console.WriteLine();
 
 BenchmarkRunner.Run<Benchmark>();
 
-namespace Fundamentals.Algorithms.MergeSort
+namespace MergeSort
 {
     [MemoryDiagnoser]
     public class Benchmark

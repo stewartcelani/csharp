@@ -1,10 +1,10 @@
-﻿using Fundamentals.Class.BaseConstructor;
+﻿using ClassBaseConstructor;
 
 var bob = new Male("Bob", 22);
 Console.WriteLine($"Name: {bob.Name}, Age: {bob.Age}, Gender: {bob.Gender}");
 // Name: Bob, Age: 22, Gender: Male
 
-namespace Fundamentals.Class.BaseConstructor
+namespace ClassBaseConstructor
 {
     public abstract class Person
     {

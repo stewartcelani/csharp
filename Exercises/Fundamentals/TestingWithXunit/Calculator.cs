@@ -1,4 +1,4 @@
-namespace Fundamentals.Testing.xUnit;
+namespace TestingWithXunit;
 
 public class Calculator : ICalculator
 {

@@ -1,4 +1,4 @@
-﻿using Fundamentals.Event;
+﻿using Event;
 
 var pubsub = new Pubsub();
 var reportServer = new ReportServer(); // Simulate another project/service
@@ -22,7 +22,7 @@ pubsub.OnChangeWithParam -= reportServer.PrecalculateStatisticsForUser;
 Console.WriteLine($"Count: {pubsub.UsersOnline}, Members.count: {pubsub.Users.Count}"); // Count: 3, Members: 3
 
 
-namespace Fundamentals.Event
+namespace Event
 {
     public class Pubsub
     {

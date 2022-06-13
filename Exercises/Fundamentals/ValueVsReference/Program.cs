@@ -1,4 +1,4 @@
-﻿using Fundamentals.Types.ValueVsReference;
+﻿using ValueVsReference;
 
 /*
  * Value Types
@@ -42,7 +42,7 @@ Methods.ModifyInt(ref i);
 Console.WriteLine($"Int i: {i}"); // Int i: 2
 
 
-namespace Fundamentals.Types.ValueVsReference
+namespace ValueVsReference
 {
     public class Computer
     {
