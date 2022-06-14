@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiredBrainCoffee", "WiredBrainCoffee.csproj", "{EBFE0664-37C5-4E2E-9E22-ACB4BF18CC65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnderstandingTheNeedForGenerics", "UnderstandingTheNeedForGenerics\UnderstandingTheNeedForGenerics.csproj", "{B9A98984-FA44-49FB-A6A4-5F7EEB73EFDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementingGenericClasses", "ImplementingGenericClasses\ImplementingGenericClasses.csproj", "{B736C976-7DF4-4707-B82A-F06B801B67AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +10,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EBFE0664-37C5-4E2E-9E22-ACB4BF18CC65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBFE0664-37C5-4E2E-9E22-ACB4BF18CC65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBFE0664-37C5-4E2E-9E22-ACB4BF18CC65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBFE0664-37C5-4E2E-9E22-ACB4BF18CC65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9A98984-FA44-49FB-A6A4-5F7EEB73EFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A98984-FA44-49FB-A6A4-5F7EEB73EFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A98984-FA44-49FB-A6A4-5F7EEB73EFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A98984-FA44-49FB-A6A4-5F7EEB73EFDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B736C976-7DF4-4707-B82A-F06B801B67AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B736C976-7DF4-4707-B82A-F06B801B67AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B736C976-7DF4-4707-B82A-F06B801B67AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B736C976-7DF4-4707-B82A-F06B801B67AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

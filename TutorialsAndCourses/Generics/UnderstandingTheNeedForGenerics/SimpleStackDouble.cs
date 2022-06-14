@@ -1,4 +1,4 @@
-namespace WiredBrainCoffee;
+namespace UnderstandingTheNeedForGenerics;
 
 public class SimpleStackDouble
 {
