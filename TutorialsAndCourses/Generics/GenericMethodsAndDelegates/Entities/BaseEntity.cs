@@ -1,6 +1,6 @@
-﻿namespace WorkingWithGenericInterfaces.Entities;
+﻿namespace GenericMethodsAndDelegates.Entities;
 
-public abstract class BaseEntity : IBaseEntity
+public abstract class BaseEntity : IEntity<Guid>
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public DateTime CreatedDate { get; set; }
