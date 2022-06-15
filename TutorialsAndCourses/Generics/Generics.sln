@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingWithGenericInterface
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericMethodsAndDelegates", "GenericMethodsAndDelegates\GenericMethodsAndDelegates.csproj", "{4EEAD9C3-BC40-46AA-BBCA-9207F57AB905}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowingTheSpecialCasesWithGenerics", "KnowingTheSpecialCasesWithGenerics\KnowingTheSpecialCasesWithGenerics.csproj", "{3DD8DC02-86E2-4C28-9E5E-47E99350547E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{4EEAD9C3-BC40-46AA-BBCA-9207F57AB905}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EEAD9C3-BC40-46AA-BBCA-9207F57AB905}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EEAD9C3-BC40-46AA-BBCA-9207F57AB905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DD8DC02-86E2-4C28-9E5E-47E99350547E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DD8DC02-86E2-4C28-9E5E-47E99350547E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DD8DC02-86E2-4C28-9E5E-47E99350547E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DD8DC02-86E2-4C28-9E5E-47E99350547E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
