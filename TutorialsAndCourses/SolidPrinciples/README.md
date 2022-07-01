@@ -34,12 +34,12 @@ It's easy to write software that fulfills its users' immediate needs, but is dif
     - Changes to source or binary code are not required
     - The only way to change the behavior of code that is closed to extension is to change the code itself
   - Why should code be closed to modification?
-    - Less likely to introduce bugs in code we don't touch or redploy
+    - Less likely to introduce bugs in code we don't touch or redeploy
     - Less likely to break dependent code when we don't have to deploy updates
     - Fewer conditionals in code that is open to extension results in simpler code
     - Bug fixes are ok
   - In the real-world there is a balance between abstraction and delivering working code in time and on budget
-  - Keep in mind that code that is extensiable in any direction is infinetly abstract, you need to balance abstraction and concreteness
+  - Keep in mind that code that is extensible in any direction is infinetly abstract, you need to balance abstraction and concreteness
   - Abstraction adds complexity
   - We want applications that will flex in the ways we need to as they are maintained and extented
   - We need to be able to predict where that variation will be needed and apply abstraction as needed
@@ -59,7 +59,55 @@ It's easy to write software that fulfills its users' immediate needs, but is dif
     - Can be unit-tested (even if the existing system is a big ball of mud that is hard to test, your new classes should be testable from the start)
 
 3. **LSP - Liskov Substitution Principle**
-
+ - Subtypes must be substitutable for their base types.
+ - Square : Rectangle is not substitutable for a rectangle everywhere a rectangle is used and violates LSP.
+ - Detecting LSP violations in your code:
+   - Type checking with is or as in polymorphic code. The biggest problem with this kind of code (below) tends to repeat itself. Each time you work with employees you may have to perform a check to see which type of employee it is and do something different for different subtypes (Manager, Director, Executive etc). Each time you add a new type you may have to revisit all places where employee checks are going on to refactor. This also violates OCP.
+   ````
+   // LSP Violation:
+   foreach(var employee in employees)
+   {
+        if(employee is Manager)
+        {
+            Helpers.PrintManager(employee as Manager);
+            break;
+        }
+        Helpers.PrintEmployee(employee);
+   }  
+   
+   // Corrected v1:
+   foreach(var employee in employees)
+   {
+        employee.Print();
+   }
+   
+   // Corrected v2:
+   foreach(var employee in employees)
+   {
+        Helpers.PrintEmployee(employee);
+   }
+   ```` 
+   - Null checks
+   ````
+   foreach(var employee in employees)
+   {
+        if(employee is null)
+        {
+            Console.WriteLine("Employee not found.");
+            break;
+        }
+        Helpers.PrintEmployee(employee);
+   }
+   ````
+   - NotImplementedException
+ - Fixing LSP violations:
+   - Follow the "Tell, Don't Ask" principle; don't ask instances questions about their type, encapsulate that logic in the class itself and tell it to perform an action
+   ![LSP_TellDontAsk.png](LSP_TellDontAsk.png)
+   - Minimize null checks with
+     - C# features
+     - Guard clauses
+     - Null Object design pattern
+   - Follow ISP and be sure to fully implement interfaces
 
 4. **ISP - Interface Segregation Principle**
 
