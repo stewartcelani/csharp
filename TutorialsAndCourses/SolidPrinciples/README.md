@@ -110,7 +110,26 @@ It's easy to write software that fulfills its users' immediate needs, but is dif
    - Follow ISP and be sure to fully implement interfaces
 
 4. **ISP - Interface Segregation Principle**
-
+- Clients (calling code) should not be forced to depend on methods they do not use. 
+- Prefer small, cohesive interfaces to large, "fat" ones.
+- Violating ISP results in classes that depend on things they don't need and don't use which increases coupling and makes it harder to swap out implementations.
+- More dependencies means:
+  - More coupling
+  - More brittle code
+  - More difficult to test (fake implementations will require more work and the code using the interfaces would be more tightly coupled)
+  - More difficult deployments
+- Detecting ISP violations in your code:
+  - Look for "large" interfaces (remember to follow pain driven development)
+  - Look for not-implemented exceptions
+  - Code uses just a small subset of larger interface
+- Remember PDD (pain-driven development); you shouldn't automatically start breaking up every interface just because of ISP. Use the principle to fix sources of pain you're experiencing with the codebase. Pre-emptively using ISP everywhere will end up with a bunch of single method interfaces that are hard to use together and understand than a few cohesive interfaces.
+- Fixing ISP violations:
+  - Break up large interfaces into smaller ones
+    - Compose fat interfaces from smaller ones for backwards compatibility 
+      - INotificationService : IEmailNotificationService, ITextNotificationService instead of just an INotificationService that has a SendEmail and SendText method that all instances would need to implement even if they just needed one feature.
+  - To address large interfaces you don't control
+    - Create a small, cohesive interface (adapter design pattern) that you control. Your code should work with your adapter which in turn works with the original large interface. Only the adapter should know about the large interface.
+  - Clients should own and define their interfaces
 
 5. **DIP - Dependency Inversion Principle**
 
