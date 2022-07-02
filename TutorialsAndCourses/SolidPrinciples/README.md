@@ -132,6 +132,87 @@ It's easy to write software that fulfills its users' immediate needs, but is dif
   - Clients should own and define their interfaces
 
 5. **DIP - Dependency Inversion Principle**
+- High-level modules should not depend on low-level modules. Both should depend on abstractions.
+- Abstractions should not depend on details.
+- Details should depend on abstractions.
+- There are compile-time and run-time dependencies, DIP mostly has to do with compile-time
+  - References required to compile
+  - References required to run
+- High level
+  - More abstract, relate to the problem domain, business rules
+  - Process-oriented more than detail-orientated
+  - Further away from input/output (I/O) (inputs, buttons, files, databases
+- Low level
+  - All about the details
+  - Closer to I/O (metal)
+  - "Plumbing" code
+  - High-value code is the high level business logic, but nobody can use that business logic unless its hooked up to a UI, database etc
+  - Interacts with specific external systems and hardware
+- Keep plumbing code separate from high level concerns
+- Abstractions in C# refer to interfaces or abstract base classes
+  - Interfaces are generally preferred and are more flexible as they don't require object inheritance
+  - "Types you can't instantiate"
+  - Abstractions just define a contract or way of working with a type without specifying the actual details of the implementation
+- Abstractions shouldn't be coupled to details
+- Abstractions should describe what
+  - Send a message
+  - Store a Customer record
+- Details specify how
+  - Send an SMTP email over port 25
+  - Serialize Customer to JSON and store in a text file
+- Depending on details:
+````
+// Violates DIP: Any code that implements this interface would need to depend on ADO.NET
+public interface IOrderDataAccess
+{
+    SqlDataReader ListOrders(SqlParameterCollection params);
+}
+
+// Corrected:
+public interface IOrderDataAccess
+{
+    List<Order> ListOrders(Dictionary<string, string> params);
+}
+````
+- Low level dependencies:
+  - Database
+  - File system
+  - Email
+  - Web APIs
+  - Configuration (reading from file, registry, database etc)
+  - System clock access
+- Hidden (not explicitly referenced in the constructor of the class using them) direct dependencies in high level code:
+  - Direct use of low level dependencies
+  - Static calls and new keyword
+  - Causes pain
+    - Tight coupling
+    - Because they are hidden they are difficult to isolate and unit test
+    - Duplication
+- "New is Glue"
+  - Using new to create dependencies glues your code to that dependency
+  - New isn't bad, just bear in mind the coupling it creates
+    - Do you need to specify the implementation?
+    - Could you work with an abstraction instead?
+- Explicit Dependencies Principle
+  - Classes should explicitly declare their dependencies via their constructor
+  - Your classes shouldn't surprise clients with dependencies
+  - List them up front, in the constructor
+  - Think of them as ingredients in a cooking recipe
+- Goes hand-in-hand with DI/dependency injection
+- Don't create your own dependencies
+  - Depend on abstractions
+  - Request dependencies from client (calling code)
+  - Client injects dependencies as
+    - Constructor arguments (strongly preferred method, follows explicit dependencies principle & classes are never in uninitialized state)
+      - Strongly preferred method
+      - Follows explicit dependencies principle
+      - Classes are never in an uninitialized state
+      - Can leverage DI containers (also called IOC/inversion-of-control container or services containers) to construct types and their dependencies
+    - Properties
+    - Method arguments
+  - See also: Strategy Design Pattern
+    
+---
 
 After watching this course you might be tempted to use these principles everywhere, for everything.
 

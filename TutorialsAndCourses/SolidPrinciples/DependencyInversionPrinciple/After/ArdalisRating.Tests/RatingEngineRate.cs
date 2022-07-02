@@ -7,6 +7,22 @@ namespace ArdalisRating.Tests
 {
     public class RatingEngineRate
     {
+        private RatingEngine _engine;
+        private ILogger _logger;
+        private FakePolicySource _policySource;
+        private IPolicySerializer _policySerializer;
+        private RaterFactory _raterFactory;
+        
+
+        public RatingEngineRate()
+        {
+            _logger = new FakeLogger();
+            _policySource = new FakePolicySource();
+            _policySerializer = new JsonPolicySerializer();
+            _raterFactory = new RaterFactory(_logger);
+            _engine = new RatingEngine(_logger, _policySource,_policySerializer, _raterFactory);
+        }
+        
         [Fact]
         public void ReturnsRatingOf10000For200000LandPolicy()
         {
@@ -17,11 +33,10 @@ namespace ArdalisRating.Tests
                 Valuation = 200000
             };
             string json = JsonConvert.SerializeObject(policy);
-            File.WriteAllText("policy.json", json);
+            _policySource.PolicyString = json;
 
-            var engine = new RatingEngine();
-            engine.Rate();
-            var result = engine.Rating;
+            _engine.Rate();
+            var result = _engine.Rating;
 
             Assert.Equal(10000, result);
         }
@@ -36,11 +51,10 @@ namespace ArdalisRating.Tests
                 Valuation = 260000
             };
             string json = JsonConvert.SerializeObject(policy);
-            File.WriteAllText("policy.json", json);
+            _policySource.PolicyString = json;
 
-            var engine = new RatingEngine();
-            engine.Rate();
-            var result = engine.Rating;
+            _engine.Rate();
+            var result = _engine.Rating;
 
             Assert.Equal(0, result);
         }
