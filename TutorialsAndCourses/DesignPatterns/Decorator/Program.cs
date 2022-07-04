@@ -19,7 +19,8 @@ statisticsDecorator.SendMail($"Hi there via {nameof(StatisticsDecorator)} wrappe
 Console.WriteLine();
 
 var messageDatabaseDecorator = new MessageDatabaseDecorator(onPremiseMailService);
-messageDatabaseDecorator.SendMail($"Hi there via {nameof(MessageDatabaseDecorator)} wrapper.");
-Console.WriteLine($"Sent messages: {messageDatabaseDecorator.SentMessages.Count}");
+messageDatabaseDecorator.SendMail($"Hi there via {nameof(MessageDatabaseDecorator)} wrapper, message 1.");
+messageDatabaseDecorator.SendMail($"Hi there via {nameof(MessageDatabaseDecorator)} wrapper, message 2.");
+Console.WriteLine($"Sent messages via {nameof(MessageDatabaseDecorator)} wrapper: {messageDatabaseDecorator.SentMessages.Count}");
 
 Console.ReadKey();
