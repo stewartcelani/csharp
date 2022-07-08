@@ -1,11 +1,11 @@
-﻿using Blazor.WasmTwoWayLogging.Server.Hubs;
-using Blazor.WasmTwoWayLogging.Server.Logging;
+﻿using WasmTwoWayLogging.Server.Hubs;
+using WasmTwoWayLogging.Server.Logging;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using NLog.Targets;
-using Blazor.WasmTwoWayLogging.Shared;
+using WasmTwoWayLogging.Shared;
 
-namespace Blazor.WasmTwoWayLogging.Server.Services
+namespace WasmTwoWayLogging.Server.Services
 {
     public class DebugService
     {

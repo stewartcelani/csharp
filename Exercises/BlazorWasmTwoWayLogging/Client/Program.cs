@@ -1,9 +1,9 @@
-global using Blazor.WasmTwoWayLogging.Client.Logging;
+global using WasmTwoWayLogging.Client.Logging;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Blazor.WasmTwoWayLogging.Client;
-using Blazor.WasmTwoWayLogging.Client.Library;
-using Blazor.WasmTwoWayLogging.Client.Services;
+using WasmTwoWayLogging.Client;
+using WasmTwoWayLogging.Client.Library;
+using WasmTwoWayLogging.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

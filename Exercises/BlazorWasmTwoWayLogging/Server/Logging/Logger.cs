@@ -1,9 +1,9 @@
-﻿using Blazor.WasmTwoWayLogging.Server.Services;
+﻿using WasmTwoWayLogging.Server.Services;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
 
-namespace Blazor.WasmTwoWayLogging.Server.Logging
+namespace WasmTwoWayLogging.Server.Logging
 {
     public static class Logger
     {

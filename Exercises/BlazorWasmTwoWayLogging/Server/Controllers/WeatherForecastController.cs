@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Blazor.WasmTwoWayLogging.Shared;
+using WasmTwoWayLogging.Shared;
 
-namespace Blazor.WasmTwoWayLogging.Server.Controllers;
+namespace WasmTwoWayLogging.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]

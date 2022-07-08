@@ -1,7 +1,7 @@
 ﻿using NLog;
 using NLog.Targets;
 
-namespace Blazor.WasmLogToBrowser.Server.Logging
+namespace WasmLogToBrowser.Server.Logging
 {
     public class LoggingHubTarget : AsyncTaskTarget
     {

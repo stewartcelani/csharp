@@ -1,6 +1,6 @@
-﻿using Blazor.WasmLogToBrowser.Client.Library;
+﻿using WasmLogToBrowser.Client.Library;
 
-namespace Blazor.WasmLogToBrowser.Client.Services
+namespace WasmLogToBrowser.Client.Services
 {
     public class DebugService
     {

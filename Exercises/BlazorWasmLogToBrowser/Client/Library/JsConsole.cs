@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace Blazor.WasmLogToBrowser.Client.Library
+namespace WasmLogToBrowser.Client.Library
 {
     public class JsConsole
     {

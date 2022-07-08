@@ -1,7 +1,7 @@
-global using Blazor.WasmTwoWayLogging.Server.Logging;
+global using WasmTwoWayLogging.Server.Logging;
 using Microsoft.AspNetCore.ResponseCompression;
-using Blazor.WasmTwoWayLogging.Server.Hubs;
-using Blazor.WasmTwoWayLogging.Server.Services;
+using WasmTwoWayLogging.Server.Hubs;
+using WasmTwoWayLogging.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

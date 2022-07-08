@@ -2,7 +2,7 @@
 using NLog.Config;
 using NLog.Targets;
 
-namespace Blazor.WasmLogToBrowser.Server.Logging
+namespace WasmLogToBrowser.Server.Logging
 {
     public static class Logger
     {

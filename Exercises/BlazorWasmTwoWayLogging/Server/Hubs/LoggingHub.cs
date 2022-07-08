@@ -1,7 +1,7 @@
-﻿using Blazor.WasmTwoWayLogging.Server.Logging;
+﻿using WasmTwoWayLogging.Server.Logging;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Blazor.WasmTwoWayLogging.Server.Hubs
+namespace WasmTwoWayLogging.Server.Hubs
 {
     public class LoggingHub : Hub
     {

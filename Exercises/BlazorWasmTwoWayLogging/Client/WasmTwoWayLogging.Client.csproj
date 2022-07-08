@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Blazor.WasmTwoWayLogging.Shared.csproj" />
+    <ProjectReference Include="..\Shared\WasmTwoWayLogging.Shared.csproj" />
   </ItemGroup>
 
 </Project>

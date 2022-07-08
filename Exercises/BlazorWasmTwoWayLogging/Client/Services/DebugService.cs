@@ -1,7 +1,7 @@
-﻿using Blazor.WasmTwoWayLogging.Client.Library;
-using Blazor.WasmTwoWayLogging.Client.Logging;
+﻿using WasmTwoWayLogging.Client.Library;
+using WasmTwoWayLogging.Client.Logging;
 
-namespace Blazor.WasmTwoWayLogging.Client.Services
+namespace WasmTwoWayLogging.Client.Services
 {
     public class DebugService
     {

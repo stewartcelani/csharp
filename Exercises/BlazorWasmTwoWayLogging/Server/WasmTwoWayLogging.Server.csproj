@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Blazor.WasmTwoWayLogging.Client.csproj" />
-    <ProjectReference Include="..\Shared\Blazor.WasmTwoWayLogging.Shared.csproj" />
+    <ProjectReference Include="..\Client\WasmTwoWayLogging.Client.csproj" />
+    <ProjectReference Include="..\Shared\WasmTwoWayLogging.Shared.csproj" />
   </ItemGroup>
 
 

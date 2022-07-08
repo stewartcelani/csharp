@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
-using Blazor.WasmTwoWayLogging.Shared;
+using WasmTwoWayLogging.Shared;
 
-namespace Blazor.WasmTwoWayLogging.Client.Logging
+namespace WasmTwoWayLogging.Client.Logging
 {
     public class LoggingHubConnection : IAsyncDisposable
     {

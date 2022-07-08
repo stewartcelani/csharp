@@ -1,4 +1,4 @@
-namespace Blazor.WasmLogToBrowser.Shared;
+namespace WasmLogToBrowser.Shared;
 
 public class WeatherForecast
 {

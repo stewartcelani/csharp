@@ -1,7 +1,7 @@
-﻿using Blazor.WasmTwoWayLogging.Client.Logging;
+﻿using WasmTwoWayLogging.Client.Logging;
 using Microsoft.JSInterop;
 
-namespace Blazor.WasmTwoWayLogging.Client.Library
+namespace WasmTwoWayLogging.Client.Library
 {
     public class JsConsole
     {

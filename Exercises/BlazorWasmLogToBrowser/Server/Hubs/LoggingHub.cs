@@ -1,7 +1,7 @@
-﻿using Blazor.WasmLogToBrowser.Server.Logging;
+﻿using WasmLogToBrowser.Server.Logging;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Blazor.WasmLogToBrowser.Server.Hubs
+namespace WasmLogToBrowser.Server.Hubs
 {
     public class LoggingHub : Hub
     {

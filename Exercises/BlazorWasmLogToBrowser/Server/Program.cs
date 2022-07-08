@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.ResponseCompression;
-using Blazor.WasmLogToBrowser.Server.Hubs;
-using Blazor.WasmLogToBrowser.Server.Logging;
+using WasmLogToBrowser.Server.Hubs;
+using WasmLogToBrowser.Server.Logging;
 
 Logger.Configure();
 Logger.Log.Info("App starting");

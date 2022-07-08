@@ -2,7 +2,7 @@
 using NLog.Config;
 using NLog.Targets;
 
-namespace Blazor.WasmTwoWayLogging.Client.Logging
+namespace WasmTwoWayLogging.Client.Logging
 {
     public class Logger
     {

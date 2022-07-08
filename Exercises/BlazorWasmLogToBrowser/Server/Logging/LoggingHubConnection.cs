@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 
-namespace Blazor.WasmLogToBrowser.Server.Logging
+namespace WasmLogToBrowser.Server.Logging
 {
     public class LoggingHubConnection : IAsyncDisposable
     {

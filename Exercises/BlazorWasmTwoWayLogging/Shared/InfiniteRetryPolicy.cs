@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 
-namespace Blazor.WasmTwoWayLogging.Shared
+namespace WasmTwoWayLogging.Shared
 {
     public class InfiniteRetryPolicy : IRetryPolicy
     {

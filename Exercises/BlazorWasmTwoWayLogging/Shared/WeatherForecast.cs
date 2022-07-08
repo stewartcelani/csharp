@@ -1,4 +1,4 @@
-namespace Blazor.WasmTwoWayLogging.Shared;
+namespace WasmTwoWayLogging.Shared;
 
 public class WeatherForecast
 {

@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Blazor.WasmLogToBrowser.Client;
-using Blazor.WasmLogToBrowser.Client.Library;
-using Blazor.WasmLogToBrowser.Client.Services;
+using WasmLogToBrowser.Client;
+using WasmLogToBrowser.Client.Library;
+using WasmLogToBrowser.Client.Services;
+using WasmLogToBrowser.Client;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
