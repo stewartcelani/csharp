@@ -83,3 +83,20 @@ This course will use xUnit, NSubstitute and Fluent Assertions.
 - What if you have async code in your setup or teardown? (especially useful for Integration tests)
   - Implement the IAsyncLifetime interface which required implementing InitializeAsync and DisposeAsync methods
 ![](TestSetupAndTeardownAsync.png)
+
+### Parameterizing Tests
+- Change [Fact] to [Theory] and use [InlineData(param 1, param 2)] etc
+![](TheoryWithInlineData.png)
+
+### Skipping Tests
+- [Theory(Skip = "This breaks in CI")] or [InlineData(1,1,1, Skip="This breaks in CI")]
+
+### Making internals visible to test project
+- Old way was: [assembly: InternalsVisibleTo("TestingTechniques.Tests.Unit")]
+- New way is in the csproj by adding <InternalsVisibleTo Include="TestingTechniques.Tests.Unit"/> within an <ItemGroup>
+
+### Fakes vs Mocking
+- Faking interfaces is good in some scenarios but not as flexible as mocking as you would have to create a new fake for each test you wanted to do
+- Mocking is more flexible
+- Mocks are in-memory implementations of an interface or abstract classes that allow us to specify behavior or functionality
+![](MockingWithNSubstitute.png)

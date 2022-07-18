@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
 using Xunit;
 
-namespace CalculatorLibrary.Tests.Unit;
+namespace TestingTechniques.Tests.Unit;
 
 [ExcludeFromCodeCoverage]
 public class CalculatorTests
@@ -22,7 +23,7 @@ public class CalculatorTests
         var result = _sut.Add(a, b);
 
         // Assert
-        Assert.Equal(expected, result);
+        result.Should().Be(expected);
     }
     
     [Theory]
@@ -40,7 +41,7 @@ public class CalculatorTests
         var result = _sut.Subtract(a, b);
 
         // Assert
-        Assert.Equal(expected, result);
+        result.Should().Be(expected);
     }
 
     [Theory]
@@ -54,7 +55,7 @@ public class CalculatorTests
         var result = _sut.Multiply(a, b);
         
         // Assert
-        Assert.Equal(expected, result);
+        result.Should().Be(expected);
     }
 
     [Theory]
@@ -66,7 +67,7 @@ public class CalculatorTests
         var result = _sut.Divide(a, b);
 
         // Asset
-        Assert.Equal(expected, result);
+        result.Should().Be(expected);
     }
     
 
