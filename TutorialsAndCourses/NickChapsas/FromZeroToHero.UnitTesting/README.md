@@ -93,10 +93,19 @@ This course will use xUnit, NSubstitute and Fluent Assertions.
 
 ### Making internals visible to test project
 - Old way was: [assembly: InternalsVisibleTo("TestingTechniques.Tests.Unit")]
-- New way is in the csproj by adding <InternalsVisibleTo Include="TestingTechniques.Tests.Unit"/> within an <ItemGroup>
+- New way is in the csproj by adding InternalsVisibleTo Include="TestingTechniques.Tests.Unit within an ItemGroup
 
 ### Fakes vs Mocking
 - Faking interfaces is good in some scenarios but not as flexible as mocking as you would have to create a new fake for each test you wanted to do
 - Mocking is more flexible
 - Mocks are in-memory implementations of an interface or abstract classes that allow us to specify behavior or functionality
 ![](MockingWithNSubstitute.png)
+
+### Testing in the Real World (AspNetCore APIs)
+- Data layer/repository tests are more integration test things than unit tests as if the database is mocked then the whole repository method is usually mocked and at that point "what are we testing really?".
+- Most the tests will be on services.
+- There is debate on whether the API layer (Controllers) should also be tested
+  - Domain to contract mapping is good to test (Request to domain and domain to response)
+  - You want to verify the behavior of your API if an entity is not found or if an entity exists -- does the correct 404 get thrown? Or does an exception get thrown which gets translated to a 404?
+  - Nick has worked with people who hate these sort of unit tests and think they should be purely on an integration test level
+- With "Untestable Code" such as the ILogger (extension methods in third-party packages can be hard to test) you can use a wrapper/adapter that can be tested to verify calls have been made
