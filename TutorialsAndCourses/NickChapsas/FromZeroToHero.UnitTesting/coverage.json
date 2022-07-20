@@ -1,0 +1,493 @@
+{
+  "Users.Api.dll": {
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Program.cs": {
+      "Program/<<Main>$>d__0": {
+        "System.Void Program/<<Main>$>d__0::MoveNext()": {
+          "Lines": {
+            "7": 0,
+            "9": 0,
+            "10": 0,
+            "11": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "21": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "32": 0,
+            "34": 0,
+            "36": 0,
+            "37": 0,
+            "39": 0
+          },
+          "Branches": [
+            {
+              "Line": 24,
+              "Offset": 276,
+              "EndOffset": 278,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 24,
+              "Offset": 276,
+              "EndOffset": 306,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Services\\UserService.cs": {
+      "Users.Api.Services.UserService": {
+        "System.Void Users.Api.Services.UserService::.ctor(Users.Api.Repositories.IUserRepository,Users.Api.Logging.ILoggerAdapter`1<Users.Api.Services.UserService>)": {
+          "Lines": {
+            "13": 15,
+            "14": 15,
+            "15": 15,
+            "16": 15,
+            "17": 15,
+            "18": 15
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Services.UserService/<CreateAsync>d__5": {
+        "System.Void Users.Api.Services.UserService/<CreateAsync>d__5::MoveNext()": {
+          "Lines": {
+            "61": 3,
+            "62": 3,
+            "63": 3,
+            "65": 3,
+            "66": 3,
+            "68": 1,
+            "69": 1,
+            "70": 1,
+            "71": 1,
+            "74": 3,
+            "75": 3,
+            "76": 3,
+            "77": 3,
+            "78": 2
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Services.UserService/<DeleteByIdAsync>d__6": {
+        "System.Void Users.Api.Services.UserService/<DeleteByIdAsync>d__6::MoveNext()": {
+          "Lines": {
+            "81": 4,
+            "82": 4,
+            "83": 4,
+            "85": 4,
+            "86": 4,
+            "88": 1,
+            "89": 1,
+            "90": 1,
+            "91": 1,
+            "94": 4,
+            "95": 4,
+            "96": 4,
+            "97": 4,
+            "98": 3
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Services.UserService/<GetAllAsync>d__3": {
+        "System.Void Users.Api.Services.UserService/<GetAllAsync>d__3::MoveNext()": {
+          "Lines": {
+            "21": 4,
+            "22": 4,
+            "23": 4,
+            "25": 4,
+            "26": 4,
+            "28": 1,
+            "29": 1,
+            "30": 1,
+            "31": 1,
+            "34": 4,
+            "35": 4,
+            "36": 4,
+            "37": 4,
+            "38": 3
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Services.UserService/<GetByIdAsync>d__4": {
+        "System.Void Users.Api.Services.UserService/<GetByIdAsync>d__4::MoveNext()": {
+          "Lines": {
+            "41": 4,
+            "42": 4,
+            "43": 4,
+            "45": 4,
+            "46": 4,
+            "48": 1,
+            "49": 1,
+            "50": 1,
+            "51": 1,
+            "54": 4,
+            "55": 4,
+            "56": 4,
+            "57": 4,
+            "58": 3
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Options\\DbConnectionOptions.cs": {
+      "Users.Api.Options.DbConnectionOptions": {
+        "System.String Users.Api.Options.DbConnectionOptions::get_ConnectionString()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Models\\User.cs": {
+      "Users.Api.Models.User": {
+        "System.Guid Users.Api.Models.User::get_Id()": {
+          "Lines": {
+            "5": 45
+          },
+          "Branches": []
+        },
+        "System.String Users.Api.Models.User::get_FullName()": {
+          "Lines": {
+            "7": 38
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Mappers\\UserMapper.cs": {
+      "Users.Api.Mappers.UserMapper": {
+        "Users.Api.Contracts.UserResponse Users.Api.Mappers.UserMapper::ToUserResponse(Users.Api.Models.User)": {
+          "Lines": {
+            "9": 10,
+            "10": 10,
+            "11": 10,
+            "12": 10,
+            "13": 10,
+            "14": 10,
+            "15": 10
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Logging\\LoggerAdapter.cs": {
+      "Users.Api.Logging.LoggerAdapter`1": {
+        "System.Void Users.Api.Logging.LoggerAdapter`1::LogInformation(System.String,System.Object[])": {
+          "Lines": {
+            "13": 0,
+            "14": 0,
+            "15": 0
+          },
+          "Branches": []
+        },
+        "System.Void Users.Api.Logging.LoggerAdapter`1::LogError(System.Exception,System.String,System.Object[])": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "20": 0
+          },
+          "Branches": []
+        },
+        "System.Void Users.Api.Logging.LoggerAdapter`1::.ctor(Microsoft.Extensions.Logging.ILogger`1<TType>)": {
+          "Lines": {
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Data\\DatabaseInitializer.cs": {
+      "Users.Api.Data.DatabaseInitializer": {
+        "System.Void Users.Api.Data.DatabaseInitializer::.ctor(Users.Api.Data.ISqliteDbConnectionFactory)": {
+          "Lines": {
+            "10": 0,
+            "11": 0,
+            "12": 0,
+            "13": 0
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Data.DatabaseInitializer/<InitializeAsync>d__2": {
+        "System.Void Users.Api.Data.DatabaseInitializer/<InitializeAsync>d__2::MoveNext()": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0
+          },
+          "Branches": [
+            {
+              "Line": 16,
+              "Offset": 16,
+              "EndOffset": 27,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 16,
+              "EndOffset": 201,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 541,
+              "EndOffset": 546,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 541,
+              "EndOffset": 708,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Data\\SqliteDbConnectionFactory.cs": {
+      "Users.Api.Data.SqliteDbConnectionFactory": {
+        "System.Void Users.Api.Data.SqliteDbConnectionFactory::.ctor(Microsoft.Extensions.Options.IOptions`1<Users.Api.Options.DbConnectionOptions>)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Data.SqliteDbConnectionFactory/<CreateDbConnectionAsync>d__2": {
+        "System.Void Users.Api.Data.SqliteDbConnectionFactory/<CreateDbConnectionAsync>d__2::MoveNext()": {
+          "Lines": {
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Data\\SqliteGuidTypeHandler.cs": {
+      "Users.Api.Data.SqLiteGuidTypeHandler": {
+        "System.Void Users.Api.Data.SqLiteGuidTypeHandler::SetValue(System.Data.IDbDataParameter,System.Guid)": {
+          "Lines": {
+            "9": 0,
+            "10": 0,
+            "11": 0
+          },
+          "Branches": []
+        },
+        "System.Guid Users.Api.Data.SqLiteGuidTypeHandler::Parse(System.Object)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Controllers\\UserController.cs": {
+      "Users.Api.Controllers.UserController": {
+        "System.Void Users.Api.Controllers.UserController::.ctor(Users.Api.Services.IUserService)": {
+          "Lines": {
+            "14": 8,
+            "15": 8,
+            "16": 8,
+            "17": 8
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Controllers.UserController/<>c": {
+        "Users.Api.Contracts.UserResponse Users.Api.Controllers.UserController/<>c::<GetAll>b__2_0(Users.Api.Models.User)": {
+          "Lines": {
+            "23": 6
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Controllers.UserController/<Create>d__4": {
+        "System.Void Users.Api.Controllers.UserController/<Create>d__4::MoveNext()": {
+          "Lines": {
+            "43": 2,
+            "44": 2,
+            "45": 2,
+            "46": 2,
+            "47": 2,
+            "49": 2,
+            "50": 2,
+            "51": 1,
+            "53": 1,
+            "56": 1,
+            "58": 1,
+            "59": 2
+          },
+          "Branches": [
+            {
+              "Line": 50,
+              "Offset": 186,
+              "EndOffset": 188,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 50,
+              "Offset": 186,
+              "EndOffset": 203,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Users.Api.Controllers.UserController/<DeleteById>d__5": {
+        "System.Void Users.Api.Controllers.UserController/<DeleteById>d__5::MoveNext()": {
+          "Lines": {
+            "63": 2,
+            "64": 2,
+            "65": 2,
+            "66": 1,
+            "67": 1,
+            "70": 1,
+            "71": 2
+          },
+          "Branches": [
+            {
+              "Line": 65,
+              "Offset": 157,
+              "EndOffset": 159,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 65,
+              "Offset": 157,
+              "EndOffset": 174,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Users.Api.Controllers.UserController/<GetAll>d__2": {
+        "System.Void Users.Api.Controllers.UserController/<GetAll>d__2::MoveNext()": {
+          "Lines": {
+            "21": 2,
+            "22": 2,
+            "24": 2,
+            "25": 2
+          },
+          "Branches": []
+        }
+      },
+      "Users.Api.Controllers.UserController/<GetById>d__3": {
+        "System.Void Users.Api.Controllers.UserController/<GetById>d__3::MoveNext()": {
+          "Lines": {
+            "29": 2,
+            "30": 2,
+            "31": 2,
+            "32": 1,
+            "33": 1,
+            "36": 1,
+            "38": 1,
+            "39": 2
+          },
+          "Branches": [
+            {
+              "Line": 31,
+              "Offset": 164,
+              "EndOffset": 166,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 31,
+              "Offset": 164,
+              "EndOffset": 181,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Contracts\\CreateUserRequest.cs": {
+      "Users.Api.Contracts.CreateUserRequest": {
+        "System.String Users.Api.Contracts.CreateUserRequest::get_FullName()": {
+          "Lines": {
+            "5": 6
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\csharp\\TutorialsAndCourses\\NickChapsas\\FromZeroToHero.UnitTesting\\4.RealWorld\\src\\Users.Api\\Contracts\\UserResponse.cs": {
+      "Users.Api.Contracts.UserResponse": {
+        "System.Guid Users.Api.Contracts.UserResponse::get_Id()": {
+          "Lines": {
+            "5": 19
+          },
+          "Branches": []
+        },
+        "System.String Users.Api.Contracts.UserResponse::get_FullName()": {
+          "Lines": {
+            "7": 28
+          },
+          "Branches": []
+        }
+      }
+    }
+  }
+}

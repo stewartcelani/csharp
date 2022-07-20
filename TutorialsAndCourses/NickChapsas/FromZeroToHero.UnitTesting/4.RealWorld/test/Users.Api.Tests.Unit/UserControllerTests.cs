@@ -105,7 +105,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public async Task Create_ShouldCreateAndReturnUser_WhenCreateUserRequestIsValid()
+    public async Task Create_ShouldCreateUser_WhenCreateUserRequestIsValid()
     {
         // Arrange
         var createUserRequest = new CreateUserRequest
@@ -117,7 +117,7 @@ public class UserControllerTests
             Id = Guid.NewGuid(),
             FullName = createUserRequest.FullName
         };
-        // Arg.Do is setting the user passed to _userService.CreateAsync to the user object above so we can assert on the Id
+        // Arg.Do is setting the user object above to the user object passed to _userService.CreateAsync so we can assert on the Id
         _userService.CreateAsync(Arg.Do<User>(x => user = x)).Returns(true);
         
         // Act
@@ -146,7 +146,30 @@ public class UserControllerTests
         result.StatusCode.Should().Be(400);
     }
 
+    [Fact]
+    public async Task DeleteById_ShouldDeleteUser_WhenUserExists()
+    {
+        // Arrange
+        _userService.DeleteByIdAsync(Arg.Any<Guid>()).Returns(true);
 
+        // Act
+        var result = (OkResult)await _sut.DeleteById(Guid.NewGuid());
 
+        // Assert
+        result.StatusCode.Should().Be(200);
+    }
+    
+    [Fact]
+    public async Task DeleteById_ShouldReturnNotFound_WhenUserExists()
+    {
+        // Arrange
+        _userService.DeleteByIdAsync(Arg.Any<Guid>()).Returns(false);
 
+        // Act
+        var result = (NotFoundResult)await _sut.DeleteById(Guid.NewGuid());
+
+        // Assert
+        result.StatusCode.Should().Be(404);
+    }
+    
 }

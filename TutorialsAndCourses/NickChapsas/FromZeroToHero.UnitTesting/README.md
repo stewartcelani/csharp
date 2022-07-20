@@ -1,6 +1,7 @@
 ﻿# From Zero to Hero: Unit testing for C# Developers
 My repo & notes for https://nickchapsas.com/p/from-zero-to-hero-unit-testing-in-c
 
+Note: Picture embeds are displaying in Rider but not GitHub at the moment.
 ---
 
 Tests are code that validates the behaviour of other code.
@@ -109,3 +110,56 @@ This course will use xUnit, NSubstitute and Fluent Assertions.
   - You want to verify the behavior of your API if an entity is not found or if an entity exists -- does the correct 404 get thrown? Or does an exception get thrown which gets translated to a 404?
   - Nick has worked with people who hate these sort of unit tests and think they should be purely on an integration test level
 - With "Untestable Code" such as the ILogger (extension methods in third-party packages can be hard to test) you can use a wrapper/adapter that can be tested to verify calls have been made
+
+### Class & Collection Fixtures
+- If a class needs shared state/context (often with end to end or integration tests that need to share database, data, docker connection etc) you implement IClassFixture<TClass>
+- The constructor in the fixture is also shared only once, and if IDisposable is implement on the fixture you can implement teardown logic
+- Order:
+  1. Constructor of fixture (shared setup code for tests)
+  2. Constructor of the test class
+  3. Test itself
+     - NOTE 2 and 3 will be called for each test sequentially
+     - e.g. with 2 tests it'll be 1, 2, 3, 2, 3, 4
+  4. Dispose on the fixture (shared teardown code for tests)
+![](ClassFixture.png)
+- CollectionFixtures can be used to share state between multiple classes
+![](CollectionFixture.png)
+- To use it on classes and have the fixture available to inject via DI you have to use the [Collection("My awesome collection fixture")] and match the name to whatever name is set on your CollectionDefinition -- in this case [CollectionDefinition("My awesome collection fixture")]
+
+### Test Parallelization
+- By default different classes run their tests as a collection and collections do not run their tests sequentially
+- The default test behavior is [assembly: CollectionBehavior(CollectionBehavior.CollectionPerClass)]
+- It can be changed to [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)] (Nick has never had to do this)
+- You can use [assembly: CollectionBehavior(DisableTestParallelization = true)] to turn off parallelization completely if you want, it is more often than not that you are doing something wrong with your tests
+- The max degree of parallelism can be changed like [assembly: CollectionBehavior(MaxParallelThreads = 32)]
+- You can disable parallelization on the CollectionDefinition via [CollectionDefinition("My awesome collection fixture", DisableParallelization = true)]
+
+### Advanced Parameterization
+- Instead of [InlineData] you can use a [MemberData(nameof(MethodName))] class to generate an enumerable of test parameters
+![](MemberData.png)
+- You can also use [ClassData(typeof(MethodName))] if you need to use a whole class to dynamically generate test data
+![](ClassData.png)
+
+### Test Execution Timeouts
+- [Fact(Timeout = 2000)] If this test takes longer than 2 seconds it will fail with "Test execution timed out after 2000ms"
+
+
+### Testing Date and Time
+- It is very common to implement an IDateTimeProvider and DateTimeProvider in your project that you can then mock and tell to return whatever datetime you need in your tests
+![](TestingDateAndTime.png)
+
+### Code Coverage
+- In Rider you can Cover All Tests and run continuious testing Cover New and Outdated Tests
+- To run code coverage from an external tool (CI/CD)
+- dotnet tool install -g coverlet.console
+- coverlet .\4.RealWorld\test\Users.Api.Tests.Unit\bin\Debug\net6.0\Users.Api.Tests.Unit.dll --target "dotnet" --targetargs "test --no-build"
+![](CoverletOutput.png)
+- The external tool will output a json file which can be used to generate a coverage.cobertura.xml file which can be consumed by other tools
+- To specifically generate it using coverlet use: dotnet test --collect:"XPlat Code Coverage" which will output a TestResults folder
+- To exclude classes from code coverage use [ExcludeFromCodeCoverage] that is respected by IDE specific code coverage and external tools
+- Instead of putting CodeCoverage specific attributes in code you can also pass exclude to coverlet:
+coverlet .\4.RealWorld\test\Users.Api.Tests.Unit\bin\Debug\net6.0\Users.Api.Tests.Unit.dll --target "dotnet" --targetargs "test --no-build" --exclude "[*]Users.Api.Repositories*"
+- Finally, to generate using cmd on windows:
+  - dotnet tool install -g dotnet-reportgenerator-globaltool
+  - reportgenerator -reports:".\TestResults\21cce97e-9392-4390-8e24-0fbb8d742a35\coverage.cobertura.xml" -targetdir:"codecoverage" -reporttypes:Html
+![](DotnetReportGenerator.png)
