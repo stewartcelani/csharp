@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{B11FC235-9751-49D6-B627-6675B4F48D3C}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Fundamentals", "3. Fundamentals", "{3F058101-3B3C-4E55-A41B-63CE8D6B2AA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unedited API", "Unedited API", "{960F4853-B9B3-4D43-A6C2-CC29CF1DB39E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customers.Api", "Unedited API\Customers.Api\Customers.Api.csproj", "{8156CB6C-BA7A-427A-80CF-F6D9458EE7D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{232950FB-2762-4998-BA65-3D5F06E6C57A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6EFE0A39-C27B-451D-9446-5AD125FDAFF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customers.Api", "3. Fundamentals\src\Customers.Api\Customers.Api.csproj", "{761AAE55-C3BD-4A8B-A232-7B6A54EABD46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customers.Api.Tests.Integration", "3. Fundamentals\tests\Customers.Api.Tests.Integration\Customers.Api.Tests.Integration.csproj", "{3675EF5D-F1B7-4E67-A98C-45C68D589274}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8156CB6C-BA7A-427A-80CF-F6D9458EE7D3} = {960F4853-B9B3-4D43-A6C2-CC29CF1DB39E}
+		{232950FB-2762-4998-BA65-3D5F06E6C57A} = {3F058101-3B3C-4E55-A41B-63CE8D6B2AA4}
+		{6EFE0A39-C27B-451D-9446-5AD125FDAFF3} = {3F058101-3B3C-4E55-A41B-63CE8D6B2AA4}
+		{761AAE55-C3BD-4A8B-A232-7B6A54EABD46} = {232950FB-2762-4998-BA65-3D5F06E6C57A}
+		{3675EF5D-F1B7-4E67-A98C-45C68D589274} = {6EFE0A39-C27B-451D-9446-5AD125FDAFF3}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8156CB6C-BA7A-427A-80CF-F6D9458EE7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8156CB6C-BA7A-427A-80CF-F6D9458EE7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8156CB6C-BA7A-427A-80CF-F6D9458EE7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8156CB6C-BA7A-427A-80CF-F6D9458EE7D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{761AAE55-C3BD-4A8B-A232-7B6A54EABD46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{761AAE55-C3BD-4A8B-A232-7B6A54EABD46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{761AAE55-C3BD-4A8B-A232-7B6A54EABD46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{761AAE55-C3BD-4A8B-A232-7B6A54EABD46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3675EF5D-F1B7-4E67-A98C-45C68D589274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3675EF5D-F1B7-4E67-A98C-45C68D589274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3675EF5D-F1B7-4E67-A98C-45C68D589274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3675EF5D-F1B7-4E67-A98C-45C68D589274}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
