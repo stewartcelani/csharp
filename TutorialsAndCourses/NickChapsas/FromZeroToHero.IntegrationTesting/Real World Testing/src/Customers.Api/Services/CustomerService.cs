@@ -68,7 +68,7 @@ public class CustomerService : ICustomerService
         return await _customerRepository.DeleteAsync(id);
     }
 
-    private static ValidationFailure[] GenerateValidationError(string paramName, string message)
+    private static IEnumerable<ValidationFailure> GenerateValidationError(string paramName, string message)
     {
         return new []
         {

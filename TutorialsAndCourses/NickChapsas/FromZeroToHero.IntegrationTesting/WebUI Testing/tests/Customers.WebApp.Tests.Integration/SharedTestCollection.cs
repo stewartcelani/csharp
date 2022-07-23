@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace Customers.WebApp.Tests.Integration;
 
-[CollectionDefinition("SharedTestCollection")]
+[ExcludeFromCodeCoverage]
+[CollectionDefinition(nameof(SharedTestCollection))]
 public class SharedTestCollection : ICollectionFixture<SharedTestContext>
 {
     

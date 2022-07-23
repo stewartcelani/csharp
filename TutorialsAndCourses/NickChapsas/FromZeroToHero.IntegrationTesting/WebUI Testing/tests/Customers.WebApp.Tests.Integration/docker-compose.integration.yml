@@ -18,7 +18,7 @@ services:
       - ~/.aspnet/https:/https:ro
     depends_on:
       test-db:
-        condition: service_started
+        condition: service_healthy
         
   test-db:
     image: postgres:latest
