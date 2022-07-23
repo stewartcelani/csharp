@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Xunit;
 
@@ -62,7 +64,8 @@ public class CustomerApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifet
 
         builder.ConfigureTestServices(services =>
         {
-            services.RemoveAll(typeof(IDbConnectionFactory));
+            services.RemoveAll<IHostedService>();
+            services.RemoveAll<IDbConnectionFactory>();
             services.AddSingleton<IDbConnectionFactory>(_ => new NpgsqlConnectionFactory(_dbContainer.ConnectionString));
             
             services.AddHttpClient("GitHub", httpClient =>
@@ -73,6 +76,11 @@ public class CustomerApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifet
                 httpClient.DefaultRequestHeaders.Add(
                     HeaderNames.UserAgent, $"Course-{Environment.MachineName}");
             });
+
+            // ENTITY FRAMEWORK DB EXAMPLE
+            /*services.RemoveAll<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(optionsBuilder =>
+                optionsBuilder.UseNpgsql(_dbContainer.ConnectionString));*/
         });
     }
 

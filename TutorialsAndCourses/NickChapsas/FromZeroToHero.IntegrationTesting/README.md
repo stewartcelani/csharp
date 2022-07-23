@@ -40,3 +40,7 @@ Unit tests are fast enough to be running in continuous mode (every time you save
 
 ### Test naming
 - Create a class for the controller that the endpoints live in "CustomerControllerTests"
+
+### Entity Framework Warning
+- **NEVER** replace your systems database with an in-memory provider to do integration tests as that defeats the purpose of integration testing the integration between your system and the database
+  - You'll be testing something that fundamentally deals with a request in a completely different way; different queries, indexing, constraints etc
