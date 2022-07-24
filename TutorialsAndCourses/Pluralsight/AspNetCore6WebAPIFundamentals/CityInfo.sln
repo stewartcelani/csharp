@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{491594B5-12F5-4068-8C6F-FC7EE090449B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityInfo.API", "src\CityInfo.API\CityInfo.API.csproj", "{60DF5D62-61A8-4393-A013-461EF3363FF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60DF5D62-61A8-4393-A013-461EF3363FF3} = {491594B5-12F5-4068-8C6F-FC7EE090449B}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60DF5D62-61A8-4393-A013-461EF3363FF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60DF5D62-61A8-4393-A013-461EF3363FF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60DF5D62-61A8-4393-A013-461EF3363FF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60DF5D62-61A8-4393-A013-461EF3363FF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
