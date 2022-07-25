@@ -14,12 +14,12 @@ public class CityRepository : ICityRepository
         _dbSet = dbContext.Set<CityEntity>();
     }
 
-    public async Task<CityEntity?> GetAsync(Guid id) => await _dbSet.AsNoTracking().Include(x => x.PointsOfInterest)
+    public async Task<CityEntity?> GetAsync(Guid id) => await _dbSet.Include(x => x.PointsOfInterest)
         .AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
     public async Task<IEnumerable<CityEntity>> GetAsync(Expression<Func<CityEntity, bool>>? predicate = null)
     {
-        IQueryable<CityEntity> query = _dbSet.AsNoTracking().Include(x => x.PointsOfInterest).AsNoTracking();
+        IQueryable<CityEntity> query = _dbSet.Include(x => x.PointsOfInterest).AsNoTracking();
 
         if (predicate is not null)
         {

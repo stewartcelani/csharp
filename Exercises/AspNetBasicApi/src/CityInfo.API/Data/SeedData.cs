@@ -5,8 +5,11 @@ namespace CityInfo.API.Data;
 
 public static class SeedData
 {
-    public static async Task SeedDataAsync(this ApplicationDbContext dbContext)
+    public static async Task SeedDataAsync(this WebApplication app)
     {
+        using var serviceScope = app.Services.CreateScope();
+        var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
         await dbContext.Database.EnsureCreatedAsync();
         if (dbContext.City.Any()) return;
         
@@ -80,4 +83,5 @@ public static class SeedData
         dbContext.City.AddRange(cities.Select(x => x.ToCityEntity()));
         await dbContext.SaveChangesAsync();
     }
+   
 }

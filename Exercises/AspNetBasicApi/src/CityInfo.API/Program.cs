@@ -8,6 +8,7 @@ using CityInfo.API.Services;
 using CityInfo.API.Validators;
 using Microsoft.AspNetCore.StaticFiles;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,10 +44,10 @@ builder.Services.AddLogging(loggingBuilder =>
 });
 builder.Services.AddTransient(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
 
-builder.Services.AddSingleton<ApplicationDbContext>();
-builder.Services.AddSingleton<ICityRepository, CityRepository>();
-builder.Services.AddSingleton<IPointOfInterestRepository, PointOfInterestRepository>();
-builder.Services.AddSingleton<ICityService, CityService>();
+builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddTransient<ICityRepository, CityRepository>();
+builder.Services.AddTransient<IPointOfInterestRepository, PointOfInterestRepository>();
+builder.Services.AddTransient<ICityService, CityService>();
 
 #if DEBUG
 builder.Services.AddTransient<IMailService, LocalMailService>();
@@ -75,7 +76,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-var dbContext = app.Services.GetRequiredService<ApplicationDbContext>();
-await dbContext.SeedDataAsync();
+await app.SeedDataAsync();
 
 app.Run();
