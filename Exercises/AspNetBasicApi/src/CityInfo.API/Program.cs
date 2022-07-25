@@ -31,6 +31,9 @@ builder.Services.AddControllers(options =>
 var mailSettings = SettingsBinder.BindAndValidate<MailSettings, MailSettingsValidator>(config);
 builder.Services.AddSingleton(mailSettings);
 
+var databaseSettings = SettingsBinder.BindAndValidate<DatabaseSettings, DatabaseSettingsValidator>(config);
+builder.Services.AddSingleton(databaseSettings);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
@@ -48,6 +51,7 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddTransient<ICityRepository, CityRepository>();
 builder.Services.AddTransient<IPointOfInterestRepository, PointOfInterestRepository>();
 builder.Services.AddTransient<ICityService, CityService>();
+builder.Services.AddTransient<IPointOfInterestService, PointOfInterestService>();
 
 #if DEBUG
 builder.Services.AddTransient<IMailService, LocalMailService>();

@@ -8,6 +8,13 @@ public class CityEntityConfiguration : IEntityTypeConfiguration<CityEntity>
 {
     public void Configure(EntityTypeBuilder<CityEntity> builder)
     {
+        /* // Explicit one-to-many, not required for deletes on CityEntity to cascade to PointOfInterestEntity
+         builder
+            .HasMany(x => x.PointsOfInterest)
+            .WithOne(x => x.City)
+            .IsRequired();
+            */
+        
         builder.Property(x => x.Id)
             .IsRequired();
 

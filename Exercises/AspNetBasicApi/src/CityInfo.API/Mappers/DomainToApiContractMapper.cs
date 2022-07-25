@@ -13,6 +13,16 @@ public static class DomainToApiContractMapper
             Id = city.Id,
             Name = city.Name,
             Description = city.Description,
+        };
+    }
+    
+    public static ExtendedCityResponse ToExtendedCityResponse(this City city)
+    {
+        return new ExtendedCityResponse
+        {
+            Id = city.Id,
+            Name = city.Name,
+            Description = city.Description,
             PointsOfInterest = city.PointsOfInterest.Select(x => x.ToPointOfInterestResponse())
         };
     }

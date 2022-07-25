@@ -260,3 +260,9 @@ paket-files/
 __pycache__/
 *.pyc
 /obj/
+
+# My
+.hidden
+.secret
+log
+logs

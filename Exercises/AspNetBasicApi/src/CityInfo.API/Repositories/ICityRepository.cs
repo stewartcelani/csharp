@@ -7,4 +7,7 @@ public interface ICityRepository
 {
     Task<CityEntity?> GetAsync(Guid id);
     Task<IEnumerable<CityEntity>> GetAsync(Expression<Func<CityEntity, bool>>? predicate = null);
+    Task<bool> CreateAsync(CityEntity cityEntity);
+    Task<bool> UpdateAsync(CityEntity cityEntity);
+    Task<bool> DeleteAsync(Guid id);
 }

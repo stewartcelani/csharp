@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "0c999eec-aa90-4ac9-91e8-b21cad90466b",
+		"name": "CityInfo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20044448"
+	},
+	"item": [
+		{
+			"name": "GET Cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/cities",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET City",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/cities/{{cityId}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities",
+						"{{cityId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Points of Interest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/cities/{{cityId}}/pointsofinterest/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities",
+						"{{cityId}}",
+						"pointsofinterest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Point of Interest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/cities/{{cityId}}/pointsofinterest/{{pointofInterestId}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities",
+						"{{cityId}}",
+						"pointsofinterest",
+						"{{pointofInterestId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE Point of Interest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"South Australian Museum\",\r\n    \"description\": \"The South Australian Museum is a natural history museum and research institution in Adelaide, South Australia, founded in 1856 and owned by the Government of South Australia. It occupies a complex of buildings on North Terrace in the cultural precinct of the Adelaide Parklands.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/cities/{{cityId}}/pointsofinterest",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities",
+						"{{cityId}}",
+						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE Point of Interest",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"(updated) South Australian Museum\",\r\n    \"description\": \"(updated) The South Australian Museum is a natural history museum and research institution in Adelaide, South Australia, founded in 1856 and owned by the Government of South Australia. It occupies a complex of buildings on North Terrace in the cultural precinct of the Adelaide Parklands.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/cities/{{cityId}}/pointsofinterest/659f6b6f-a383-4596-8fe6-86e76f5cde2c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities",
+						"{{cityId}}",
+						"pointsofinterest",
+						"659f6b6f-a383-4596-8fe6-86e76f5cde2c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Point of Interest",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Updated name\",\r\n    \"description\": \"Updated description\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/cities/{{cityId}}/pointsofinterest/659f6b6f-a383-4596-8fe6-86e76f5cde2c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities",
+						"{{cityId}}",
+						"pointsofinterest",
+						"659f6b6f-a383-4596-8fe6-86e76f5cde2c"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "cityId",
+			"value": "bc6e490a-7e14-42fd-94eb-7d3282ce889d",
+			"type": "string"
+		},
+		{
+			"key": "pointofInterestId",
+			"value": "acf0efc6-332c-45e4-b733-21e93733aafd"
+		}
+	]
+}

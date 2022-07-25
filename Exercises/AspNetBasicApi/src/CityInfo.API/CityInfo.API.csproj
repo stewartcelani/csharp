@@ -22,10 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Contracts\Dtos" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Compile Remove="logs\**" />
     </ItemGroup>
 

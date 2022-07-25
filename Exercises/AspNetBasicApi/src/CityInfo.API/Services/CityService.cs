@@ -1,22 +1,18 @@
-using System.Text.Json;
-using CityInfo.API.Contracts.Responses;
-using CityInfo.API.Data;
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
+using CityInfo.API.Validators.Helpers;
+using FluentValidation;
 
 namespace CityInfo.API.Services;
 
 public class CityService : ICityService
 {
     private readonly ICityRepository _cityRepository;
-    private readonly IPointOfInterestRepository _pointOfInterestRepository;
 
     public CityService(ICityRepository cityRepository, IPointOfInterestRepository pointOfInterestRepository)
     {
         _cityRepository = cityRepository ?? throw new NullReferenceException(nameof(cityRepository));
-        _pointOfInterestRepository = pointOfInterestRepository ??
-                                     throw new NullReferenceException(nameof(pointOfInterestRepository));
     }
 
     public async Task<City?> GetByIdAsync(Guid id)
@@ -30,24 +26,31 @@ public class CityService : ICityService
         var cityEntities = await _cityRepository.GetAsync();
         return cityEntities.Select(x => x.ToCity());
     }
-    
-    public async Task<bool> CreatePointOfInterestAsync(City city, PointOfInterest pointOfInterest)
+
+    public async Task<bool> CreateAsync(City city)
     {
-        var pointOfInterestEntity = pointOfInterest.ToPointOfInterestEntity(city);
-        var created = await _pointOfInterestRepository.CreateAsync(pointOfInterestEntity);
+        var existingCity = await _cityRepository.GetAsync(city.Id);
+        if (existingCity is not null)
+        {
+            var message = $"A city with id {city.Id} already exists";
+            throw new ValidationException(message, ValidationFailureHelper.Generate(nameof(City), message));
+        }
+
+        var cityEntity = city.ToCityEntity();
+        var created = await _cityRepository.CreateAsync(cityEntity);
         return created;
     }
-    
-    public async Task<bool> UpdatePointOfInterestAsync(City city, PointOfInterest pointOfInterest)
+
+    public async Task<bool> UpdateAsync(City city)
     {
-        var pointOfInterestEntity = pointOfInterest.ToPointOfInterestEntity(city);
-        var updated = await _pointOfInterestRepository.UpdateAsync(pointOfInterestEntity);
+        var cityEntity = city.ToCityEntity();
+        var updated = await _cityRepository.UpdateAsync(cityEntity);
         return updated;
     }
-    
-    public async Task<bool> DeletePointOfInterestAsync(Guid pointOfInterestId)
+
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var deleted = await _pointOfInterestRepository.DeleteAsync(pointOfInterestId);
+        var deleted = await _cityRepository.DeleteAsync(id);
         return deleted;
     }
 }

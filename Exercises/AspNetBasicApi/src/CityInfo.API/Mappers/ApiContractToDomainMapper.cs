@@ -24,4 +24,24 @@ public static class ApiContractToDomainMapper
             Description = request.CreatePointOfInterestRequest.Description
         };
     }
+
+    public static City ToCity(this CreateCityRequest request)
+    {
+        return new City
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            Description = request.Description
+        };
+    }
+    
+    public static City ToCity(this UpdateCityRequest request)
+    {
+        return new City
+        {
+            Id = request.Id,
+            Name = request.CreateCityRequest.Name,
+            Description = request.CreateCityRequest.Description
+        };
+    }
 }

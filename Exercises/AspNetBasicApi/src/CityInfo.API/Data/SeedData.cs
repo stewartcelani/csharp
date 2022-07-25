@@ -80,7 +80,7 @@ public static class SeedData
             }
         };
 
-        dbContext.City.AddRange(cities.Select(x => x.ToCityEntity()));
+        dbContext.City.AddRange(cities.Select(x => x.ToCityEntityWithPointsOfInterest()));
         await dbContext.SaveChangesAsync();
     }
    

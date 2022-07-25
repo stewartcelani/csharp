@@ -6,7 +6,7 @@ public interface ICityService
 {
     Task<City?> GetByIdAsync(Guid id);
     Task<IEnumerable<City>> GetAllAsync();
-    Task<bool> CreatePointOfInterestAsync(City city, PointOfInterest pointOfInterest);
-    Task<bool> UpdatePointOfInterestAsync(City city, PointOfInterest pointOfInterest);
-    Task<bool> DeletePointOfInterestAsync(Guid pointOfInterestId);
+    Task<bool> CreateAsync(City city);
+    Task<bool> UpdateAsync(City city);
+    Task<bool> DeleteAsync(Guid id);
 }

@@ -21,11 +21,13 @@ namespace CityInfo.API.Controllers;
 public class PointsOfInterestController : ControllerBase
 {
     private readonly ICityService _cityService;
+    private readonly IPointOfInterestService _pointOfInterestService;
     private readonly ILoggerAdapter<PointsOfInterestController> _logger;
 
-    public PointsOfInterestController(ILoggerAdapter<PointsOfInterestController> logger, ICityService cityService)
+    public PointsOfInterestController(ILoggerAdapter<PointsOfInterestController> logger, IPointOfInterestService pointOfInterestService, ICityService cityService)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _pointOfInterestService = pointOfInterestService ?? throw new ArgumentNullException(nameof(pointOfInterestService));
         _cityService = cityService ?? throw new ArgumentNullException(nameof(cityService));
     }
 
@@ -73,12 +75,12 @@ public class PointsOfInterestController : ControllerBase
 
         var pointOfInterest = request.ToPointOfInterest();
 
-        var created = await _cityService.CreatePointOfInterestAsync(city, pointOfInterest);
+        var created = await _pointOfInterestService.CreateAsync(city, pointOfInterest);
         
         if (!created)
         {
             var message = $"Error creating point of interest: {JsonSerializer.Serialize(pointOfInterest)}";
-            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(pointOfInterest), message));
+            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(PointOfInterest), message));
         }
 
         var pointOfInterestResponse = pointOfInterest.ToPointOfInterestResponse();
@@ -104,12 +106,12 @@ public class PointsOfInterestController : ControllerBase
 
         var updatedPointOfInterest = request.ToPointOfInterest();
 
-        var updated = await _cityService.UpdatePointOfInterestAsync(city, updatedPointOfInterest);
+        var updated = await _pointOfInterestService.UpdateAsync(city, updatedPointOfInterest);
 
         if (!updated)
         {
             var message = $"Error updating point of interest: {JsonSerializer.Serialize(updatedPointOfInterest)}";
-            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(updatedPointOfInterest), message));
+            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(PointOfInterest), message));
         }
 
         var pointOfInterestResponse = updatedPointOfInterest.ToPointOfInterestResponse();
@@ -133,12 +135,12 @@ public class PointsOfInterestController : ControllerBase
 
         var updatedPointOfInterest = updatePointOfInterestRequest.ToPointOfInterest();
 
-        var updated = await _cityService.UpdatePointOfInterestAsync(city, updatedPointOfInterest);
+        var updated = await _pointOfInterestService.UpdateAsync(city, updatedPointOfInterest);
 
         if (!updated)
         {
             var message = $"Error updating point of interest: {JsonSerializer.Serialize(updatedPointOfInterest)}";
-            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(updatedPointOfInterest), message));
+            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(PointOfInterest), message));
         }
 
         var pointOfInterestResponse = updatedPointOfInterest.ToPointOfInterestResponse();
@@ -156,12 +158,12 @@ public class PointsOfInterestController : ControllerBase
 
         if (pointOfInterest is null) return NotFound();
 
-        var deleted = await _cityService.DeletePointOfInterestAsync(pointOfInterest.Id);
+        var deleted = await _pointOfInterestService.DeleteAsync(pointOfInterest.Id);
 
         if (!deleted)
         {
             var message = $"Error deleting point of interest: {JsonSerializer.Serialize(pointOfInterest)}";
-            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(pointOfInterest), message));
+            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(PointOfInterest), message));
         }
 
         return NoContent();
