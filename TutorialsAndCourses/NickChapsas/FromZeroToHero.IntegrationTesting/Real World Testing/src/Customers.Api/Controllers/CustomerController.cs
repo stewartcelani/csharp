@@ -2,6 +2,7 @@ using Customers.Api.Attributes;
 using Customers.Api.Contracts.Requests;
 using Customers.Api.Mapping;
 using Customers.Api.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Customers.Api.Controllers;
@@ -22,7 +23,7 @@ public class CustomerController : ControllerBase
         var customer = request.ToCustomer();
 
         await _customerService.CreateAsync(customer);
-
+        
         var customerResponse = customer.ToCustomerResponse();
 
         return CreatedAtAction("Get", new { customerResponse.Id }, customerResponse);
