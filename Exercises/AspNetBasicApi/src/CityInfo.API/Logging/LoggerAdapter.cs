@@ -8,7 +8,7 @@ public class LoggerAdapter<TType> : ILoggerAdapter<TType>
     {
         _logger = logger;
     }
-    
+
     public void LogTrace(string? message, params object?[] args)
     {
         _logger.LogTrace(message, args);
@@ -18,25 +18,24 @@ public class LoggerAdapter<TType> : ILoggerAdapter<TType>
     {
         _logger.LogDebug(message, args);
     }
-    
+
     public void LogInformation(string? message, params object?[] args)
     {
         _logger.LogInformation(message, args);
     }
-    
+
     public void LogWarning(string? message, params object?[] args)
     {
         _logger.LogWarning(message, args);
     }
-    
+
     public void LogError(Exception? exception, string? message, params object?[] args)
     {
         _logger.LogError(exception, message, args);
     }
-    
+
     public void LogCritical(Exception? exception, string? message, params object?[] args)
     {
         _logger.LogCritical(exception, message, args);
     }
-    
 }

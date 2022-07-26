@@ -1,13 +1,8 @@
-using System.Linq.Expressions;
 using CityInfo.API.Domain.Entities;
+using CityInfo.API.Repositories.Common;
 
 namespace CityInfo.API.Repositories;
 
-public interface ICityRepository
+public interface ICityRepository : IRepository<CityEntity, Guid>
 {
-    Task<CityEntity?> GetAsync(Guid id);
-    Task<IEnumerable<CityEntity>> GetAsync(Expression<Func<CityEntity, bool>>? predicate = null);
-    Task<bool> CreateAsync(CityEntity cityEntity);
-    Task<bool> UpdateAsync(CityEntity cityEntity);
-    Task<bool> DeleteAsync(Guid id);
 }

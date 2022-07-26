@@ -5,11 +5,10 @@ namespace CityInfo.API.Services;
 
 public class CloudMailService : IMailService
 {
-    private ILoggerAdapter<CloudMailService> _logger;
-
     private readonly string _mailFrom;
     private readonly string _mailTo;
-    
+    private readonly ILoggerAdapter<CloudMailService> _logger;
+
 
     public CloudMailService(ILoggerAdapter<CloudMailService> logger, MailSettings mailSettings)
     {
@@ -20,7 +19,8 @@ public class CloudMailService : IMailService
 
     public Task Send(string subject, string message)
     {
-        _logger.LogInformation("Mail from {mailFrom} to {mailTo} with {className}", _mailFrom, _mailTo, nameof(CloudMailService));
+        _logger.LogInformation("Mail from {mailFrom} to {mailTo} with {className}", _mailFrom, _mailTo,
+            nameof(CloudMailService));
         _logger.LogInformation("Subject: {subject}", subject);
         _logger.LogInformation("Message: {message}", message);
         return Task.CompletedTask;

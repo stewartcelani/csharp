@@ -21,13 +21,15 @@ namespace CityInfo.API.Controllers;
 public class PointsOfInterestController : ControllerBase
 {
     private readonly ICityService _cityService;
-    private readonly IPointOfInterestService _pointOfInterestService;
     private readonly ILoggerAdapter<PointsOfInterestController> _logger;
+    private readonly IPointOfInterestService _pointOfInterestService;
 
-    public PointsOfInterestController(ILoggerAdapter<PointsOfInterestController> logger, IPointOfInterestService pointOfInterestService, ICityService cityService)
+    public PointsOfInterestController(ILoggerAdapter<PointsOfInterestController> logger,
+        IPointOfInterestService pointOfInterestService, ICityService cityService)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _pointOfInterestService = pointOfInterestService ?? throw new ArgumentNullException(nameof(pointOfInterestService));
+        _pointOfInterestService =
+            pointOfInterestService ?? throw new ArgumentNullException(nameof(pointOfInterestService));
         _cityService = cityService ?? throw new ArgumentNullException(nameof(cityService));
     }
 
@@ -76,8 +78,8 @@ public class PointsOfInterestController : ControllerBase
         var pointOfInterest = request.ToPointOfInterest();
 
         var created = await _pointOfInterestService.CreateAsync(city, pointOfInterest);
-        
-        if (!created)
+
+        if (created)
         {
             var message = $"Error creating point of interest: {JsonSerializer.Serialize(pointOfInterest)}";
             throw new ApiException(message, ValidationFailureHelper.Generate(nameof(PointOfInterest), message));
@@ -86,7 +88,7 @@ public class PointsOfInterestController : ControllerBase
         var pointOfInterestResponse = pointOfInterest.ToPointOfInterestResponse();
 
         return CreatedAtRoute(nameof(GetPointOfInterest),
-            new { cityId = cityId, pointOfInterestId = pointOfInterestResponse.Id }, pointOfInterestResponse);
+            new { cityId, pointOfInterestId = pointOfInterestResponse.Id }, pointOfInterestResponse);
     }
 
     // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
@@ -158,7 +160,7 @@ public class PointsOfInterestController : ControllerBase
 
         if (pointOfInterest is null) return NotFound();
 
-        var deleted = await _pointOfInterestService.DeleteAsync(pointOfInterest.Id);
+        var deleted = await _pointOfInterestService.DeleteAsync(city, pointOfInterest);
 
         if (!deleted)
         {
@@ -187,10 +189,7 @@ public class PointsOfInterestController : ControllerBase
         }
 
         var validationResult = new CreatePointOfInterestRequestValidator().Validate(createPointOfInterestRequest);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
+        if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
 
         return new UpdatePointOfInterestRequest
         {

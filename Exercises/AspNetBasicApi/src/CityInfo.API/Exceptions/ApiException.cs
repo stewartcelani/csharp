@@ -4,7 +4,7 @@ using FluentValidation.Results;
 namespace CityInfo.API.Exceptions;
 
 /// <summary>
-/// Re-purposing Fluent Validation's ValidationException but for neatly showing 500 errors via middleware
+/// Re-purposing FluentValidation's ValidationException but for neatly showing 500 errors via middleware
 /// </summary>
 [Serializable]
 public class ApiException : Exception

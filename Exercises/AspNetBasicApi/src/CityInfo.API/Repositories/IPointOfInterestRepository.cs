@@ -1,11 +1,8 @@
 using CityInfo.API.Domain.Entities;
+using CityInfo.API.Repositories.Common;
 
 namespace CityInfo.API.Repositories;
 
-public interface IPointOfInterestRepository
+public interface IPointOfInterestRepository : IRepository<PointOfInterestEntity, Guid>
 {
-    Task<PointOfInterestEntity?> GetAsync(Guid id);
-    Task<bool> CreateAsync(PointOfInterestEntity pointOfInterestEntity);
-    Task<bool> UpdateAsync(PointOfInterestEntity pointOfInterestEntity);
-    Task<bool> DeleteAsync(Guid id);
 }

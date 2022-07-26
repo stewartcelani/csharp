@@ -8,5 +8,5 @@ public interface ICityService
     Task<IEnumerable<City>> GetAllAsync();
     Task<bool> CreateAsync(City city);
     Task<bool> UpdateAsync(City city);
-    Task<bool> DeleteAsync(Guid id);
+    Task<bool> DeleteAsync(City city);
 }

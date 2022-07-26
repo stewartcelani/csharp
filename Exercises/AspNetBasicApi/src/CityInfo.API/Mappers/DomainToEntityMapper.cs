@@ -15,7 +15,7 @@ public static class DomainToEntityMapper
             PointsOfInterest = null
         };
     }
-    
+
     public static CityEntity ToCityEntityWithPointsOfInterest(this City city)
     {
         return new CityEntity

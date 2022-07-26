@@ -21,9 +21,10 @@ public class ApiExceptionMiddleware
         catch (ApiException exception)
         {
             context.Response.StatusCode = 500;
-            
+
             var error = new ValidationProblemDetails
             {
+                Title = "One or more errors occurred.",
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
                 Status = 500,
                 Extensions =
@@ -32,11 +33,9 @@ public class ApiExceptionMiddleware
                 }
             };
             foreach (var validationFailure in exception.Errors)
-            {
                 error.Errors.Add(new KeyValuePair<string, string[]>(
-                    validationFailure.PropertyName, 
+                    validationFailure.PropertyName,
                     new[] { validationFailure.ErrorMessage }));
-            }
             await context.Response.WriteAsJsonAsync(error);
         }
     }

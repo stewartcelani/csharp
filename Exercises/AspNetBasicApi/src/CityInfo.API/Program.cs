@@ -6,9 +6,8 @@ using CityInfo.API.Middleware;
 using CityInfo.API.Repositories;
 using CityInfo.API.Services;
 using CityInfo.API.Validators;
-using Microsoft.AspNetCore.StaticFiles;
 using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,10 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 config.AddEnvironmentVariables("CityInfoApi_");
 
-builder.Services.AddControllers(options =>
-{
-    options.ReturnHttpNotAcceptable = true;
-})
+builder.Services.AddControllers(options => { options.ReturnHttpNotAcceptable = true; })
     .AddNewtonsoftJson()
     .AddXmlDataContractSerializerFormatters()
     .AddFluentValidation(x =>
@@ -48,6 +44,7 @@ builder.Services.AddLogging(loggingBuilder =>
 builder.Services.AddTransient(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
 
 builder.Services.AddDbContext<ApplicationDbContext>();
+
 builder.Services.AddTransient<ICityRepository, CityRepository>();
 builder.Services.AddTransient<IPointOfInterestRepository, PointOfInterestRepository>();
 builder.Services.AddTransient<ICityService, CityService>();
@@ -75,10 +72,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 await app.SeedDataAsync();
 

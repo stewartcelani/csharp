@@ -12,10 +12,10 @@ public static class DomainToApiContractMapper
         {
             Id = city.Id,
             Name = city.Name,
-            Description = city.Description,
+            Description = city.Description
         };
     }
-    
+
     public static ExtendedCityResponse ToExtendedCityResponse(this City city)
     {
         return new ExtendedCityResponse
@@ -54,5 +54,4 @@ public static class DomainToApiContractMapper
             CreatePointOfInterestRequest = pointOfInterest.ToCreatePointOfInterestRequest()
         };
     }
-    
 }

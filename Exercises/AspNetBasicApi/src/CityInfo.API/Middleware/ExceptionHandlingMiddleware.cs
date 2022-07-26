@@ -4,10 +4,9 @@ namespace CityInfo.API.Middleware;
 
 public class ExceptionHandlingMiddleware
 {
-    private readonly RequestDelegate _request;
-    
     private readonly ILoggerAdapter<ExceptionHandlingMiddleware> _logger;
-    
+    private readonly RequestDelegate _request;
+
     public ExceptionHandlingMiddleware(RequestDelegate request, ILoggerAdapter<ExceptionHandlingMiddleware> logger)
     {
         _request = request;

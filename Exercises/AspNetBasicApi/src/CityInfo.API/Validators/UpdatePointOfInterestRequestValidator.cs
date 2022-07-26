@@ -8,6 +8,7 @@ public class UpdatePointOfInterestRequestValidator : AbstractValidator<UpdatePoi
     public UpdatePointOfInterestRequestValidator()
     {
         RuleFor(x => x.Id).NotEmpty();
-        RuleFor(x => x.CreatePointOfInterestRequest).NotEmpty().SetValidator(new CreatePointOfInterestRequestValidator());
+        RuleFor(x => x.CreatePointOfInterestRequest).NotEmpty()
+            .SetValidator(new CreatePointOfInterestRequestValidator());
     }
 }

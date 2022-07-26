@@ -8,7 +8,6 @@ using CityInfo.API.Mappers;
 using CityInfo.API.Services;
 using CityInfo.API.Validators.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace CityInfo.API.Controllers;
 
@@ -27,31 +26,31 @@ public class CitiesController : ControllerBase
     public async Task<ActionResult<IEnumerable<ExtendedCityResponse>>> GetCities()
     {
         var cities = await _cityService.GetAllAsync();
-        
+
         var citiesResponse = cities.Select(x => x.ToExtendedCityResponse());
-        
+
         return Ok(citiesResponse);
     }
-    
+
     [HttpGet("{cityId:guid}", Name = nameof(GetCity))]
     public async Task<ActionResult<ExtendedCityResponse>> GetCity([FromRoute] Guid cityId)
     {
         var city = await _cityService.GetByIdAsync(cityId);
-        
+
         if (city is null) return NotFound();
-        
+
         var cityResponse = city.ToExtendedCityResponse();
-        
+
         return Ok(cityResponse);
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<ExtendedCityResponse>> CreateCity([FromBody] CreateCityRequest request)
     {
         var city = request.ToCity();
 
         var created = await _cityService.CreateAsync(city);
-        
+
         if (!created)
         {
             var message = $"Error creating city: {JsonSerializer.Serialize(city)}";
@@ -83,22 +82,22 @@ public class CitiesController : ControllerBase
         var cityResponse = updatedCity!.ToCityResponse();
         return Ok(cityResponse);
     }
-    
+
     [HttpDelete("{cityId:guid}")]
     public async Task<ActionResult<ExtendedCityResponse>> DeleteCity([FromRoute] Guid cityId)
     {
         var city = await _cityService.GetByIdAsync(cityId);
-        
+
         if (city is null) return NotFound();
 
-        var deleted = await _cityService.DeleteAsync(city.Id);
+        var deleted = await _cityService.DeleteAsync(city);
 
         if (!deleted)
         {
             var message = $"Error deleting city: {JsonSerializer.Serialize(city)}";
             throw new ApiException(message, ValidationFailureHelper.Generate(nameof(city), message));
         }
-        
+
         return NoContent();
     }
 }

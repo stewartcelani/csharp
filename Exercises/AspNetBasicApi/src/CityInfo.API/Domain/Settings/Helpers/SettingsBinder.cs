@@ -16,7 +16,7 @@ public static class SettingsBinder
         configuration.GetSection(key).Bind(settings);
         return settings;
     }
-    
+
     public static TSettings BindAndValidate<TSettings, TValidator>(IConfiguration configuration) where TSettings : class
         where TValidator : AbstractValidator<TSettings>
     {

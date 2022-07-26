@@ -5,10 +5,9 @@ namespace CityInfo.API.Services;
 
 public class LocalMailService : IMailService
 {
-    private ILoggerAdapter<LocalMailService> _logger;
-    
     private readonly string _mailFrom;
     private readonly string _mailTo;
+    private readonly ILoggerAdapter<LocalMailService> _logger;
 
     public LocalMailService(ILoggerAdapter<LocalMailService> logger, MailSettings mailSettings)
     {
@@ -19,7 +18,8 @@ public class LocalMailService : IMailService
 
     public Task Send(string subject, string message)
     {
-        _logger.LogInformation("Mail from {mailFrom} to {mailTo} with {className}", _mailFrom, _mailTo, nameof(LocalMailService));
+        _logger.LogInformation("Mail from {mailFrom} to {mailTo} with {className}", _mailFrom, _mailTo,
+            nameof(LocalMailService));
         _logger.LogInformation("Subject: {subject}", subject);
         _logger.LogInformation("Message: {message}", message);
         return Task.CompletedTask;

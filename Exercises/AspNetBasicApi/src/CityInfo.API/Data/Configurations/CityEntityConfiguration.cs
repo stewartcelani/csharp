@@ -14,7 +14,7 @@ public class CityEntityConfiguration : IEntityTypeConfiguration<CityEntity>
             .WithOne(x => x.City)
             .IsRequired();
             */
-        
+
         builder.Property(x => x.Id)
             .IsRequired();
 

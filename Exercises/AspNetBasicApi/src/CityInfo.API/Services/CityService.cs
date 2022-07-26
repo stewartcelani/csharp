@@ -1,4 +1,5 @@
 using CityInfo.API.Domain;
+using CityInfo.API.Domain.Entities;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
 using CityInfo.API.Validators.Helpers;
@@ -10,20 +11,23 @@ public class CityService : ICityService
 {
     private readonly ICityRepository _cityRepository;
 
-    public CityService(ICityRepository cityRepository, IPointOfInterestRepository pointOfInterestRepository)
+    private readonly string[] _defaultIncludeProperties = { nameof(CityEntity.PointsOfInterest) };
+
+    public CityService(ICityRepository cityRepository)
     {
         _cityRepository = cityRepository ?? throw new NullReferenceException(nameof(cityRepository));
     }
 
     public async Task<City?> GetByIdAsync(Guid id)
     {
-        var cityEntity = await _cityRepository.GetAsync(id);
+        var cityEntity = await _cityRepository.GetAsync(id, _defaultIncludeProperties);
         return cityEntity?.ToCity();
     }
 
     public async Task<IEnumerable<City>> GetAllAsync()
     {
-        var cityEntities = await _cityRepository.GetAsync();
+        var cityEntities =
+            await _cityRepository.GetAsync(null, _defaultIncludeProperties);
         return cityEntities.Select(x => x.ToCity());
     }
 
@@ -48,9 +52,10 @@ public class CityService : ICityService
         return updated;
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(City city)
     {
-        var deleted = await _cityRepository.DeleteAsync(id);
+        var cityEntity = city.ToCityEntity();
+        var deleted = await _cityRepository.DeleteAsync(cityEntity);
         return deleted;
     }
 }

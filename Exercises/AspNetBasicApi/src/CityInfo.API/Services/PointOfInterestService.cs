@@ -20,17 +20,18 @@ public class PointOfInterestService : IPointOfInterestService
         var created = await _pointOfInterestRepository.CreateAsync(pointOfInterestEntity);
         return created;
     }
-    
+
     public async Task<bool> UpdateAsync(City city, PointOfInterest pointOfInterest)
     {
         var pointOfInterestEntity = pointOfInterest.ToPointOfInterestEntity(city);
         var updated = await _pointOfInterestRepository.UpdateAsync(pointOfInterestEntity);
         return updated;
     }
-    
-    public async Task<bool> DeleteAsync(Guid pointOfInterestId)
+
+    public async Task<bool> DeleteAsync(City city, PointOfInterest pointOfInterest)
     {
-        var deleted = await _pointOfInterestRepository.DeleteAsync(pointOfInterestId);
+        var pointOfInterestEntity = pointOfInterest.ToPointOfInterestEntity(city);
+        var deleted = await _pointOfInterestRepository.DeleteAsync(pointOfInterestEntity);
         return deleted;
     }
 }

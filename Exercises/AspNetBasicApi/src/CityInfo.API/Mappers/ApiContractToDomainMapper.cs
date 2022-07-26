@@ -14,7 +14,7 @@ public static class ApiContractToDomainMapper
             Description = request.Description
         };
     }
-    
+
     public static PointOfInterest ToPointOfInterest(this UpdatePointOfInterestRequest request)
     {
         return new PointOfInterest
@@ -34,7 +34,7 @@ public static class ApiContractToDomainMapper
             Description = request.Description
         };
     }
-    
+
     public static City ToCity(this UpdateCityRequest request)
     {
         return new City
