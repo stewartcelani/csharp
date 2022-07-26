@@ -23,7 +23,7 @@ public class CitiesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ExtendedCityResponse>>> GetCities()
+    public async Task<IActionResult> GetCities()
     {
         var cities = await _cityService.GetAllAsync();
 
@@ -33,7 +33,7 @@ public class CitiesController : ControllerBase
     }
 
     [HttpGet("{cityId:guid}", Name = nameof(GetCity))]
-    public async Task<ActionResult<ExtendedCityResponse>> GetCity([FromRoute] Guid cityId)
+    public async Task<IActionResult> GetCity([FromRoute] Guid cityId)
     {
         var city = await _cityService.GetByIdAsync(cityId);
 
@@ -45,7 +45,7 @@ public class CitiesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ExtendedCityResponse>> CreateCity([FromBody] CreateCityRequest request)
+    public async Task<IActionResult> CreateCity([FromBody] CreateCityRequest request)
     {
         var city = request.ToCity();
 
@@ -57,14 +57,14 @@ public class CitiesController : ControllerBase
             throw new ApiException(message, ValidationFailureHelper.Generate(nameof(City), message));
         }
 
-        var cityResponse = city.ToExtendedCityResponse();
+        var cityResponse = city.ToCityResponse();
 
         return CreatedAtRoute(nameof(GetCity),
             new { cityId = city.Id }, cityResponse);
     }
 
     [HttpPut("{cityId:guid}")]
-    public async Task<ActionResult<CityResponse>> UpdateCity([FromMultiSource] UpdateCityRequest request)
+    public async Task<IActionResult> UpdateCity([FromMultiSource] UpdateCityRequest request)
     {
         var city = await _cityService.GetByIdAsync(request.Id);
         if (city is null) return NotFound();
@@ -84,7 +84,7 @@ public class CitiesController : ControllerBase
     }
 
     [HttpDelete("{cityId:guid}")]
-    public async Task<ActionResult<ExtendedCityResponse>> DeleteCity([FromRoute] Guid cityId)
+    public async Task<IActionResult> DeleteCity([FromRoute] Guid cityId)
     {
         var city = await _cityService.GetByIdAsync(cityId);
 

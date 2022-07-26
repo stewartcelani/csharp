@@ -44,6 +44,8 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
         return await query.AsNoTracking().ToListAsync();
     }
 
+    public virtual async Task<bool> ExistsAsync(TKey id) => await _dbSet.AnyAsync(x => x.Id.Equals(id));
+
     public virtual async Task<bool> CreateAsync(TEntity entity)
     {
         _dbSet.Add(entity);

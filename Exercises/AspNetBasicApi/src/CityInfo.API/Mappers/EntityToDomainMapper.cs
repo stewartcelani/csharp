@@ -12,7 +12,7 @@ public static class EntityToDomainMapper
             Id = cityEntity.Id,
             Name = cityEntity.Name,
             Description = cityEntity.Description,
-            PointsOfInterest = cityEntity.PointsOfInterest?.Select(x => x.ToPointOfInterest()).ToList()
+            PointsOfInterest = cityEntity.PointsOfInterest?.Select(x => x.ToPointOfInterest()).ToList() ?? new List<PointOfInterest>()
         };
     }
 

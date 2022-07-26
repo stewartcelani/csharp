@@ -1,0 +1,22 @@
+version: '3.9'
+
+networks:
+  local:
+    name: local
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: cityinfodb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=4T66Rk9A#JE4y7V%
+      - POSTGRES_DB=CityInfo
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - local
+    volumes:
+      - .postgres/:/var/lib/postgresql/data/
+      

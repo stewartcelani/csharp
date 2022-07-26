@@ -32,6 +32,86 @@
 				"method": "GET",
 				"header": [],
 				"url": {
+					"raw": "https://localhost:5001/api/cities/bc6e490a-7e14-42fd-94eb-7d3282ce889d",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities",
+						"bc6e490a-7e14-42fd-94eb-7d3282ce889d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE City",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"Canberra\",\r\n    \"Description\": \"Canberra is the capital city of Australia. Founded following the federation of the colonies of Australia as the seat of government for the new nation, it is Australia's largest inland city and the eighth-largest city overall. Unusual among Australian cities, it is an entirely planned city.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/cities",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE City",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"(updated 4) Canberra\",\r\n    \"Description\": \"(updated 4) Canberra is the capital city of Australia. Founded following the federation of the colonies of Australia as the seat of government for the new nation, it is Australia's largest inland city and the eighth-largest city overall. Unusual among Australian cities, it is an entirely planned city.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/cities/1e522165-36cc-44ce-982b-3731d7f42e3a",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cities",
+						"1e522165-36cc-44ce-982b-3731d7f42e3a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE City",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
 					"raw": "https://localhost:5001/api/cities/{{cityId}}",
 					"protocol": "https",
 					"host": [
@@ -108,7 +188,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/cities/{{cityId}}/pointsofinterest",
+					"raw": "https://localhost:5001/api/cities/bc6e490a-7e14-42fd-94eb-7d3282ce889d/pointsofinterest",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -117,7 +197,7 @@
 					"path": [
 						"api",
 						"cities",
-						"{{cityId}}",
+						"bc6e490a-7e14-42fd-94eb-7d3282ce889d",
 						"pointsofinterest"
 					]
 				}

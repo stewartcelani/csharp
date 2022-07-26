@@ -1,4 +1,5 @@
 using System.Reflection;
+using CityInfo.API.Data.ValueConverters;
 using CityInfo.API.Domain.Entities;
 using CityInfo.API.Domain.Entities.Common;
 using CityInfo.API.Domain.Settings;
@@ -13,30 +14,39 @@ public class ApplicationDbContext : DbContext
     private readonly ILoggerAdapter<ApplicationDbContext> _logger;
 
 
-    public ApplicationDbContext(ILoggerAdapter<ApplicationDbContext> logger, DatabaseSettings databaseSettings)
+    public ApplicationDbContext(DatabaseSettings databaseSettings, ILoggerAdapter<ApplicationDbContext> logger)
     {
-        _logger = logger;
         _databaseSettings = databaseSettings;
+        _logger = logger;
     }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
-        ILoggerAdapter<ApplicationDbContext> logger, DatabaseSettings databaseSettings) : base(options)
+        DatabaseSettings databaseSettings, ILoggerAdapter<ApplicationDbContext> logger) : base(options)
     {
-        _logger = logger;
         _databaseSettings = databaseSettings;
+        _logger = logger;
     }
 
     public DbSet<CityEntity> City { get; set; }
     public DbSet<PointOfInterestEntity> PointOfInterest { get; set; }
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<DateTimeOffset>()
+            .HaveConversion<DateTimeOffsetConverter>();
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (_databaseSettings.EnableSensitiveDataLogging)
-            optionsBuilder.UseSqlite(_databaseSettings.ConnectionString)
+            optionsBuilder.UseNpgsql(_databaseSettings.ConnectionString,
+                    sqlOptions => sqlOptions.EnableRetryOnFailure())
                 .EnableSensitiveDataLogging()
                 .LogTo(s => _logger.LogDebug(s));
         else
-            optionsBuilder.UseSqlite(_databaseSettings.ConnectionString)
+            optionsBuilder.UseNpgsql(_databaseSettings.ConnectionString,
+                    sqlOptions => sqlOptions.EnableRetryOnFailure())
                 .LogTo(s => _logger.LogDebug(s));
     }
 

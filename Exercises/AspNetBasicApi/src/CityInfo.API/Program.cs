@@ -74,6 +74,8 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
+await app.RunPendingMigrationsAsync();
 await app.SeedDataAsync();
+
 
 app.Run();

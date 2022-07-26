@@ -23,19 +23,19 @@ public static class DomainToEntityMapper
             Id = city.Id,
             Name = city.Name,
             Description = city.Description,
-            PointsOfInterest = city.PointsOfInterest.Select(x => x.ToPointOfInterestEntity(city)).ToList()
+            PointsOfInterest = city.PointsOfInterest.Select(x => x.ToPointOfInterestEntity(city.Id)).ToList()
         };
     }
 
 
-    public static PointOfInterestEntity ToPointOfInterestEntity(this PointOfInterest pointOfInterest, City city)
+    public static PointOfInterestEntity ToPointOfInterestEntity(this PointOfInterest pointOfInterest, Guid cityId)
     {
         return new PointOfInterestEntity
         {
             Id = pointOfInterest.Id,
             Name = pointOfInterest.Name,
             Description = pointOfInterest.Description,
-            CityId = city.Id
+            CityId = cityId
         };
     }
 }

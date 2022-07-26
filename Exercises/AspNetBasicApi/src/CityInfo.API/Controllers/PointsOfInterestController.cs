@@ -1,7 +1,6 @@
 using System.Text.Json;
 using CityInfo.API.Attributes;
 using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Responses;
 using CityInfo.API.Domain;
 using CityInfo.API.Exceptions;
 using CityInfo.API.Logging;
@@ -21,44 +20,38 @@ namespace CityInfo.API.Controllers;
 public class PointsOfInterestController : ControllerBase
 {
     private readonly ICityService _cityService;
-    private readonly ILoggerAdapter<PointsOfInterestController> _logger;
     private readonly IPointOfInterestService _pointOfInterestService;
 
-    public PointsOfInterestController(ILoggerAdapter<PointsOfInterestController> logger,
-        IPointOfInterestService pointOfInterestService, ICityService cityService)
+    public PointsOfInterestController(IPointOfInterestService pointOfInterestService, ICityService cityService)
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _pointOfInterestService =
             pointOfInterestService ?? throw new ArgumentNullException(nameof(pointOfInterestService));
         _cityService = cityService ?? throw new ArgumentNullException(nameof(cityService));
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<PointOfInterestResponse>>> GetPointsOfInterest([FromRoute] Guid cityId)
+    public async Task<IActionResult> GetPointsOfInterest([FromRoute] Guid cityId)
     {
-        var city = await _cityService.GetByIdAsync(cityId);
+        if (!await _cityService.ExistsAsync(cityId)) return NotFound();
 
-        if (city is null) return NotFound();
+        var pointsOfInterest = await _pointOfInterestService.GetAllAsync(cityId);
 
-        var pointsOfInterestResponse = city.PointsOfInterest.Select(x => x.ToPointOfInterestResponse());
+        var pointsOfInterestResponse = pointsOfInterest.Select(x => x.ToPointOfInterestResponse());
 
         return Ok(pointsOfInterestResponse);
     }
 
     // ReSharper disable once RouteTemplates.ActionRoutePrefixCanBeExtractedToControllerRoute
     [HttpGet("{pointOfInterestId:guid}", Name = nameof(GetPointOfInterest))]
-    public async Task<ActionResult<PointOfInterestResponse>> GetPointOfInterest([FromRoute] Guid cityId,
+    public async Task<IActionResult> GetPointOfInterest([FromRoute] Guid cityId,
         [FromRoute] Guid pointOfInterestId)
     {
-        var city = await _cityService.GetByIdAsync(cityId);
-
-        if (city is null)
+        if (!await _cityService.ExistsAsync(cityId)) // Should this be skipped and go straight to getByIdAsync?
         {
-            _logger.LogInformation("City with id {cityId} wasn't found when accessing points of interest", cityId);
             return NotFound();
         }
 
-        var pointOfInterest = city.PointsOfInterest.SingleOrDefault(x => x.Id == pointOfInterestId);
+        var pointOfInterest = await _pointOfInterestService.GetByIdAsync(pointOfInterestId);
 
         if (pointOfInterest is null) return NotFound();
 
@@ -68,18 +61,16 @@ public class PointsOfInterestController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<PointOfInterestResponse>> CreatePointOfInterest([FromRoute] Guid cityId,
+    public async Task<IActionResult> CreatePointOfInterest([FromRoute] Guid cityId,
         [FromBody] CreatePointOfInterestRequest request)
     {
-        var city = await _cityService.GetByIdAsync(cityId);
-
-        if (city is null) return NotFound();
+        if (!await _cityService.ExistsAsync(cityId)) return NotFound();
 
         var pointOfInterest = request.ToPointOfInterest();
 
-        var created = await _pointOfInterestService.CreateAsync(city, pointOfInterest);
+        var created = await _pointOfInterestService.CreateAsync(cityId, pointOfInterest);
 
-        if (created)
+        if (!created)
         {
             var message = $"Error creating point of interest: {JsonSerializer.Serialize(pointOfInterest)}";
             throw new ApiException(message, ValidationFailureHelper.Generate(nameof(PointOfInterest), message));
@@ -95,20 +86,15 @@ public class PointsOfInterestController : ControllerBase
     // ReSharper disable once RouteTemplates.ActionRoutePrefixCanBeExtractedToControllerRoute
     // ReSharper disable once RouteTemplates.MethodMissingRouteParameters
     [HttpPut("{pointOfInterestId:guid}")]
-    public async Task<ActionResult<PointOfInterestResponse>> UpdatePointOfInterest([FromRoute] Guid cityId,
+    public async Task<IActionResult> UpdatePointOfInterest([FromRoute] Guid cityId,
         [FromMultiSource] UpdatePointOfInterestRequest request)
     {
-        var city = await _cityService.GetByIdAsync(cityId);
-
-        if (city is null) return NotFound();
-
-        var pointOfInterest = city.PointsOfInterest.FirstOrDefault(x => x.Id == request.Id);
-
-        if (pointOfInterest is null) return NotFound();
+        if (!await _cityService.ExistsAsync(cityId)) return NotFound();
+        if (!await _pointOfInterestService.ExistsAsync(request.Id)) return NotFound();
 
         var updatedPointOfInterest = request.ToPointOfInterest();
 
-        var updated = await _pointOfInterestService.UpdateAsync(city, updatedPointOfInterest);
+        var updated = await _pointOfInterestService.UpdateAsync(cityId, updatedPointOfInterest);
 
         if (!updated)
         {
@@ -121,23 +107,20 @@ public class PointsOfInterestController : ControllerBase
     }
 
     [HttpPatch("{pointOfInterestId:guid}")]
-    public async Task<ActionResult<PointOfInterestResponse>> PartiallyUpdatePointOfInterest([FromRoute] Guid cityId,
+    public async Task<IActionResult> PartiallyUpdatePointOfInterest([FromRoute] Guid cityId,
         [FromRoute] Guid pointOfInterestId,
         JsonPatchDocument<CreatePointOfInterestRequest> patchDocument)
     {
-        var city = await _cityService.GetByIdAsync(cityId);
+        if (!await _cityService.ExistsAsync(cityId)) return NotFound();
 
-        if (city is null) return NotFound();
-
-        var pointOfInterest = city.PointsOfInterest.FirstOrDefault(x => x.Id == pointOfInterestId);
-
+        var pointOfInterest = await _pointOfInterestService.GetByIdAsync(pointOfInterestId);
         if (pointOfInterest is null) return NotFound();
 
         var updatePointOfInterestRequest = PatchPointOfInterest(patchDocument, pointOfInterest);
 
         var updatedPointOfInterest = updatePointOfInterestRequest.ToPointOfInterest();
 
-        var updated = await _pointOfInterestService.UpdateAsync(city, updatedPointOfInterest);
+        var updated = await _pointOfInterestService.UpdateAsync(cityId, updatedPointOfInterest);
 
         if (!updated)
         {
@@ -152,15 +135,13 @@ public class PointsOfInterestController : ControllerBase
     [HttpDelete("{pointOfInterestId:guid}")]
     public async Task<IActionResult> DeletePointOfInterest([FromRoute] Guid cityId, [FromRoute] Guid pointOfInterestId)
     {
-        var city = await _cityService.GetByIdAsync(cityId);
+        if (!await _cityService.ExistsAsync(cityId)) return NotFound();
 
-        if (city is null) return NotFound();
-
-        var pointOfInterest = city.PointsOfInterest.FirstOrDefault(x => x.Id == pointOfInterestId);
+        var pointOfInterest = await _pointOfInterestService.GetByIdAsync(pointOfInterestId);
 
         if (pointOfInterest is null) return NotFound();
 
-        var deleted = await _pointOfInterestService.DeleteAsync(city, pointOfInterest);
+        var deleted = await _pointOfInterestService.DeleteAsync(cityId, pointOfInterest);
 
         if (!deleted)
         {

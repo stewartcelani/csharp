@@ -12,6 +12,8 @@ public interface IRepository<TEntity, in TKey>
     Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
         IEnumerable<string>? includeProperties = null);
 
+    Task<bool> ExistsAsync(TKey id);
+
     Task<bool> CreateAsync(TEntity entity);
     Task<bool> CreateAsync(IEnumerable<TEntity> entities);
     Task<bool> UpdateAsync(TEntity entity);

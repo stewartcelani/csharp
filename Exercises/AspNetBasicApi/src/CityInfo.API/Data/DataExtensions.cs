@@ -1,10 +1,20 @@
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace CityInfo.API.Data;
 
-public static class SeedData
+public static class DataExtensions
 {
+    public static async Task RunPendingMigrationsAsync(this WebApplication app)
+    {
+        using var serviceScope = app.Services.CreateScope();
+        var dataContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        if ((await dataContext.Database.GetPendingMigrationsAsync()).Any())
+            await dataContext.Database.MigrateAsync();
+    }
+
     public static async Task SeedDataAsync(this WebApplication app)
     {
         using var serviceScope = app.Services.CreateScope();
