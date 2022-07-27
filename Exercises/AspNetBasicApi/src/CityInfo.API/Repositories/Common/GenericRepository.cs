@@ -9,19 +9,19 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
     where TEntity : BaseEntity<TKey>
     where TKey : IEquatable<TKey>
 {
-    private readonly ApplicationDbContext _dbContext;
-    private readonly DbSet<TEntity> _dbSet;
+    protected readonly ApplicationDbContext DbContext;
+    protected readonly DbSet<TEntity> DbSet;
 
     protected GenericRepository(ApplicationDbContext dbContext)
     {
-        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        _dbSet = _dbContext.Set<TEntity>();
+        DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        DbSet = DbContext.Set<TEntity>();
     }
 
 
-    public virtual async Task<TEntity?> GetAsync(TKey id, IEnumerable<string>? includeProperties = null)
+    public virtual async Task<TEntity?> GetAsync(TKey id, IEnumerable<string?> includeProperties = null)
     {
-        IQueryable<TEntity> query = _dbSet;
+        IQueryable<TEntity> query = DbSet;
         
         if (includeProperties is not null)
             foreach (var property in includeProperties)
@@ -33,7 +33,7 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
     public virtual async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
         IEnumerable<string>? includeProperties = null)
     {
-        IQueryable<TEntity> query = _dbSet;
+        IQueryable<TEntity> query = DbSet;
 
         if (predicate is not null) query = query.Where(predicate);
 
@@ -44,41 +44,41 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
         return await query.AsNoTracking().ToListAsync();
     }
 
-    public virtual async Task<bool> ExistsAsync(TKey id) => await _dbSet.AnyAsync(x => x.Id.Equals(id));
+    public virtual async Task<bool> ExistsAsync(TKey id) => await DbSet.AnyAsync(x => x.Id.Equals(id));
 
     public virtual async Task<bool> CreateAsync(TEntity entity)
     {
-        _dbSet.Add(entity);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbSet.Add(entity);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> CreateAsync(IEnumerable<TEntity> entities)
     {
-        _dbSet.AddRange(entities);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbSet.AddRange(entities);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> UpdateAsync(TEntity entity)
     {
-        _dbSet.Update(entity);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbSet.Update(entity);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> UpdateAsync(IEnumerable<TEntity> entities)
     {
-        _dbSet.UpdateRange(entities);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbSet.UpdateRange(entities);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> DeleteAsync(TEntity entity)
     {
-        _dbSet.Remove(entity);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbSet.Remove(entity);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
     {
-        _dbSet.RemoveRange(entities);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbSet.RemoveRange(entities);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 }

@@ -12,22 +12,10 @@ public static class DomainToEntityMapper
             Id = city.Id,
             Name = city.Name,
             Description = city.Description,
-            PointsOfInterest = null
-        };
-    }
-
-    public static CityEntity ToCityEntityWithPointsOfInterest(this City city)
-    {
-        return new CityEntity
-        {
-            Id = city.Id,
-            Name = city.Name,
-            Description = city.Description,
             PointsOfInterest = city.PointsOfInterest.Select(x => x.ToPointOfInterestEntity(city.Id)).ToList()
         };
     }
-
-
+    
     public static PointOfInterestEntity ToPointOfInterestEntity(this PointOfInterest pointOfInterest, Guid cityId)
     {
         return new PointOfInterestEntity

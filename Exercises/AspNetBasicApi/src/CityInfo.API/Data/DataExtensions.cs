@@ -99,7 +99,7 @@ public static class DataExtensions
             }
         };
 
-        dbContext.City.AddRange(cities.Select(x => x.ToCityEntityWithPointsOfInterest()));
+        dbContext.City.AddRange(cities.Select(x => x.ToCityEntity()));
         await dbContext.SaveChangesAsync();
     }
 }

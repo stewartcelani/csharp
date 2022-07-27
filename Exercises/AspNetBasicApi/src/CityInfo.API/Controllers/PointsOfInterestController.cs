@@ -3,7 +3,6 @@ using CityInfo.API.Attributes;
 using CityInfo.API.Contracts.Requests;
 using CityInfo.API.Domain;
 using CityInfo.API.Exceptions;
-using CityInfo.API.Logging;
 using CityInfo.API.Mappers;
 using CityInfo.API.Services;
 using CityInfo.API.Validators;

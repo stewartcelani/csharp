@@ -18,6 +18,8 @@ public class CityService : ICityService
         _cityRepository = cityRepository ?? throw new NullReferenceException(nameof(cityRepository));
     }
 
+    public async Task<bool> ExistsAsync(Guid id) => await _cityRepository.ExistsAsync(id);
+    
     public async Task<City?> GetByIdAsync(Guid id)
     {
         var cityEntity = await _cityRepository.GetAsync(id, _defaultIncludeProperties);
@@ -27,12 +29,10 @@ public class CityService : ICityService
     public async Task<IEnumerable<City>> GetAllAsync()
     {
         var cityEntities =
-            await _cityRepository.GetAsync(includeProperties: _defaultIncludeProperties);
+            await _cityRepository.GetAsync(null, _defaultIncludeProperties);
         return cityEntities.Select(x => x.ToCity());
     }
-
-    public async Task<bool> ExistsAsync(Guid id) => await _cityRepository.ExistsAsync(id);
-
+    
     public async Task<bool> CreateAsync(City city)
     {
         var existingCity = await _cityRepository.GetAsync(city.Id);
