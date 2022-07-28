@@ -35,8 +35,7 @@ public class CityService : ICityService
     
     public async Task<bool> CreateAsync(City city)
     {
-        var existingCity = await _cityRepository.GetAsync(city.Id);
-        if (existingCity is not null)
+        if (await _cityRepository.ExistsAsync(city.Id))
         {
             var message = $"A city with id {city.Id} already exists";
             throw new ValidationException(message, ValidationFailureHelper.Generate(nameof(City), message));
@@ -49,6 +48,12 @@ public class CityService : ICityService
 
     public async Task<bool> UpdateAsync(City city)
     {
+        if (!await _cityRepository.ExistsAsync(city.Id))
+        {
+            var message = $"Can not update city with id {city.Id} as it does not exist";
+            throw new ValidationException(message, ValidationFailureHelper.Generate(nameof(City), message));
+        }
+        
         var cityEntity = city.ToCityEntity();
         var updated = await _cityRepository.UpdateAsync(cityEntity);
         return updated;
@@ -56,6 +61,7 @@ public class CityService : ICityService
 
     public async Task<bool> DeleteAsync(City city)
     {
+        if (!await _cityRepository.ExistsAsync(city.Id)) return true;
         var cityEntity = city.ToCityEntity();
         var deleted = await _cityRepository.DeleteAsync(cityEntity);
         return deleted;

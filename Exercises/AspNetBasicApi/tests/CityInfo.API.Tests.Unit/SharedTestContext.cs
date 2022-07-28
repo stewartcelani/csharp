@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Bogus;
 using CityInfo.API.Domain;
 
 namespace CityInfo.API.Tests.Unit;
 
+[ExcludeFromCodeCoverage]
 public class SharedTestContext
 {
     public static readonly Faker<PointOfInterest> PointOfInterestGenerator = new Faker<PointOfInterest>()
