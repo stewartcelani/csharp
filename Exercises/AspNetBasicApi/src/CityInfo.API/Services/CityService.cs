@@ -59,11 +59,10 @@ public class CityService : ICityService
         return updated;
     }
 
-    public async Task<bool> DeleteAsync(City city)
+    public async Task<bool> DeleteAsync(Guid cityId)
     {
-        if (!await _cityRepository.ExistsAsync(city.Id)) return true;
-        var cityEntity = city.ToCityEntity();
-        var deleted = await _cityRepository.DeleteAsync(cityEntity);
+        if (!await _cityRepository.ExistsAsync(cityId)) return true;
+        var deleted = await _cityRepository.DeleteAsync(cityId);
         return deleted;
     }
 }

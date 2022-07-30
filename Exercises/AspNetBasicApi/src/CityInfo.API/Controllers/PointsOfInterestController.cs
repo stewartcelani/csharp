@@ -41,15 +41,9 @@ public class PointsOfInterestController : ControllerBase
     }
 
     // ReSharper disable once RouteTemplates.ActionRoutePrefixCanBeExtractedToControllerRoute
-    [HttpGet("{pointOfInterestId:guid}", Name = nameof(GetPointOfInterest))]
-    public async Task<IActionResult> GetPointOfInterest([FromRoute] Guid cityId,
-        [FromRoute] Guid pointOfInterestId)
+    [HttpGet("{pointOfInterestId:guid}")]
+    public async Task<IActionResult> GetPointOfInterest([FromRoute] Guid pointOfInterestId)
     {
-        if (!await _cityService.ExistsAsync(cityId)) // Should this be skipped and go straight to getByIdAsync?
-        {
-            return NotFound();
-        }
-
         var pointOfInterest = await _pointOfInterestService.GetByIdAsync(pointOfInterestId);
 
         if (pointOfInterest is null) return NotFound();
@@ -77,8 +71,8 @@ public class PointsOfInterestController : ControllerBase
 
         var pointOfInterestResponse = pointOfInterest.ToPointOfInterestResponse();
 
-        return CreatedAtRoute(nameof(GetPointOfInterest),
-            new { cityId, pointOfInterestId = pointOfInterestResponse.Id }, pointOfInterestResponse);
+        return CreatedAtAction(nameof(GetPointOfInterest),
+            new { pointOfInterestId = pointOfInterestResponse.Id }, pointOfInterestResponse);
     }
 
     // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
@@ -132,19 +126,15 @@ public class PointsOfInterestController : ControllerBase
     }
 
     [HttpDelete("{pointOfInterestId:guid}")]
-    public async Task<IActionResult> DeletePointOfInterest([FromRoute] Guid cityId, [FromRoute] Guid pointOfInterestId)
+    public async Task<IActionResult> DeletePointOfInterest([FromRoute] Guid pointOfInterestId)
     {
-        if (!await _cityService.ExistsAsync(cityId)) return NotFound();
+        if (!await _pointOfInterestService.ExistsAsync(pointOfInterestId)) return NotFound();
 
-        var pointOfInterest = await _pointOfInterestService.GetByIdAsync(pointOfInterestId);
-
-        if (pointOfInterest is null) return NotFound();
-
-        var deleted = await _pointOfInterestService.DeleteAsync(cityId, pointOfInterest);
+        var deleted = await _pointOfInterestService.DeleteAsync(pointOfInterestId);
 
         if (!deleted)
         {
-            var message = $"Error deleting point of interest: {JsonSerializer.Serialize(pointOfInterest)}";
+            var message = $"Error deleting point of interest with id {pointOfInterestId}";
             throw new ApiException(message, ValidationFailureHelper.Generate(nameof(PointOfInterest), message));
         }
 

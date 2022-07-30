@@ -6,92 +6,96 @@ using CityInfo.API.Domain;
 using CityInfo.API.Domain.Entities;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
+using CityInfo.API.Services;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
 using ValidationException = FluentValidation.ValidationException;
 
-namespace CityInfo.API.Tests.Unit.PointOfInterestService;
+namespace CityInfo.API.Tests.Unit.Services.PointOfInterestServiceTests;
 
 [ExcludeFromCodeCoverage]
-public class UpdatePointOfInterestTests
+public class CreatePointOfInterestTests
 {
-    private readonly Services.PointOfInterestService _sut;
-    private readonly IPointOfInterestRepository _pointOfInterestRepository = Substitute.For<IPointOfInterestRepository>();
-    private readonly ICityRepository _cityRepository = Substitute.For<ICityRepository>();
     private readonly Faker<City> _cityGenerator;
+    private readonly ICityRepository _cityRepository = Substitute.For<ICityRepository>();
     private readonly Faker<PointOfInterest> _pointOfInterestGenerator;
-    
-    public UpdatePointOfInterestTests()
+
+    private readonly IPointOfInterestRepository _pointOfInterestRepository =
+        Substitute.For<IPointOfInterestRepository>();
+
+    private readonly PointOfInterestService _sut;
+
+    public CreatePointOfInterestTests()
     {
-        _sut = new Services.PointOfInterestService(_pointOfInterestRepository, _cityRepository);
+        _sut = new PointOfInterestService(_pointOfInterestRepository, _cityRepository);
         _cityGenerator = SharedTestContext.CityGenerator;
         _pointOfInterestGenerator = SharedTestContext.PointOfInterestGenerator;
     }
-    
+
     [Fact]
-    public async Task UpdateAsync_ShouldUpdatePointOfInterest_PointOfInterestIsValid()
+    public async Task CreateAsync_ShouldCreatePointOfInterest_WhenPointOfInterestIsValid()
     {
         // Arrange
         var city = _cityGenerator.Generate();
         var pointOfInterest = city.PointsOfInterest.First();
         var pointOfInterestEntity = pointOfInterest.ToPointOfInterestEntity(city.Id);
         _cityRepository.ExistsAsync(city.Id).Returns(true);
-        _pointOfInterestRepository.ExistsAsync(pointOfInterest.Id).Returns(true);
-        _pointOfInterestRepository.UpdateAsync(Arg.Do<PointOfInterestEntity>(x => pointOfInterestEntity = x)).Returns(true);
+        _pointOfInterestRepository.CreateAsync(Arg.Do<PointOfInterestEntity>(x => pointOfInterestEntity = x))
+            .Returns(true);
 
         // Act
-        var result = await _sut.UpdateAsync(city.Id, pointOfInterest);
+        var result = await _sut.CreateAsync(city.Id, pointOfInterest);
 
         // Assert
         pointOfInterestEntity.Should().BeEquivalentTo(pointOfInterest);
         result.Should().BeTrue();
     }
-    
+
     [Fact]
-    public async Task UpdateAsync_ShouldThrowValidationException_WhenCityDoesNotExist()
+    public async Task CreateAsync_ShouldThrowValidationException_WhenCityDoesNotExist()
     {
         // Arrange
         var city = _cityGenerator.Generate();
-        var pointOfInterest = city.PointsOfInterest.First();
         _cityRepository.ExistsAsync(city.Id).Returns(false);
 
         // Act
-        var action = async () => await _sut.UpdateAsync(city.Id, pointOfInterest);
+        var action = async () => await _sut.CreateAsync(city.Id, city.PointsOfInterest.First());
 
         // Assert
         await action.Should().ThrowAsync<ValidationException>().WithMessage($"City with id {city.Id} does not exist");
     }
-    
+
     [Fact]
-    public async Task UpdateAsync_ShouldThrowValidationException_WhenPointOfInterestDoesNotExist()
+    public async Task CreateAsync_ShouldThrowValidationException_WhenPointOfInterestAlreadyExists()
     {
         // Arrange
         var city = _cityGenerator.Generate();
         var pointOfInterest = city.PointsOfInterest.First();
         _cityRepository.ExistsAsync(city.Id).Returns(true);
-        _pointOfInterestRepository.ExistsAsync(pointOfInterest.Id).Returns(false);
+        _pointOfInterestRepository.ExistsAsync(pointOfInterest.Id).Returns(true);
 
         // Act
-        var action = async () => await _sut.UpdateAsync(city.Id, pointOfInterest);
+        var action = async () => await _sut.CreateAsync(city.Id, pointOfInterest);
 
         // Assert
-        await action.Should().ThrowAsync<ValidationException>().WithMessage($"Can not update point of interest with id {pointOfInterest.Id} as it does not exist");
+        await action.Should().ThrowAsync<ValidationException>()
+            .WithMessage($"A point of interest with id {pointOfInterest.Id} already exists");
     }
-    
+
     [Fact]
-    public async Task UpdateAsync_ShouldReturnFalse_WhenRepositoryCouldNotChangeDatabase()
+    public async Task CreateAsync_ShouldReturnFalse_WhenRepositoryCouldNotChangeDatabase()
     {
         // Arrange
         var city = _cityGenerator.Generate();
         var pointOfInterest = city.PointsOfInterest.First();
         var pointOfInterestEntity = pointOfInterest.ToPointOfInterestEntity(city.Id);
         _cityRepository.ExistsAsync(city.Id).Returns(true);
-        _pointOfInterestRepository.ExistsAsync(pointOfInterest.Id).Returns(true);
-        _pointOfInterestRepository.UpdateAsync(Arg.Do<PointOfInterestEntity>(x => pointOfInterestEntity = x)).Returns(false);
+        _pointOfInterestRepository.CreateAsync(Arg.Do<PointOfInterestEntity>(x => pointOfInterestEntity = x))
+            .Returns(false);
 
         // Act
-        var result = await _sut.UpdateAsync(city.Id, pointOfInterest);
+        var result = await _sut.CreateAsync(city.Id, pointOfInterest);
 
         // Assert
         pointOfInterestEntity.Should().BeEquivalentTo(pointOfInterest);

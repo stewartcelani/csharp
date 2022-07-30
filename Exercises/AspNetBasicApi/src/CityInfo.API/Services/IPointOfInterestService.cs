@@ -9,5 +9,5 @@ public interface IPointOfInterestService
     Task<bool> ExistsAsync(Guid id);
     Task<bool> CreateAsync(Guid cityId, PointOfInterest pointOfInterest);
     Task<bool> UpdateAsync(Guid cityId, PointOfInterest pointOfInterest);
-    Task<bool> DeleteAsync(Guid cityId, PointOfInterest pointOfInterest);
+    Task<bool> DeleteAsync(Guid pointOfInterestId);
 }

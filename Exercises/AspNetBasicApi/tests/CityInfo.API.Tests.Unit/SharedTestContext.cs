@@ -12,7 +12,7 @@ public class SharedTestContext
         .RuleFor(x => x.Id, Guid.NewGuid())
         .RuleFor(x => x.Name, faker => faker.Lorem.Word())
         .RuleFor(x => x.Description, faker => faker.Lorem.Sentences(2));
-    
+
     public static readonly Faker<City> CityGenerator = new Faker<City>()
         .RuleFor(x => x.Id, Guid.NewGuid())
         .RuleFor(x => x.Name, faker => faker.Address.City())

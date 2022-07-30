@@ -9,5 +9,5 @@ public interface ICityService
     Task<bool> ExistsAsync(Guid id);
     Task<bool> CreateAsync(City city);
     Task<bool> UpdateAsync(City city);
-    Task<bool> DeleteAsync(City city);
+    Task<bool> DeleteAsync(Guid cityId);
 }

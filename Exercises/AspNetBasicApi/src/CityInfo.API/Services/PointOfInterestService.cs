@@ -65,14 +65,11 @@ public class PointOfInterestService : IPointOfInterestService
         return updated;
     }
 
-    public async Task<bool> DeleteAsync(Guid cityId, PointOfInterest pointOfInterest)
+    public async Task<bool> DeleteAsync(Guid pointOfInterestId)
     {
-        await CheckAndThrowValidationExceptionIfCityDoesNotExist(cityId);
-        
-        if (!await _pointOfInterestRepository.ExistsAsync(pointOfInterest.Id)) return true;
+        if (!await _pointOfInterestRepository.ExistsAsync(pointOfInterestId)) return true;
 
-        var pointOfInterestEntity = pointOfInterest.ToPointOfInterestEntity(cityId);
-        var deleted = await _pointOfInterestRepository.DeleteAsync(pointOfInterestEntity);
+        var deleted = await _pointOfInterestRepository.DeleteAsync(pointOfInterestId);
         return deleted;
     }
     

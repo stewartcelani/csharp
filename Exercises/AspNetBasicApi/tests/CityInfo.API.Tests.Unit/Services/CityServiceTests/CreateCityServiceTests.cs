@@ -1,29 +1,28 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Bogus;
 using CityInfo.API.Domain;
 using CityInfo.API.Domain.Entities;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
+using CityInfo.API.Services;
 using FluentAssertions;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
 using Xunit;
 using ValidationException = FluentValidation.ValidationException;
 
-namespace CityInfo.API.Tests.Unit.CityService;
+namespace CityInfo.API.Tests.Unit.Services.CityServiceTests;
 
 [ExcludeFromCodeCoverage]
 public class CreateCityServiceTests
 {
-    private readonly Services.CityService _sut;
-    private readonly ICityRepository _cityRepository = Substitute.For<ICityRepository>();
     private readonly Faker<City> _cityGenerator;
+    private readonly ICityRepository _cityRepository = Substitute.For<ICityRepository>();
+    private readonly CityService _sut;
 
     public CreateCityServiceTests()
     {
-        _sut = new Services.CityService(_cityRepository);
+        _sut = new CityService(_cityRepository);
         _cityGenerator = SharedTestContext.CityGenerator;
     }
 
@@ -57,7 +56,7 @@ public class CreateCityServiceTests
         // Assert
         await action.Should().ThrowAsync<ValidationException>().WithMessage($"A city with id {city.Id} already exists");
     }
-    
+
     [Fact]
     public async Task CreateAsync_ShouldReturnFalse_WhenRepositoryCouldNotChangeDatabase()
     {
@@ -74,5 +73,4 @@ public class CreateCityServiceTests
         cityEntity.Should().BeEquivalentTo(city);
         result.Should().BeFalse();
     }
-    
 }

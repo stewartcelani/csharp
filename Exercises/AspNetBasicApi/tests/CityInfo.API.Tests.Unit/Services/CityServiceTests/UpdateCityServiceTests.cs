@@ -5,68 +5,70 @@ using CityInfo.API.Domain;
 using CityInfo.API.Domain.Entities;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
+using CityInfo.API.Services;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
+using ValidationException = FluentValidation.ValidationException;
 
-namespace CityInfo.API.Tests.Unit.CityService;
+namespace CityInfo.API.Tests.Unit.Services.CityServiceTests;
 
 [ExcludeFromCodeCoverage]
-public class DeleteCityServiceTests
+public class UpdateCityServiceTests
 {
-    private readonly Services.CityService _sut;
-    private readonly ICityRepository _cityRepository = Substitute.For<ICityRepository>();
     private readonly Faker<City> _cityGenerator;
+    private readonly ICityRepository _cityRepository = Substitute.For<ICityRepository>();
+    private readonly CityService _sut;
 
-    public DeleteCityServiceTests()
+    public UpdateCityServiceTests()
     {
-        _sut = new Services.CityService(_cityRepository);
+        _sut = new CityService(_cityRepository);
         _cityGenerator = SharedTestContext.CityGenerator;
     }
 
     [Fact]
-    public async Task DeleteAsync_ShouldDeleteCity_WhenCityExists()
+    public async Task UpdateAsync_ShouldUpdateCity_WhenCityIsValid()
     {
         // Arrange
         var city = _cityGenerator.Generate();
         var cityEntity = city.ToCityEntity();
         _cityRepository.ExistsAsync(city.Id).Returns(true);
-        _cityRepository.DeleteAsync(Arg.Do<CityEntity>(x => cityEntity = x)).Returns(true);
+        _cityRepository.UpdateAsync(Arg.Do<CityEntity>(x => cityEntity = x)).Returns(true);
 
         // Act
-        var result = await _sut.DeleteAsync(city);
+        var result = await _sut.UpdateAsync(city);
 
         // Assert
         cityEntity.Should().BeEquivalentTo(city);
         result.Should().BeTrue();
     }
-    
+
     [Fact]
-    public async Task DeleteAsync_ShouldReturnTrue_FromGuardClause_WhenCityDoesNotExist()
+    public async Task UpdateAsync_ShouldThrowValidationException_WhenCityDoesNotExist()
     {
         // Arrange
         var city = _cityGenerator.Generate();
         _cityRepository.ExistsAsync(city.Id).Returns(false);
-        _cityRepository.DeleteAsync(Arg.Any<CityEntity>()).Returns(false);
-        
+
         // Act
-        var result = await _sut.DeleteAsync(city);
+        var action = async () => await _sut.UpdateAsync(city);
 
         // Assert
-        result.Should().BeTrue();
+        await action.Should().ThrowAsync<ValidationException>()
+            .WithMessage($"Can not update city with id {city.Id} as it does not exist");
     }
-    
+
     [Fact]
-    public async Task DeleteAsync_ShouldReturnFalse_WhenRepositoryCouldNotChangeDatabase()
+    public async Task UpdateAsync_ShouldReturnFalse_WhenRepositoryCouldNotChangeDatabase()
     {
         // Arrange
         var city = _cityGenerator.Generate();
         var cityEntity = city.ToCityEntity();
         _cityRepository.ExistsAsync(city.Id).Returns(true);
-        _cityRepository.DeleteAsync(Arg.Do<CityEntity>(x => cityEntity = x)).Returns(false);
-        
+        _cityRepository.UpdateAsync(Arg.Do<CityEntity>(x => cityEntity = x)).Returns(false);
+
         // Act
-        var result = await _sut.DeleteAsync(city);
+        var result = await _sut.UpdateAsync(city);
 
         // Assert
         cityEntity.Should().BeEquivalentTo(city);

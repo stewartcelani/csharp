@@ -15,6 +15,6 @@ public interface IRepository<TEntity, in TKey>
     Task<bool> CreateAsync(IEnumerable<TEntity> entities);
     Task<bool> UpdateAsync(TEntity entity);
     Task<bool> UpdateAsync(IEnumerable<TEntity> entities);
-    Task<bool> DeleteAsync(TEntity entity);
-    Task<bool> DeleteAsync(IEnumerable<TEntity> entities);
+    Task<bool> DeleteAsync(TKey id);
+    Task<bool> DeleteAsync(IEnumerable<TKey> ids);
 }

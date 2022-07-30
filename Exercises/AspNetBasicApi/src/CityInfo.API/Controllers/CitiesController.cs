@@ -32,7 +32,7 @@ public class CitiesController : ControllerBase
         return Ok(citiesResponse);
     }
 
-    [HttpGet("{cityId:guid}", Name = nameof(GetCity))]
+    [HttpGet("{cityId:guid}")]
     public async Task<IActionResult> GetCity([FromRoute] Guid cityId)
     {
         var city = await _cityService.GetByIdAsync(cityId);
@@ -59,15 +59,14 @@ public class CitiesController : ControllerBase
 
         var cityResponse = city.ToCityResponse();
 
-        return CreatedAtRoute(nameof(GetCity),
-            new { cityId = city.Id }, cityResponse);
+        return CreatedAtAction(nameof(GetCity),
+            new { cityId = cityResponse.Id }, cityResponse);
     }
 
     [HttpPut("{cityId:guid}")]
     public async Task<IActionResult> UpdateCity([FromMultiSource] UpdateCityRequest request)
     {
-        var city = await _cityService.GetByIdAsync(request.Id);
-        if (city is null) return NotFound();
+        if (!await _cityService.ExistsAsync(request.Id)) return NotFound();
 
         var updatedCity = request.ToCity();
         var updated = await _cityService.UpdateAsync(updatedCity);
@@ -86,16 +85,14 @@ public class CitiesController : ControllerBase
     [HttpDelete("{cityId:guid}")]
     public async Task<IActionResult> DeleteCity([FromRoute] Guid cityId)
     {
-        var city = await _cityService.GetByIdAsync(cityId);
+        if (!await _cityService.ExistsAsync(cityId)) return NotFound();
 
-        if (city is null) return NotFound();
-
-        var deleted = await _cityService.DeleteAsync(city);
+        var deleted = await _cityService.DeleteAsync(cityId);
 
         if (!deleted)
         {
-            var message = $"Error deleting city: {JsonSerializer.Serialize(city)}";
-            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(city), message));
+            var message = $"Error deleting city with id {cityId}";
+            throw new ApiException(message, ValidationFailureHelper.Generate(nameof(City), message));
         }
 
         return NoContent();

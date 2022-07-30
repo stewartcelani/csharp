@@ -9,23 +9,24 @@ using CityInfo.API.Domain;
 using CityInfo.API.Domain.Entities;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
+using CityInfo.API.Services;
 using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 
-namespace CityInfo.API.Tests.Unit.CityService;
+namespace CityInfo.API.Tests.Unit.Services.CityServiceTests;
 
 [ExcludeFromCodeCoverage]
 public class GetCityServiceTests
 {
-    private readonly Services.CityService _sut;
-    private readonly ICityRepository _cityRepository = Substitute.For<ICityRepository>();
     private readonly Faker<City> _cityGenerator;
+    private readonly ICityRepository _cityRepository = Substitute.For<ICityRepository>();
+    private readonly CityService _sut;
 
     public GetCityServiceTests()
     {
-        _sut = new Services.CityService(_cityRepository);
+        _sut = new CityService(_cityRepository);
         _cityGenerator = SharedTestContext.CityGenerator;
     }
 
@@ -41,7 +42,7 @@ public class GetCityServiceTests
         // Assert
         result.Should().BeTrue();
     }
-    
+
     [Fact]
     public async Task ExistsAsync_ShouldReturnFalse_WhenCityDoesNotExist()
     {
@@ -69,7 +70,7 @@ public class GetCityServiceTests
         // Assert
         result.Should().BeEquivalentTo(city);
     }
-    
+
     [Fact]
     public async Task GetByIdAsync_ShouldReturnNull_WhenCityDoesNotExist()
     {
@@ -88,7 +89,8 @@ public class GetCityServiceTests
     {
         // Arrange
         var cities = _cityGenerator.Generate(2);
-        _cityRepository.GetAsync(Arg.Any<Expression<Func<CityEntity, bool>>?>(), Arg.Any<IEnumerable<string>?>()).Returns(cities.Select(x => x.ToCityEntity()));
+        _cityRepository.GetAsync(Arg.Any<Expression<Func<CityEntity, bool>>?>(), Arg.Any<IEnumerable<string>?>())
+            .Returns(cities.Select(x => x.ToCityEntity()));
 
         // Act
         var result = await _sut.GetAllAsync();

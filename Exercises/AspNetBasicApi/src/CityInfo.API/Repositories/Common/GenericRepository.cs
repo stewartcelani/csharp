@@ -70,14 +70,25 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
         return await DbContext.SaveChangesAsync() > 0;
     }
 
-    public virtual async Task<bool> DeleteAsync(TEntity entity)
+    public virtual async Task<bool> DeleteAsync(TKey id)
     {
+        var entity = await GetAsync(id);
+        if (entity is null) return false;
         DbSet.Remove(entity);
         return await DbContext.SaveChangesAsync() > 0;
     }
 
-    public virtual async Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
+    public virtual async Task<bool> DeleteAsync(IEnumerable<TKey> ids)
     {
+        var idList = ids.ToList();
+        if (idList.Count == 0) return false;
+        var entities = new List<TEntity>();
+        foreach (var id in idList)
+        {
+            var entity = await GetAsync(id);
+            if (entity is null) continue;
+            entities.Add(entity);
+        }
         DbSet.RemoveRange(entities);
         return await DbContext.SaveChangesAsync() > 0;
     }
