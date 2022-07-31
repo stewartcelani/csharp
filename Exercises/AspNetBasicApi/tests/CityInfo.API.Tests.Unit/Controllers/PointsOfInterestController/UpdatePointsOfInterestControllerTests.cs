@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,154 +19,20 @@ using NSubstitute.ReturnsExtensions;
 using Xunit;
 using ValidationException = FluentValidation.ValidationException;
 
-namespace CityInfo.API.Tests.Unit.Controllers;
+namespace CityInfo.API.Tests.Unit.Controllers.PointsOfInterestControllerTests;
 
 [ExcludeFromCodeCoverage]
-public class PointsOfInterestControllerTests
+public class UpdatePointsOfInterestControllerTests
 {
     private readonly Faker<City> _cityGenerator;
     private readonly ICityService _cityService = Substitute.For<ICityService>();
-    private readonly Faker<PointOfInterest> _pointOfInterestGenerator;
     private readonly IPointOfInterestService _pointOfInterestService = Substitute.For<IPointOfInterestService>();
     private readonly PointsOfInterestController _sut;
 
-    public PointsOfInterestControllerTests()
+    public UpdatePointsOfInterestControllerTests()
     {
         _sut = new PointsOfInterestController(_pointOfInterestService, _cityService);
         _cityGenerator = SharedTestContext.CityGenerator;
-        _pointOfInterestGenerator = SharedTestContext.PointOfInterestGenerator;
-    }
-
-    [Fact]
-    public async Task GetPointsOfInterest_ShouldReturnEmptyList_WhenCityHasNoPointsOfInterest()
-    {
-        // Arrange
-        var city = _cityGenerator.Generate();
-        _cityService.ExistsAsync(city.Id).Returns(true);
-        _pointOfInterestService.GetAllAsync(city.Id).Returns(Enumerable.Empty<PointOfInterest>());
-
-        // Act
-        var result = (OkObjectResult)await _sut.GetPointsOfInterest(city.Id);
-
-        // Assert
-        result.StatusCode.Should().Be(200);
-        result.Value.As<IEnumerable<PointOfInterestResponse>>().Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task GetPointsOfInterest_ShouldPointsOfInterest_WhenCityHasPointsOfInterest()
-    {
-        // Arrange
-        var city = _cityGenerator.Generate();
-        _cityService.ExistsAsync(city.Id).Returns(true);
-        _pointOfInterestService.GetAllAsync(city.Id).Returns(city.PointsOfInterest);
-        var expectedPointOfInterestResponse = city.PointsOfInterest.Select(x => x.ToPointOfInterestResponse());
-
-        // Act
-        var result = (OkObjectResult)await _sut.GetPointsOfInterest(city.Id);
-
-        // Assert
-        result.StatusCode.Should().Be(200);
-        result.Value.As<IEnumerable<PointOfInterestResponse>>().Should()
-            .BeEquivalentTo(expectedPointOfInterestResponse);
-        result.Value.As<IEnumerable<PointOfInterestResponse>>().Should().HaveCount(city.PointsOfInterest.Count);
-    }
-
-    [Fact]
-    public async Task GetPointOfInterest_ShouldReturnPointOfInterest_WhenPointOfInterestExists()
-    {
-        // Arrange
-        var city = _cityGenerator.Generate();
-        var pointOfInterest = city.PointsOfInterest.First();
-        _pointOfInterestService.GetByIdAsync(pointOfInterest.Id).Returns(pointOfInterest);
-        var pointOfInterestResponse = pointOfInterest.ToPointOfInterestResponse();
-
-        // Act
-        var result = (OkObjectResult)await _sut.GetPointOfInterest(pointOfInterest.Id);
-
-        // Assert
-        result.StatusCode.Should().Be(200);
-        result.Value.Should().BeEquivalentTo(pointOfInterestResponse);
-    }
-
-    [Fact]
-    public async Task GetPointOfInterest_ShouldReturnNotFound_WhenPointOfInterestDoesNotExist()
-    {
-        // Arrange
-        _pointOfInterestService.GetByIdAsync(Arg.Any<Guid>()).ReturnsNull();
-
-        // Act
-        var result = (NotFoundResult)await _sut.GetPointOfInterest(Guid.NewGuid());
-
-        // Assert
-        result.StatusCode.Should().Be(404);
-    }
-
-    [Fact]
-    public async Task
-        CreatePointOfInterest_ShouldCreatePointOfInterest_WhenCreatePointOfInterestRequestIsValid()
-    {
-        // Arrange
-        var existingCityId = Guid.NewGuid();
-        var createPointOfInterestRequest = new CreatePointOfInterestRequest
-        {
-            Name = "Point Of Interest Name",
-            Description = "Point Of Interest description."
-        };
-        var pointOfInterest = createPointOfInterestRequest.ToPointOfInterest();
-        _cityService.ExistsAsync(existingCityId).Returns(true);
-        _pointOfInterestService.CreateAsync(existingCityId, Arg.Do<PointOfInterest>(x => pointOfInterest = x))
-            .Returns(true);
-
-        // Act
-        var result =
-            (CreatedAtActionResult)await _sut.CreatePointOfInterest(existingCityId, createPointOfInterestRequest);
-
-        // Assert
-        var expectedPointOfInterestResponse = pointOfInterest.ToPointOfInterestResponse();
-        result.StatusCode.Should().Be(201);
-        result.Value.As<PointOfInterestResponse>().Should().BeEquivalentTo(expectedPointOfInterestResponse);
-        result.RouteValues!["pointOfInterestId"].Should().BeEquivalentTo(pointOfInterest.Id);
-    }
-
-    [Fact]
-    public async Task CreatePointOfInterest_ShouldReturnNotFound_WhenCityDoesNotExist()
-    {
-        // Arrange
-        var existingCityId = Guid.NewGuid();
-        var createPointOfInterestRequest = new CreatePointOfInterestRequest
-        {
-            Name = "Point Of Interest Name",
-            Description = "Point Of Interest description."
-        };
-        _cityService.ExistsAsync(existingCityId).Returns(false);
-
-        // Act
-        var result = (NotFoundResult)await _sut.CreatePointOfInterest(existingCityId, createPointOfInterestRequest);
-
-        // Assert
-        result.StatusCode.Should().Be(404);
-    }
-
-    [Fact]
-    public async Task CreatePointOfInterest_ShouldThrowApiException_WhenCreatePointOfInterestRequestIsInvalid()
-    {
-        // Arrange
-        var existingCityId = Guid.NewGuid();
-        var createPointOfInterestRequest = new CreatePointOfInterestRequest
-        {
-            Name = "Point Of Interest Name",
-            Description = "Point Of Interest description."
-        };
-        _cityService.ExistsAsync(existingCityId).Returns(true);
-        _pointOfInterestService.CreateAsync(existingCityId, createPointOfInterestRequest.ToPointOfInterest())
-            .Returns(false);
-
-        // Act
-        var action = async () => await _sut.CreatePointOfInterest(existingCityId, createPointOfInterestRequest);
-
-        // Assert
-        await action.Should().ThrowAsync<ApiException>().WithMessage("Error creating point of interest*");
     }
 
     [Fact]
@@ -397,49 +262,5 @@ public class PointsOfInterestControllerTests
 
         // Assert
         await action.Should().ThrowAsync<ApiException>().WithMessage("Error updating point of interest*");
-    }
-
-    [Fact]
-    public async Task DeletePointOfInterest_ShouldDeletePointOfInterest_WhenPointOfInterestExists()
-    {
-        // Arrange
-        var id = Guid.NewGuid();
-        _pointOfInterestService.ExistsAsync(id).Returns(true);
-        _pointOfInterestService.DeleteAsync(id).Returns(true);
-
-        // Act
-        var result = (NoContentResult)await _sut.DeletePointOfInterest(id);
-
-        // Assert
-        result.StatusCode.Should().Be(204);
-    }
-
-    [Fact]
-    public async Task DeletePointOfInterest_ShouldThrowApiException_WhenThereIsAnErrorDeletingPointOfInterest()
-    {
-        // Arrange
-        var id = Guid.NewGuid();
-        _pointOfInterestService.ExistsAsync(id).Returns(true);
-        _pointOfInterestService.DeleteAsync(id).Returns(false);
-
-        // Act
-        var action = async () => await _sut.DeletePointOfInterest(id);
-
-        // Assert
-        await action.Should().ThrowAsync<ApiException>().WithMessage($"Error deleting point of interest with id {id}");
-    }
-
-    [Fact]
-    public async Task DeletePointOfInterest_ReturnNotFound_WhenPointOfInterestDoesNotExist()
-    {
-        // Arrange
-        var id = Guid.NewGuid();
-        _pointOfInterestService.ExistsAsync(id).Returns(false);
-
-        // Act
-        var result = (NotFoundResult)await _sut.DeletePointOfInterest(id);
-
-        // Assert
-        result.StatusCode.Should().Be(404);
     }
 }

@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using CityInfo.API.Domain.Settings;
 using CityInfo.API.Logging;
 
 namespace CityInfo.API.Services;
 
+[ExcludeFromCodeCoverage]
 public class LocalMailService : IMailService
 {
     private readonly string _mailFrom;

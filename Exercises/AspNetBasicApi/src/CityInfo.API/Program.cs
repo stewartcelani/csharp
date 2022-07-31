@@ -10,7 +10,11 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = Directory.GetCurrentDirectory()
+});
 
 var config = builder.Configuration;
 config.AddEnvironmentVariables("CityInfoApi_");
@@ -59,6 +63,7 @@ builder.Services.AddTransient<IMailService, CloudMailService>();
 
 var app = builder.Build();
 
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<ApiExceptionMiddleware>();
 app.UseMiddleware<ValidationExceptionMiddleware>();
@@ -76,6 +81,5 @@ app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 await app.RunPendingMigrationsAsync();
 await app.SeedDataAsync();
-
 
 app.Run();

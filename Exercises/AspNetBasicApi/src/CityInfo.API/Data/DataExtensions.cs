@@ -1,4 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
 using CityInfo.API.Domain;
+using CityInfo.API.Domain.Settings;
 using CityInfo.API.Mappers;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +17,14 @@ public static class DataExtensions
             await dataContext.Database.MigrateAsync();
     }
 
+    [ExcludeFromCodeCoverage]
     public static async Task SeedDataAsync(this WebApplication app)
     {
         using var serviceScope = app.Services.CreateScope();
         var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        
+        var databaseSettings = serviceScope.ServiceProvider.GetRequiredService<DatabaseSettings>();
+        if (!databaseSettings.SeedData) return;
 
         await dbContext.Database.EnsureCreatedAsync();
         if (dbContext.City.Any()) return;

@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0E6DAE20
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityInfo.API.Tests.Unit", "tests\CityInfo.API.Tests.Unit\CityInfo.API.Tests.Unit.csproj", "{D2F61D67-6AB0-482C-9788-38830DB7BB33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityInfo.API.Tests.Integration", "tests\CityInfo.API.Tests.Integration\CityInfo.API.Tests.Integration.csproj", "{DDA04294-19F6-4D64-B467-38815319B7AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,6 +18,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{60DF5D62-61A8-4393-A013-461EF3363FF3} = {491594B5-12F5-4068-8C6F-FC7EE090449B}
 		{D2F61D67-6AB0-482C-9788-38830DB7BB33} = {0E6DAE20-A57D-4455-AEB9-6D6E3FE312F3}
+		{DDA04294-19F6-4D64-B467-38815319B7AA} = {0E6DAE20-A57D-4455-AEB9-6D6E3FE312F3}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{60DF5D62-61A8-4393-A013-461EF3363FF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -26,5 +29,9 @@ Global
 		{D2F61D67-6AB0-482C-9788-38830DB7BB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2F61D67-6AB0-482C-9788-38830DB7BB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2F61D67-6AB0-482C-9788-38830DB7BB33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDA04294-19F6-4D64-B467-38815319B7AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDA04294-19F6-4D64-B467-38815319B7AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDA04294-19F6-4D64-B467-38815319B7AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDA04294-19F6-4D64-B467-38815319B7AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

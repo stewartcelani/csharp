@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+
+  cityinfo-test-api:
+    build: ../../src/CityInfo.API
+    ports:
+      - "7780:443"
+      - "7779:80"
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Password1!
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Environment=Production
+      - ASPNETCORE_HTTPS_PORT=7780
+      - CityInfoApi_DatabaseSettings__ConnectionString=Host=cityinfo-test-db;Username=testuser;Password=testpassword;Database=testdb;Port=5432;
+      - CityInfoApi_DatabaseSettings__EnableSensitiveDataLogging=false
+      - CityInfoApi_DatabaseSettings__SeedData=false
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    depends_on:
+      cityinfo-test-db:
+        condition: service_healthy
+  
+  cityinfo-test-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=testpassword
+      - POSTGRES_DB=testdb
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+    ports:
+      - '5439:5432'

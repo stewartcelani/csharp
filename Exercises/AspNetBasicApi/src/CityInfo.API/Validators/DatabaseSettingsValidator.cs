@@ -9,5 +9,6 @@ public class DatabaseSettingsValidator : AbstractValidator<DatabaseSettings>
     {
         RuleFor(x => x.ConnectionString).NotEmpty();
         RuleFor(x => x.EnableSensitiveDataLogging).NotNull();
+        RuleFor(x => x.SeedData).NotNull();
     }
 }

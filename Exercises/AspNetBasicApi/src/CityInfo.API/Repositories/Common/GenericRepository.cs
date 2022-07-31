@@ -44,34 +44,39 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
         return await query.AsNoTracking().ToListAsync();
     }
 
-    public virtual async Task<bool> ExistsAsync(TKey id) => await DbSet.AnyAsync(x => x.Id.Equals(id));
+    public virtual async Task<bool> ExistsAsync(TKey id) => await DbSet.AsNoTracking().AnyAsync(x => x.Id.Equals(id));
 
     public virtual async Task<bool> CreateAsync(TEntity entity)
     {
+        DbContext.ChangeTracker.Clear();
         DbSet.Add(entity);
         return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> CreateAsync(IEnumerable<TEntity> entities)
     {
+        DbContext.ChangeTracker.Clear();
         DbSet.AddRange(entities);
         return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> UpdateAsync(TEntity entity)
     {
+        DbContext.ChangeTracker.Clear();
         DbSet.Update(entity);
         return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> UpdateAsync(IEnumerable<TEntity> entities)
     {
+        DbContext.ChangeTracker.Clear();
         DbSet.UpdateRange(entities);
         return await DbContext.SaveChangesAsync() > 0;
     }
 
     public virtual async Task<bool> DeleteAsync(TKey id)
     {
+        DbContext.ChangeTracker.Clear();
         var entity = await GetAsync(id);
         if (entity is null) return false;
         DbSet.Remove(entity);
@@ -80,6 +85,7 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
 
     public virtual async Task<bool> DeleteAsync(IEnumerable<TKey> ids)
     {
+        DbContext.ChangeTracker.Clear();
         var idList = ids.ToList();
         if (idList.Count == 0) return false;
         var entities = new List<TEntity>();

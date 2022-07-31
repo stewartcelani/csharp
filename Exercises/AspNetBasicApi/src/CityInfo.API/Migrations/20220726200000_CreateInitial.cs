@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace CityInfo.API.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public partial class CreateInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
