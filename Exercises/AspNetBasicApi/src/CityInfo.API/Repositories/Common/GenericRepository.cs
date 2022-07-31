@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using CityInfo.API.Data;
 using CityInfo.API.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +26,11 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
     public virtual async Task<TEntity?> GetAsync(TKey id, IEnumerable<string?> includeProperties = null)
     {
         IQueryable<TEntity> query = DbSet;
-        
+
         if (includeProperties is not null)
             foreach (var property in includeProperties)
                 query = query.Include(property.Trim());
-        
+
         return await query.AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
     }
 
@@ -44,7 +48,10 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
         return await query.AsNoTracking().ToListAsync();
     }
 
-    public virtual async Task<bool> ExistsAsync(TKey id) => await DbSet.AsNoTracking().AnyAsync(x => x.Id.Equals(id));
+    public virtual async Task<bool> ExistsAsync(TKey id)
+    {
+        return await DbSet.AsNoTracking().AnyAsync(x => x.Id.Equals(id));
+    }
 
     public virtual async Task<bool> CreateAsync(TEntity entity)
     {
@@ -95,6 +102,7 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
             if (entity is null) continue;
             entities.Add(entity);
         }
+
         DbSet.RemoveRange(entities);
         return await DbContext.SaveChangesAsync() > 0;
     }

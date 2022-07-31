@@ -1,4 +1,8 @@
-﻿using CityInfo.API.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
 using CityInfo.API.Validators.Helpers;
@@ -8,8 +12,8 @@ namespace CityInfo.API.Services;
 
 public class PointOfInterestService : IPointOfInterestService
 {
-    private readonly IPointOfInterestRepository _pointOfInterestRepository;
     private readonly ICityRepository _cityRepository;
+    private readonly IPointOfInterestRepository _pointOfInterestRepository;
 
     public PointOfInterestService(IPointOfInterestRepository pointOfInterestRepository, ICityRepository cityRepository)
     {
@@ -18,8 +22,11 @@ public class PointOfInterestService : IPointOfInterestService
         _cityRepository = cityRepository ?? throw new NullReferenceException(nameof(cityRepository));
     }
 
-    public async Task<bool> ExistsAsync(Guid id) => await _pointOfInterestRepository.ExistsAsync(id);
-    
+    public async Task<bool> ExistsAsync(Guid id)
+    {
+        return await _pointOfInterestRepository.ExistsAsync(id);
+    }
+
     public async Task<PointOfInterest?> GetByIdAsync(Guid id)
     {
         var pointOfInterestEntity = await _pointOfInterestRepository.GetAsync(id);
@@ -29,7 +36,7 @@ public class PointOfInterestService : IPointOfInterestService
     public async Task<IEnumerable<PointOfInterest>> GetAllAsync(Guid cityId)
     {
         await CheckAndThrowValidationExceptionIfCityDoesNotExist(cityId);
-        
+
         var pointOfInterestEntities =
             await _pointOfInterestRepository.GetAsync(x => x.CityId == cityId);
         return pointOfInterestEntities.Select(x => x.ToPointOfInterest());
@@ -38,7 +45,7 @@ public class PointOfInterestService : IPointOfInterestService
     public async Task<bool> CreateAsync(Guid cityId, PointOfInterest pointOfInterest)
     {
         await CheckAndThrowValidationExceptionIfCityDoesNotExist(cityId);
-        
+
         if (await _pointOfInterestRepository.ExistsAsync(pointOfInterest.Id))
         {
             var message = $"A point of interest with id {pointOfInterest.Id} already exists";
@@ -53,7 +60,7 @@ public class PointOfInterestService : IPointOfInterestService
     public async Task<bool> UpdateAsync(Guid cityId, PointOfInterest pointOfInterest)
     {
         await CheckAndThrowValidationExceptionIfCityDoesNotExist(cityId);
-        
+
         if (!await _pointOfInterestRepository.ExistsAsync(pointOfInterest.Id))
         {
             var message = $"Can not update point of interest with id {pointOfInterest.Id} as it does not exist";
@@ -72,7 +79,7 @@ public class PointOfInterestService : IPointOfInterestService
         var deleted = await _pointOfInterestRepository.DeleteAsync(pointOfInterestId);
         return deleted;
     }
-    
+
     private async Task CheckAndThrowValidationExceptionIfCityDoesNotExist(Guid cityId)
     {
         if (!await _cityRepository.ExistsAsync(cityId))

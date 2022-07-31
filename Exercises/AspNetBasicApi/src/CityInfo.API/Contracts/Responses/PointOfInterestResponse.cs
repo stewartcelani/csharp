@@ -1,3 +1,5 @@
+using System;
+
 namespace CityInfo.API.Contracts.Responses;
 
 public class PointOfInterestResponse

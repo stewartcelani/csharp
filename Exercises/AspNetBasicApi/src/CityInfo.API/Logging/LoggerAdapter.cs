@@ -1,4 +1,7 @@
-﻿namespace CityInfo.API.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
+
+namespace CityInfo.API.Logging;
 
 public class LoggerAdapter<TType> : ILoggerAdapter<TType>
 {
@@ -34,7 +37,7 @@ public class LoggerAdapter<TType> : ILoggerAdapter<TType>
         _logger.LogError(exception, message, args);
     }
 
-    public void LogCritical(Exception? exception, string? message, params object?[] args)
+    public void LogCritical(Exception exception, string? message, params object?[] args)
     {
         _logger.LogCritical(exception, message, args);
     }

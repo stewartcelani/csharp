@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using CityInfo.API.Domain.Entities.Common;
 
 namespace CityInfo.API.Domain.Entities;

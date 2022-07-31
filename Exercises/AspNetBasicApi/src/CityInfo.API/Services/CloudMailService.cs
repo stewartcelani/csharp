@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using CityInfo.API.Domain.Settings;
 using CityInfo.API.Logging;
 
@@ -7,9 +8,9 @@ namespace CityInfo.API.Services;
 [ExcludeFromCodeCoverage]
 public class CloudMailService : IMailService
 {
+    private readonly ILoggerAdapter<CloudMailService> _logger;
     private readonly string _mailFrom;
     private readonly string _mailTo;
-    private readonly ILoggerAdapter<CloudMailService> _logger;
 
 
     public CloudMailService(ILoggerAdapter<CloudMailService> logger, MailSettings mailSettings)

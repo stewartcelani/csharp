@@ -34,16 +34,16 @@ public class SharedTestContext : IAsyncLifetime
         .RuleFor(x => x.Description, faker => faker.Lorem.Sentences(2));
 
     public const string AppUrl = "https://localhost:7780";
-    
+
     private static readonly string DockerComposeFile =
-        Path.Combine(Directory.GetCurrentDirectory(), (TemplateString)"../../../docker-compose.integration.yml");
+        Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../docker-compose.integration.yml"));
 
     public readonly HttpClient HttpClient;
 
     public SharedTestContext()
     {
-        ServicePointManager.ServerCertificateValidationCallback +=
-            (sender, certificate, chain, errors) => true;
+        /*ServicePointManager.ServerCertificateValidationCallback +=
+            (sender, certificate, chain, errors) => true;*/
         HttpClient = new HttpClient();
         HttpClient.BaseAddress = new Uri($"{AppUrl}/");
     }
@@ -53,8 +53,9 @@ public class SharedTestContext : IAsyncLifetime
         .UseCompose()
         .FromFile(DockerComposeFile)
         .RemoveOrphans()
+        .ForceBuild()
         .ForceRecreate() // This will ensure the database is recreated every time tests are launched
-        .WaitForHttp("cityinfo-test-api", $"{AppUrl}/api/cities")
+        .RemoveAllImages()
         .Build();
 
     public async Task InitializeAsync()
@@ -63,14 +64,10 @@ public class SharedTestContext : IAsyncLifetime
         await Task.Delay(2000);
     }
 
-    public new Task DisposeAsync()
+    public new async Task DisposeAsync()
     {
         HttpClient.Dispose();
-        foreach (var dockerServiceContainer in _dockerService.Containers)
-        {
-            dockerServiceContainer.Image.Remove();
-        }
         _dockerService.Dispose();
-        return Task.CompletedTask;
+        await Task.Delay(2000);
     }
 }

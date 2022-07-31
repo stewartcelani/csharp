@@ -1,3 +1,4 @@
+using System.IO;
 using CityInfo.API.Data;
 using CityInfo.API.Domain.Settings;
 using CityInfo.API.Domain.Settings.Helpers;
@@ -7,7 +8,12 @@ using CityInfo.API.Repositories;
 using CityInfo.API.Services;
 using CityInfo.API.Validators;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions

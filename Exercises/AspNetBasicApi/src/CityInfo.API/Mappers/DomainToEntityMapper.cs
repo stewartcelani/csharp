@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using CityInfo.API.Domain;
 using CityInfo.API.Domain.Entities;
 
@@ -15,7 +17,7 @@ public static class DomainToEntityMapper
             PointsOfInterest = city.PointsOfInterest.Select(x => x.ToPointOfInterestEntity(city.Id)).ToList()
         };
     }
-    
+
     public static PointOfInterestEntity ToPointOfInterestEntity(this PointOfInterest pointOfInterest, Guid cityId)
     {
         return new PointOfInterestEntity

@@ -1,8 +1,14 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
 using CityInfo.API.Domain;
 using CityInfo.API.Domain.Settings;
 using CityInfo.API.Mappers;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CityInfo.API.Data;
 
@@ -22,7 +28,7 @@ public static class DataExtensions
     {
         using var serviceScope = app.Services.CreateScope();
         var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        
+
         var databaseSettings = serviceScope.ServiceProvider.GetRequiredService<DatabaseSettings>();
         if (!databaseSettings.SeedData) return;
 

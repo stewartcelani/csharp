@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CityInfo.API.Data;
 using CityInfo.API.Domain.Entities;
 using CityInfo.API.Repositories.Common;
@@ -14,7 +18,7 @@ public class CityRepository : GenericRepository<CityEntity, Guid>, ICityReposito
     {
         // Points of interest have their own repository with an update method
         // This stops all points of interest from being set to empty list and deleted
-        DbContext.Entry(entity).Property(x => x.PointsOfInterest).IsModified = false;
+        DbContext.Entry(entity).Collection(x => x.PointsOfInterest).IsModified = false;
         return base.UpdateAsync(entity);
     }
 
@@ -22,9 +26,7 @@ public class CityRepository : GenericRepository<CityEntity, Guid>, ICityReposito
     {
         var cityEntities = entities.ToList();
         foreach (var entity in cityEntities)
-        {
-            DbContext.Entry(entity).Property(x => x.PointsOfInterest).IsModified = false;
-        }
+            DbContext.Entry(entity).Collection(x => x.PointsOfInterest).IsModified = false;
         return base.UpdateAsync(cityEntities);
     }
 }

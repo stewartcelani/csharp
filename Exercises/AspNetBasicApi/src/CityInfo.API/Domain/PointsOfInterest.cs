@@ -1,3 +1,5 @@
+using System;
+
 namespace CityInfo.API.Domain;
 
 public class PointOfInterest

@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using CityInfo.API.Domain.Entities.Common;
 
 namespace CityInfo.API.Repositories.Common;
@@ -9,8 +12,10 @@ public interface IRepository<TEntity, in TKey>
 {
     Task<bool> ExistsAsync(TKey id);
     Task<TEntity?> GetAsync(TKey id, IEnumerable<string?> includeProperties = null);
+
     Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
         IEnumerable<string>? includeProperties = null);
+
     Task<bool> CreateAsync(TEntity entity);
     Task<bool> CreateAsync(IEnumerable<TEntity> entities);
     Task<bool> UpdateAsync(TEntity entity);

@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace CityInfo.API.Domain;
 
 public class City

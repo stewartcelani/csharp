@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CityInfo.API.Domain;
 using CityInfo.API.Domain.Entities;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
 using CityInfo.API.Validators.Helpers;
-using FluentValidation;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace CityInfo.API.Services;
 
@@ -18,8 +22,11 @@ public class CityService : ICityService
         _cityRepository = cityRepository ?? throw new NullReferenceException(nameof(cityRepository));
     }
 
-    public async Task<bool> ExistsAsync(Guid id) => await _cityRepository.ExistsAsync(id);
-    
+    public async Task<bool> ExistsAsync(Guid id)
+    {
+        return await _cityRepository.ExistsAsync(id);
+    }
+
     public async Task<City?> GetByIdAsync(Guid id)
     {
         var cityEntity = await _cityRepository.GetAsync(id, _defaultIncludeProperties);
@@ -32,7 +39,7 @@ public class CityService : ICityService
             await _cityRepository.GetAsync(null, _defaultIncludeProperties);
         return cityEntities.Select(x => x.ToCity());
     }
-    
+
     public async Task<bool> CreateAsync(City city)
     {
         if (await _cityRepository.ExistsAsync(city.Id))
@@ -53,7 +60,7 @@ public class CityService : ICityService
             var message = $"Can not update city with id {city.Id} as it does not exist";
             throw new ValidationException(message, ValidationFailureHelper.Generate(nameof(City), message));
         }
-        
+
         var cityEntity = city.ToCityEntity();
         var updated = await _cityRepository.UpdateAsync(cityEntity);
         return updated;

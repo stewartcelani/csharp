@@ -1,4 +1,7 @@
+using System;
+using System.Threading.Tasks;
 using CityInfo.API.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace CityInfo.API.Middleware;
 

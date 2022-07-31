@@ -1,3 +1,4 @@
+using System;
 using CityInfo.API.Domain.Entities.Common;
 
 namespace CityInfo.API.Domain.Entities;

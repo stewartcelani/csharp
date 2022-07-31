@@ -39,12 +39,8 @@ public class GetCitiesControllerTests : IClassFixture<CityInfoApiFactory>, IDisp
     public async Task GetCities_ReturnsEmptyList_WhenNoCitiesExist()
     {
         // Arrange
-        var cities = (await _cityService.GetAllAsync()).ToList();
-        foreach (var city in cities)
-        {
-            await _cityService.DeleteAsync(city.Id);
-        }
-        
+        await DeleteAllCities();
+
         // Act
         var response = await _httpClient.GetAsync("api/cities");
 
@@ -54,10 +50,13 @@ public class GetCitiesControllerTests : IClassFixture<CityInfoApiFactory>, IDisp
         citiesResponse!.Should().BeEmpty();
     }
 
+  
+
     [Fact]
     public async Task GetCities_ReturnsCities_WhenCitiesExist()
     {
         // Arrange
+        await DeleteAllCities();
         var cities = _cityGenerator.Generate(new Random().Next(2, 10));
         var expectedCitiesResponse = cities.Select(x => x.ToExtendedCityResponse());
         foreach (var city in cities)
@@ -74,6 +73,45 @@ public class GetCitiesControllerTests : IClassFixture<CityInfoApiFactory>, IDisp
         citiesResponse!.Should().BeEquivalentTo(expectedCitiesResponse);
         
         // Cleanup
+        foreach (var city in cities)
+        {
+            await _cityService.DeleteAsync(city.Id);
+        }
+    }
+
+    [Fact]
+    public async Task GetCity_ReturnsCity_WhenCityExists()
+    {
+        // Arrange
+        var city = _cityGenerator.Generate();
+        var expectedCityResponse = city.ToExtendedCityResponse();
+        await _cityService.CreateAsync(city);
+
+        // Act
+        var response = await _httpClient.GetAsync($"api/cities/{city.Id}");
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var cityResponse = await response.Content.ReadFromJsonAsync<ExtendedCityResponse>();
+        cityResponse.Should().BeEquivalentTo(expectedCityResponse);
+        
+        // Cleanup
+        await _cityService.DeleteAsync(city.Id);
+    }
+
+    [Fact]
+    public async Task GetCity_ShouldReturnNotFound_WhenCityDoesNotExist()
+    {
+        // Act
+        var response = await _httpClient.GetAsync($"api/cities/{Guid.NewGuid()}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+    
+    private async Task DeleteAllCities()
+    {
+        var cities = (await _cityService.GetAllAsync()).ToList();
         foreach (var city in cities)
         {
             await _cityService.DeleteAsync(city.Id);

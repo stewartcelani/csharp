@@ -1,4 +1,6 @@
-﻿namespace CityInfo.API.Contracts.Responses;
+﻿using System;
+
+namespace CityInfo.API.Contracts.Responses;
 
 public class CityResponse
 {

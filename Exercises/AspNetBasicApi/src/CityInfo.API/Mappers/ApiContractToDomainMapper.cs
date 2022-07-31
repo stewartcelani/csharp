@@ -1,3 +1,4 @@
+using System;
 using CityInfo.API.Contracts.Requests;
 using CityInfo.API.Domain;
 

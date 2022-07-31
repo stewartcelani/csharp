@@ -4,11 +4,13 @@ using CityInfo.API.Logging;
 using CityInfo.API.Validators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace CityInfo.API.Data.Design;
 
 /// <summary>
-/// Used by dotnet ef migrations tool
+///     Used by dotnet ef migrations tool
 /// </summary>
 public class DesignTimeContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
@@ -16,14 +18,15 @@ public class DesignTimeContextFactory : IDesignTimeDbContextFactory<ApplicationD
     {
         ILoggerAdapter<ApplicationDbContext> logger =
             new LoggerAdapter<ApplicationDbContext>(new LoggerFactory().CreateLogger<ApplicationDbContext>());
-        
+
         var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
 
         var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-        var databaseSettings = SettingsBinder.BindAndValidate<DatabaseSettings, DatabaseSettingsValidator>(configuration);
+        var databaseSettings =
+            SettingsBinder.BindAndValidate<DatabaseSettings, DatabaseSettingsValidator>(configuration);
 
         builder.UseNpgsql(databaseSettings.ConnectionString);
 

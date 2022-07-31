@@ -1,3 +1,5 @@
+using System;
+
 namespace CityInfo.API.Domain.Entities.Common;
 
 public abstract class AuditableBaseEntity<TKey> : BaseEntity<TKey>, IAuditable

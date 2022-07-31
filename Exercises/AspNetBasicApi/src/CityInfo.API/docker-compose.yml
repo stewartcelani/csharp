@@ -28,7 +28,7 @@ services:
       - local
     volumes:
       - ~/.aspnet/https:/https:ro
-      
+  
   cityinfodb:
     image: postgres:latest
     container_name: cityinfodb
