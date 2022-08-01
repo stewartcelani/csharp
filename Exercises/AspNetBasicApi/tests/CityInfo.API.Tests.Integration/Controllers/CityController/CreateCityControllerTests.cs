@@ -9,17 +9,17 @@ using CityInfo.API.Contracts.Responses;
 using FluentAssertions;
 using Xunit;
 
-namespace CityInfo.API.Tests.Integration.Controllers.CitiesController;
+namespace CityInfo.API.Tests.Integration.Controllers.CityController;
 
 [ExcludeFromCodeCoverage]
 [Collection(nameof(SharedTestCollection))]
-public class CreateCitiesControllerTests
+public class CreateCityControllerTests
 {
     private readonly HttpClient _httpClient;
 
     private readonly Faker<CreateCityRequest> _createCityRequestGenerator;
 
-    public CreateCitiesControllerTests(SharedTestContext testContext)
+    public CreateCityControllerTests(SharedTestContext testContext)
     {
         _httpClient = testContext.HttpClient;
         _createCityRequestGenerator = testContext.CityRequestGenerator;

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bogus;
 using CityInfo.API.Contracts.Responses;
-using CityInfo.API.Controllers;
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
 using CityInfo.API.Services;
@@ -15,19 +14,19 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 
-namespace CityInfo.API.Tests.Unit.Controllers.CitiesControllerTests;
+namespace CityInfo.API.Tests.Unit.Controllers.CityController;
 
 [ExcludeFromCodeCoverage]
-public class GetCitiesControllerTests
+public class GetCityControllerTests
 {
     private readonly Faker<City> _cityGenerator;
     private readonly ICityService _cityService = Substitute.For<ICityService>();
-    private readonly CitiesController _sut;
+    private readonly API.Controllers.CityController _sut;
 
 
-    public GetCitiesControllerTests()
+    public GetCityControllerTests()
     {
-        _sut = new CitiesController(_cityService);
+        _sut = new API.Controllers.CityController(_cityService);
         _cityGenerator = SharedTestContext.CityGenerator;
     }
 

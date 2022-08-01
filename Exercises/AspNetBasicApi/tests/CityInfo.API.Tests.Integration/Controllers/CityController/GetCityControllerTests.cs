@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Contracts.Requests;
 using CityInfo.API.Contracts.Responses;
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
@@ -16,41 +15,24 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace CityInfo.API.Tests.Integration.Controllers.CitiesController;
+namespace CityInfo.API.Tests.Integration.Controllers.CityController;
 
 [ExcludeFromCodeCoverage]
 [Collection(nameof(SharedTestCollection))]
-public class GetCitiesControllerTests : IClassFixture<CityInfoApiFactory>, IDisposable
+public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly IServiceScope _serviceScope;
     private readonly ICityService _cityService;
     private readonly Faker<City> _cityGenerator;
 
-    public GetCitiesControllerTests(SharedTestContext testContext, CityInfoApiFactory cityInfoApiFactory)
+    public GetCityControllerTests(SharedTestContext testContext, CityInfoApiFactory cityInfoApiFactory)
     {
         _httpClient = testContext.HttpClient;
         _serviceScope = cityInfoApiFactory.Services.CreateScope();
         _cityService = _serviceScope.ServiceProvider.GetRequiredService<ICityService>();
         _cityGenerator = testContext.CityGenerator;
     }
-
-    [Fact]
-    public async Task GetCities_ReturnsEmptyList_WhenNoCitiesExist()
-    {
-        // Arrange
-        await DeleteAllCities();
-
-        // Act
-        var response = await _httpClient.GetAsync("api/cities");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var citiesResponse = await response.Content.ReadFromJsonAsync<IEnumerable<ExtendedCityResponse>>();
-        citiesResponse!.Should().BeEmpty();
-    }
-
-  
 
     [Fact]
     public async Task GetCities_ReturnsCities_WhenCitiesExist()
@@ -77,6 +59,21 @@ public class GetCitiesControllerTests : IClassFixture<CityInfoApiFactory>, IDisp
         {
             await _cityService.DeleteAsync(city.Id);
         }
+    }
+    
+    [Fact]
+    public async Task GetCities_ReturnsEmptyList_WhenNoCitiesExist()
+    {
+        // Arrange
+        await DeleteAllCities();
+
+        // Act
+        var response = await _httpClient.GetAsync("api/cities");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var citiesResponse = await response.Content.ReadFromJsonAsync<IEnumerable<ExtendedCityResponse>>();
+        citiesResponse!.Should().BeEmpty();
     }
 
     [Fact]

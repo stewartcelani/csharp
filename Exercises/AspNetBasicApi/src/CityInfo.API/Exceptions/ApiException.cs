@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.Serialization;
 using FluentValidation.Results;
@@ -9,6 +10,7 @@ namespace CityInfo.API.Exceptions;
 /// <summary>
 ///     Re-purposing FluentValidation's ValidationException but for neatly showing 500 errors via middleware
 /// </summary>
+[ExcludeFromCodeCoverage]
 [Serializable]
 public class ApiException : Exception
 {

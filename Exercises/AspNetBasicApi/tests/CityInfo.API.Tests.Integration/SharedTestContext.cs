@@ -18,16 +18,20 @@ namespace CityInfo.API.Tests.Integration;
 [ExcludeFromCodeCoverage]
 public class SharedTestContext : IAsyncLifetime
 {
-      public readonly Faker<CreateCityRequest> CityRequestGenerator = new Faker<CreateCityRequest>()
+    public readonly Faker<CreateCityRequest> CityRequestGenerator = new Faker<CreateCityRequest>()
         .RuleFor(x => x.Name, faker => faker.Address.City())
         .RuleFor(x => x.Description, faker => faker.Lorem.Sentences(new Random().Next(2, 4)));
     
+    public readonly Faker<CreatePointOfInterestRequest> CreatePointOfInterestRequestGenerator = new Faker<CreatePointOfInterestRequest>()
+        .RuleFor(x => x.Name, faker => faker.Address.City())
+        .RuleFor(x => x.Description, faker => faker.Lorem.Sentences(new Random().Next(2, 4)));
+
     public readonly Faker<City> CityGenerator = new Faker<City>()
         .RuleFor(x => x.Id, faker => faker.Random.Guid())
         .RuleFor(x => x.Name, faker => faker.Address.City())
         .RuleFor(x => x.Description, faker => faker.Lorem.Sentences(2))
         .RuleFor(x => x.PointsOfInterest, _ => PointOfInterestGenerator.Generate(new Random().Next(1, 10)));
-    
+
     private static readonly Faker<PointOfInterest> PointOfInterestGenerator = new Faker<PointOfInterest>()
         .RuleFor(x => x.Id, faker => faker.Random.Guid())
         .RuleFor(x => x.Name, faker => faker.Lorem.Word())
@@ -47,7 +51,7 @@ public class SharedTestContext : IAsyncLifetime
         HttpClient = new HttpClient();
         HttpClient.BaseAddress = new Uri($"{AppUrl}/");
     }
-    
+
     private readonly ICompositeService _dockerService = new Builder()
         .UseContainer()
         .UseCompose()

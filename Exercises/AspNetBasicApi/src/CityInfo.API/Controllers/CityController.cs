@@ -15,11 +15,11 @@ namespace CityInfo.API.Controllers;
 
 [ApiController]
 [Route("api/cities")]
-public class CitiesController : ControllerBase
+public class CityController : ControllerBase
 {
     private readonly ICityService _cityService;
 
-    public CitiesController(ICityService cityService)
+    public CityController(ICityService cityService)
     {
         _cityService = cityService ?? throw new NullReferenceException(nameof(cityService));
     }

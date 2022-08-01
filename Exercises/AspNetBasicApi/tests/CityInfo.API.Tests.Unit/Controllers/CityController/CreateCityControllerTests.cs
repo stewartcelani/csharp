@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using CityInfo.API.Contracts.Requests;
 using CityInfo.API.Contracts.Responses;
-using CityInfo.API.Controllers;
 using CityInfo.API.Domain;
 using CityInfo.API.Exceptions;
 using CityInfo.API.Mappers;
@@ -12,18 +11,18 @@ using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
 
-namespace CityInfo.API.Tests.Unit.Controllers.CitiesControllerTests;
+namespace CityInfo.API.Tests.Unit.Controllers.CityController;
 
 [ExcludeFromCodeCoverage]
-public class CreateCitiesControllerTests
+public class CreateCityControllerTests
 {
     private readonly ICityService _cityService = Substitute.For<ICityService>();
-    private readonly CitiesController _sut;
+    private readonly API.Controllers.CityController _sut;
 
 
-    public CreateCitiesControllerTests()
+    public CreateCityControllerTests()
     {
-        _sut = new CitiesController(_cityService);
+        _sut = new API.Controllers.CityController(_cityService);
     }
 
     [Fact]

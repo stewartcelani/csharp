@@ -14,11 +14,11 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace CityInfo.API.Tests.Integration.Controllers.CitiesController;
+namespace CityInfo.API.Tests.Integration.Controllers.CityController;
 
 [ExcludeFromCodeCoverage]
 [Collection(nameof(SharedTestCollection))]
-public class UpdateCitiesControllerTests : IClassFixture<CityInfoApiFactory>, IDisposable
+public class UpdateCityControllerTests : IClassFixture<CityInfoApiFactory>, IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly IServiceScope _serviceScope;
@@ -26,7 +26,7 @@ public class UpdateCitiesControllerTests : IClassFixture<CityInfoApiFactory>, ID
     private readonly Faker<City> _cityGenerator;
     private readonly Faker<CreateCityRequest> _createCityRequestGenerator;
 
-    public UpdateCitiesControllerTests(SharedTestContext testContext, CityInfoApiFactory cityInfoApiFactory)
+    public UpdateCityControllerTests(SharedTestContext testContext, CityInfoApiFactory cityInfoApiFactory)
     {
         _httpClient = testContext.HttpClient;
         _serviceScope = cityInfoApiFactory.Services.CreateScope();
@@ -58,7 +58,20 @@ public class UpdateCitiesControllerTests : IClassFixture<CityInfoApiFactory>, ID
         var cityResponse = await response.Content.ReadFromJsonAsync<CityResponse>();
         cityResponse.Should().BeEquivalentTo(expectedCityResponse);
     }
-    
+
+    [Fact]
+    public async Task UpdateCity_ShouldReturnNotFound_WhenCityDoesNotExist()
+    {
+        // Arrange
+        var createCityRequest = _createCityRequestGenerator.Generate();
+
+        // Act
+        var response = await _httpClient.PutAsJsonAsync($"api/cities/{Guid.NewGuid()}", createCityRequest);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
     public void Dispose()
     {
         _serviceScope.Dispose();

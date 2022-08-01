@@ -19,12 +19,12 @@ namespace CityInfo.API.Controllers;
 
 [ApiController]
 [Route("api/cities/{cityId:guid}/pointsofinterest")]
-public class PointsOfInterestController : ControllerBase
+public class PointOfInterestController : ControllerBase
 {
     private readonly ICityService _cityService;
     private readonly IPointOfInterestService _pointOfInterestService;
 
-    public PointsOfInterestController(IPointOfInterestService pointOfInterestService, ICityService cityService)
+    public PointOfInterestController(IPointOfInterestService pointOfInterestService, ICityService cityService)
     {
         _pointOfInterestService =
             pointOfInterestService ?? throw new ArgumentNullException(nameof(pointOfInterestService));
@@ -75,7 +75,7 @@ public class PointsOfInterestController : ControllerBase
         var pointOfInterestResponse = pointOfInterest.ToPointOfInterestResponse();
 
         return CreatedAtAction(nameof(GetPointOfInterest),
-            new { pointOfInterestId = pointOfInterestResponse.Id }, pointOfInterestResponse);
+            new { cityId, pointOfInterestId = pointOfInterestResponse.Id }, pointOfInterestResponse);
     }
 
     // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod

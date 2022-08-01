@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Controllers;
 using CityInfo.API.Domain;
 using CityInfo.API.Exceptions;
 using CityInfo.API.Services;
@@ -11,19 +10,19 @@ using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
 
-namespace CityInfo.API.Tests.Unit.Controllers.CitiesControllerTests;
+namespace CityInfo.API.Tests.Unit.Controllers.CityController;
 
 [ExcludeFromCodeCoverage]
-public class DeleteCitiesControllerTests
+public class DeleteCityControllerTests
 {
     private readonly Faker<City> _cityGenerator;
     private readonly ICityService _cityService = Substitute.For<ICityService>();
-    private readonly CitiesController _sut;
+    private readonly API.Controllers.CityController _sut;
 
 
-    public DeleteCitiesControllerTests()
+    public DeleteCityControllerTests()
     {
-        _sut = new CitiesController(_cityService);
+        _sut = new API.Controllers.CityController(_cityService);
         _cityGenerator = SharedTestContext.CityGenerator;
     }
 

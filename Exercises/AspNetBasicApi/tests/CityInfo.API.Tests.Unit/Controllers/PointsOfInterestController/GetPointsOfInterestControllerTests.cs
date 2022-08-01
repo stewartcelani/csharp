@@ -23,11 +23,11 @@ public class GetPointsOfInterestControllerTests
     private readonly Faker<City> _cityGenerator;
     private readonly ICityService _cityService = Substitute.For<ICityService>();
     private readonly IPointOfInterestService _pointOfInterestService = Substitute.For<IPointOfInterestService>();
-    private readonly PointsOfInterestController _sut;
+    private readonly PointOfInterestController _sut;
 
     public GetPointsOfInterestControllerTests()
     {
-        _sut = new PointsOfInterestController(_pointOfInterestService, _cityService);
+        _sut = new PointOfInterestController(_pointOfInterestService, _cityService);
         _cityGenerator = SharedTestContext.CityGenerator;
     }
 

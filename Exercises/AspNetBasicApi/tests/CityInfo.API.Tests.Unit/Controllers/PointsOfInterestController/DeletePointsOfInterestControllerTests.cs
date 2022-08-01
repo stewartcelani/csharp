@@ -16,11 +16,11 @@ public class DeletePointsOfInterestControllerTests
 {
     private readonly ICityService _cityService = Substitute.For<ICityService>();
     private readonly IPointOfInterestService _pointOfInterestService = Substitute.For<IPointOfInterestService>();
-    private readonly PointsOfInterestController _sut;
+    private readonly PointOfInterestController _sut;
 
     public DeletePointsOfInterestControllerTests()
     {
-        _sut = new PointsOfInterestController(_pointOfInterestService, _cityService);
+        _sut = new PointOfInterestController(_pointOfInterestService, _cityService);
     }
 
     [Fact]
