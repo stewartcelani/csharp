@@ -34,7 +34,7 @@ public class GetCityControllerTests
     public async Task GetCities_ShouldReturnEmptyList_WhenNoCitiesExist()
     {
         // Arrange
-        _cityService.GetAllAsync().Returns(Enumerable.Empty<City>());
+        _cityService.GetAsync().Returns(Enumerable.Empty<City>());
 
         // Act
         var result = (OkObjectResult)await _sut.GetCities();
@@ -49,7 +49,7 @@ public class GetCityControllerTests
     {
         // Arrange
         var cities = _cityGenerator.Generate(5);
-        _cityService.GetAllAsync().Returns(cities);
+        _cityService.GetAsync().Returns(cities);
         var citiesResponse = cities.Select(x => x.ToExtendedCityResponse());
 
         // Act

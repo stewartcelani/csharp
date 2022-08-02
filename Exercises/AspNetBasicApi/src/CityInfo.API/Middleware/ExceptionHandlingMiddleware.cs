@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using CityInfo.API.Logging;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ public class ExceptionHandlingMiddleware
         _logger = logger;
     }
 
+    [ExcludeFromCodeCoverage]
     public async Task InvokeAsync(HttpContext context)
     {
         try

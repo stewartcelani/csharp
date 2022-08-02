@@ -1,6 +1,8 @@
 using System;
 using CityInfo.API.Contracts.Requests;
+using CityInfo.API.Contracts.Requests.Queries;
 using CityInfo.API.Domain;
+using CityInfo.API.Domain.Filters;
 
 namespace CityInfo.API.Mappers;
 
@@ -43,6 +45,23 @@ public static class ApiContractToDomainMapper
             Id = request.Id,
             Name = request.CreateCityRequest.Name,
             Description = request.CreateCityRequest.Description
+        };
+    }
+
+    public static GetCitiesFilter ToGetCitiesFilter(this GetCitiesQuery getCitiesQuery)
+    {
+        return new GetCitiesFilter
+        {
+            Name = getCitiesQuery.Name
+        };
+    }
+
+    public static PaginationFilter ToPaginationFilter(this PaginationQuery paginationQuery)
+    {
+        return new PaginationFilter
+        {
+            PageNumber = paginationQuery.PageNumber,
+            PageSize = paginationQuery.PageSize
         };
     }
 }

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CityInfo.API.Domain;
 using CityInfo.API.Domain.Entities;
+using CityInfo.API.Domain.Filters;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
 using CityInfo.API.Validators.Helpers;
@@ -33,10 +35,31 @@ public class CityService : ICityService
         return cityEntity?.ToCity();
     }
 
-    public async Task<IEnumerable<City>> GetAllAsync()
+    public async Task<IEnumerable<City>> GetAsync(GetCitiesFilter? getCitiesFilter, PaginationFilter? paginationFilter)
+    {
+        Expression<Func<CityEntity, bool>>? predicate = null;
+        if (getCitiesFilter?.Name is not null)
+        {
+            predicate = entity => entity.Name.Trim().ToLower().Contains(getCitiesFilter.Name.Trim().ToLower());
+        }
+        
+        var cityEntities =
+            await _cityRepository.GetAsync(predicate, _defaultIncludeProperties, q => q.OrderBy(x => x.Name), paginationFilter);
+        return cityEntities.Select(x => x.ToCity());
+    }
+    
+    public async Task<IEnumerable<City>> GetAsync()
     {
         var cityEntities =
-            await _cityRepository.GetAsync(null, _defaultIncludeProperties);
+            await _cityRepository.GetAsync(null, _defaultIncludeProperties, q => q.OrderBy(x => x.Name));
+        return cityEntities.Select(x => x.ToCity());
+    }
+    
+    public async Task<IEnumerable<City>> GetAsync(string name)
+    {
+        name = name.Trim().ToLower();
+        var cityEntities =
+            await _cityRepository.GetAsync(x => x.Name.ToLower().Contains(name), _defaultIncludeProperties, q => q.OrderBy(x => x.Name));
         return cityEntities.Select(x => x.ToCity());
     }
 

@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using CityInfo.API.Attributes;
 using CityInfo.API.Contracts.Requests;
+using CityInfo.API.Contracts.Requests.Queries;
 using CityInfo.API.Domain;
 using CityInfo.API.Exceptions;
 using CityInfo.API.Mappers;
@@ -25,11 +26,17 @@ public class CityController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCities()
+    public async Task<IActionResult> GetCities([FromQuery] GetCitiesQuery query, [FromQuery] PaginationQuery paginationQuery)
     {
-        var cities = await _cityService.GetAllAsync();
+        var getCitiesFilter = query.ToGetCitiesFilter();
+        var paginationFilter = paginationQuery.ToPaginationFilter();
+
+        var cities = await _cityService.GetAsync(getCitiesFilter, paginationFilter);
 
         var citiesResponse = cities.Select(x => x.ToExtendedCityResponse());
+        
+        // TODO: Return paged response
+        // TODO: Can the ORDERBY happen before the paging happens to page 1 pagesize 1 returns the top alphabetically?
 
         return Ok(citiesResponse);
     }

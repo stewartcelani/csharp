@@ -30,7 +30,7 @@ builder.Services.AddControllers(options => { options.ReturnHttpNotAcceptable = t
     .AddXmlDataContractSerializerFormatters()
     .AddFluentValidation(x =>
     {
-        x.RegisterValidatorsFromAssemblyContaining<Program>();
+        //x.RegisterValidatorsFromAssemblyContaining<Program>();
         x.DisableDataAnnotationsValidation = true;
     });
 
@@ -59,6 +59,14 @@ builder.Services.AddTransient<ICityRepository, CityRepository>();
 builder.Services.AddTransient<IPointOfInterestRepository, PointOfInterestRepository>();
 builder.Services.AddTransient<ICityService, CityService>();
 builder.Services.AddTransient<IPointOfInterestService, PointOfInterestService>();
+
+builder.Services.AddScoped<IUriService>(provider =>
+{
+    var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor!.HttpContext!.Request;
+    var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent(), "/");
+    return new UriService(absoluteUri);
+});
 
 #if DEBUG
 builder.Services.AddTransient<IMailService, LocalMailService>();

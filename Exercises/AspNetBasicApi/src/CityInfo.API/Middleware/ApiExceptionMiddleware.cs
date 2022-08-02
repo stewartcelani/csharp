@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using CityInfo.API.Exceptions;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,8 @@ public class ApiExceptionMiddleware
     {
         _request = request;
     }
-
+    
+    [ExcludeFromCodeCoverage]
     public async Task InvokeAsync(HttpContext context)
     {
         try

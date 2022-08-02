@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CityInfo.API.Data;
 using CityInfo.API.Domain.Entities.Common;
+using CityInfo.API.Domain.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace CityInfo.API.Repositories.Common;
@@ -35,7 +36,9 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
-        IEnumerable<string>? includeProperties = null)
+        IEnumerable<string>? includeProperties = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        PaginationFilter? paginationFilter = null)
     {
         IQueryable<TEntity> query = DbSet;
 
@@ -45,7 +48,17 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
             foreach (var property in includeProperties)
                 query = query.Include(property.Trim());
 
-        return await query.AsNoTracking().ToListAsync();
+        query = query.AsNoTracking();
+
+        if (paginationFilter is not null)
+        {
+            var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
+            query = query.Skip(skip).Take(paginationFilter.PageSize);
+        }
+        
+        if (orderBy is not null) return await orderBy(query).ToListAsync();
+
+        return await query.ToListAsync();
     }
 
     public virtual async Task<bool> ExistsAsync(TKey id)

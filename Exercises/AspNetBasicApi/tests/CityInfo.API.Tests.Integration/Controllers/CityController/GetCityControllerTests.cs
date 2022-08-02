@@ -108,7 +108,7 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
     
     private async Task DeleteAllCities()
     {
-        var cities = (await _cityService.GetAllAsync()).ToList();
+        var cities = (await _cityService.GetAsync()).ToList();
         foreach (var city in cities)
         {
             await _cityService.DeleteAsync(city.Id);

@@ -93,7 +93,7 @@ public class GetCityServiceTests
             .Returns(cities.Select(x => x.ToCityEntity()));
 
         // Act
-        var result = await _sut.GetAllAsync();
+        var result = await _sut.GetAsync();
 
         // Assert
         result.Should().BeEquivalentTo(cities);
@@ -107,7 +107,7 @@ public class GetCityServiceTests
             .Returns(Enumerable.Empty<CityEntity>());
 
         // Act
-        var result = await _sut.GetAllAsync();
+        var result = await _sut.GetAsync();
 
         // Assert
         result.Should().BeEmpty();

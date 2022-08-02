@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +16,7 @@ public class ValidationExceptionMiddleware
         _request = request;
     }
 
+    [ExcludeFromCodeCoverage]
     public async Task InvokeAsync(HttpContext context)
     {
         try

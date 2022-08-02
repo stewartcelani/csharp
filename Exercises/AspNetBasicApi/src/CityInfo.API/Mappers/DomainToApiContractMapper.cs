@@ -46,13 +46,5 @@ public static class DomainToApiContractMapper
             Description = pointOfInterest.Description
         };
     }
-
-    public static UpdatePointOfInterestRequest ToUpdatePointOfInterestRequest(this PointOfInterest pointOfInterest)
-    {
-        return new UpdatePointOfInterestRequest
-        {
-            Id = pointOfInterest.Id,
-            CreatePointOfInterestRequest = pointOfInterest.ToCreatePointOfInterestRequest()
-        };
-    }
+    
 }
