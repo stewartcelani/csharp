@@ -1,4 +1,5 @@
-﻿using CityInfo.API.Contracts.Requests.Queries;
+﻿using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Requests.Queries;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace CityInfo.API.Services;
@@ -6,15 +7,15 @@ namespace CityInfo.API.Services;
 public class UriService : IUriService
 {
     private readonly string _baseUri;
-
+    
     public UriService(string baseUri)
     {
-        _baseUri = baseUri;
+        _baseUri = baseUri ?? throw new NullReferenceException(nameof(baseUri));
     }
     
     public Uri GetCitiesUri(PaginationQuery? paginationQuery = null)
     {
-        var uri = new Uri(_baseUri);
+        var uri = new Uri($"{_baseUri}{ApiRoutesV1.Cities.GetAll.Url}");
 
         if (paginationQuery is null) return uri;
 

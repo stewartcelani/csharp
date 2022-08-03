@@ -4,8 +4,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Responses;
+using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Requests;
+using CityInfo.API.Contracts.v1.Responses;
 using FluentAssertions;
 using Xunit;
 
@@ -32,13 +33,12 @@ public class CreateCityControllerTests
         var createCityRequest = _createCityRequestGenerator.Generate();
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("api/cities", createCityRequest);
+        var response = await _httpClient.PostAsJsonAsync(ApiRoutesV1.Cities.Create.Url, createCityRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         var cityResponse = await response.Content.ReadFromJsonAsync<CityResponse>();
         cityResponse.Should().BeEquivalentTo(createCityRequest);
-        response.Headers.Location!.ToString().Should().EndWith($"/api/cities/{cityResponse!.Id}");
+        response.Headers.Location!.ToString().Should().Be(_httpClient.BaseAddress + ApiRoutesV1.Cities.Get.UrlFor(cityResponse!.Id));
     }
-
 }

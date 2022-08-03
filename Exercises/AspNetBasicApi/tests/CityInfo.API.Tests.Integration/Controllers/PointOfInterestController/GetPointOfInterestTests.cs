@@ -7,7 +7,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Contracts.Responses;
+using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Responses;
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
 using CityInfo.API.Services;
@@ -47,7 +48,7 @@ public class GetPointOfInterestTests : IClassFixture<CityInfoApiFactory>, IDispo
         var expectedPointsOfInterestResponse = city.PointsOfInterest.Select(x => x.ToPointOfInterestResponse());
 
         // Act
-        var response = await _httpClient.GetAsync($"api/cities/{city.Id}/pointsofinterest");
+        var response = await _httpClient.GetAsync(ApiRoutesV1.PointsOfInterest.GetAll.UrlFor(city.Id));
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -62,7 +63,7 @@ public class GetPointOfInterestTests : IClassFixture<CityInfoApiFactory>, IDispo
     public async Task GetPointsOfInterest_ShouldReturnNotFound_WhenCityDoesNotExist()
     {
         // Act
-        var response = await _httpClient.GetAsync($"api/cities/{Guid.NewGuid()}/pointsofinterest");
+        var response = await _httpClient.GetAsync(ApiRoutesV1.PointsOfInterest.GetAll.UrlFor(Guid.NewGuid()));
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -81,7 +82,7 @@ public class GetPointOfInterestTests : IClassFixture<CityInfoApiFactory>, IDispo
         var expectedPointOfInterestResponse = pointOfInterest.ToPointOfInterestResponse();
 
         // Act
-        var response = await _httpClient.GetAsync($"api/cities/{city.Id}/pointsofinterest/{pointOfInterest.Id}");
+        var response = await _httpClient.GetAsync(ApiRoutesV1.PointsOfInterest.Get.UrlFor(city.Id, pointOfInterest.Id));
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -103,7 +104,7 @@ public class GetPointOfInterestTests : IClassFixture<CityInfoApiFactory>, IDispo
                 $"City with id {city.Id} could not be created to test {nameof(GetPointOfInterest_ShouldReturnNotFound_WhenPointOfInterestDoesNotExist)}");
 
         // Act
-        var response = await _httpClient.GetAsync($"api/cities/{city.Id}/pointsofinterest/{Guid.NewGuid()}");
+        var response = await _httpClient.GetAsync(ApiRoutesV1.PointsOfInterest.Get.UrlFor(city.Id, Guid.NewGuid()));
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

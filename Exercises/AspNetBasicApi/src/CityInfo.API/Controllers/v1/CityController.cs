@@ -1,10 +1,9 @@
-using System;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using CityInfo.API.Attributes;
-using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Requests.Queries;
+using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Requests;
+using CityInfo.API.Contracts.v1.Requests.Queries;
+using CityInfo.API.Contracts.v1.Responses.Helpers;
 using CityInfo.API.Domain;
 using CityInfo.API.Exceptions;
 using CityInfo.API.Mappers;
@@ -12,20 +11,21 @@ using CityInfo.API.Services;
 using CityInfo.API.Validators.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CityInfo.API.Controllers;
+namespace CityInfo.API.Controllers.v1;
 
 [ApiController]
-[Route("api/cities")]
 public class CityController : ControllerBase
 {
     private readonly ICityService _cityService;
+    private readonly IUriService _uriService;
 
-    public CityController(ICityService cityService)
+    public CityController(ICityService cityService, IUriService uriService)
     {
         _cityService = cityService ?? throw new NullReferenceException(nameof(cityService));
+        _uriService = uriService ?? throw new NullReferenceException(nameof(uriService));
     }
 
-    [HttpGet]
+    [HttpGet(ApiRoutesV1.Cities.GetAll.Url)]
     public async Task<IActionResult> GetCities([FromQuery] GetCitiesQuery query, [FromQuery] PaginationQuery paginationQuery)
     {
         var getCitiesFilter = query.ToGetCitiesFilter();
@@ -33,15 +33,15 @@ public class CityController : ControllerBase
 
         var cities = await _cityService.GetAsync(getCitiesFilter, paginationFilter);
 
-        var citiesResponse = cities.Select(x => x.ToExtendedCityResponse());
-        
-        // TODO: Return paged response
-        // TODO: Can the ORDERBY happen before the paging happens to page 1 pagesize 1 returns the top alphabetically?
+        var citiesResponse = cities.Select(x => x.ToExtendedCityResponse()).ToList();
 
-        return Ok(citiesResponse);
+        var pagedResponse =
+            PagedResponseHelper.CreatePaginatedCityResponse(_uriService, paginationFilter, citiesResponse);
+
+        return Ok(pagedResponse);
     }
 
-    [HttpGet("{cityId:guid}")]
+    [HttpGet(ApiRoutesV1.Cities.Get.Url)]
     public async Task<IActionResult> GetCity([FromRoute] Guid cityId)
     {
         var city = await _cityService.GetByIdAsync(cityId);
@@ -53,7 +53,7 @@ public class CityController : ControllerBase
         return Ok(cityResponse);
     }
 
-    [HttpPost]
+    [HttpPost(ApiRoutesV1.Cities.Create.Url)]
     public async Task<IActionResult> CreateCity([FromBody] CreateCityRequest request)
     {
         var city = request.ToCity();
@@ -72,7 +72,7 @@ public class CityController : ControllerBase
             new { cityId = cityResponse.Id }, cityResponse);
     }
 
-    [HttpPut("{cityId:guid}")]
+    [HttpPut(ApiRoutesV1.Cities.Update.Url)]
     public async Task<IActionResult> UpdateCity([FromMultiSource] UpdateCityRequest request)
     {
         if (!await _cityService.ExistsAsync(request.Id)) return NotFound();
@@ -91,7 +91,7 @@ public class CityController : ControllerBase
         return Ok(cityResponse);
     }
 
-    [HttpDelete("{cityId:guid}")]
+    [HttpDelete(ApiRoutesV1.Cities.Delete.Url)]
     public async Task<IActionResult> DeleteCity([FromRoute] Guid cityId)
     {
         if (!await _cityService.ExistsAsync(cityId)) return NotFound();

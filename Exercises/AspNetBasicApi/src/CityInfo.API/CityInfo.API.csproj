@@ -39,4 +39,8 @@
         <Content Remove="logs\**" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Helpers" />
+    </ItemGroup>
+
 </Project>

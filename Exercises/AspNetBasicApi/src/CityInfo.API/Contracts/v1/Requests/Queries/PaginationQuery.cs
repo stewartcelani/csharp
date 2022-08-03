@@ -1,4 +1,4 @@
-﻿namespace CityInfo.API.Contracts.Requests.Queries;
+﻿namespace CityInfo.API.Contracts.v1.Requests.Queries;
 
 public class PaginationQuery
 {

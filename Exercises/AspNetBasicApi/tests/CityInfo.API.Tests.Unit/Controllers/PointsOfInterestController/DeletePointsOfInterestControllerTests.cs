@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using CityInfo.API.Controllers;
+using CityInfo.API.Controllers.v1;
 using CityInfo.API.Exceptions;
 using CityInfo.API.Services;
 using FluentAssertions;

@@ -1,7 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CityInfo.API.Contracts.Requests;
+namespace CityInfo.API.Contracts.v1.Requests;
 
 public class UpdatePointOfInterestRequest
 {

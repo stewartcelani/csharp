@@ -7,7 +7,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Contracts.Responses;
+using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Requests.Queries;
+using CityInfo.API.Contracts.v1.Responses;
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
 using CityInfo.API.Services;
@@ -33,12 +35,15 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
         _cityService = _serviceScope.ServiceProvider.GetRequiredService<ICityService>();
         _cityGenerator = testContext.CityGenerator;
     }
+    
+    // TODO: GetCities_ broken when running with other integration tests, there is one city more than there should be -- deleteallcities is not doing what it should?
 
     [Fact]
     public async Task GetCities_ReturnsCities_WhenCitiesExist()
     {
         // Arrange
         await DeleteAllCities();
+        var defaultPaginationQuery = new PaginationQuery();
         var cities = _cityGenerator.Generate(new Random().Next(2, 10));
         var expectedCitiesResponse = cities.Select(x => x.ToExtendedCityResponse());
         foreach (var city in cities)
@@ -47,12 +52,16 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
         }
         
         // Act
-        var response = await _httpClient.GetAsync("api/cities");
+        var response = await _httpClient.GetAsync(ApiRoutesV1.Cities.GetAll.Url);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var citiesResponse = await response.Content.ReadFromJsonAsync<IEnumerable<ExtendedCityResponse>>();
-        citiesResponse!.Should().BeEquivalentTo(expectedCitiesResponse);
+        var pagedResponse = await response.Content.ReadFromJsonAsync<PagedResponse<ExtendedCityResponse>>();
+        pagedResponse!.Data.Should().BeEquivalentTo(expectedCitiesResponse);
+        pagedResponse.PageSize.Should().Be(defaultPaginationQuery.PageSize);
+        pagedResponse.PageNumber.Should().Be(defaultPaginationQuery.PageNumber);
+        pagedResponse.NextPage.Should().BeNull();
+        pagedResponse.PreviousPage.Should().BeNull();
         
         // Cleanup
         foreach (var city in cities)
@@ -66,14 +75,19 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
     {
         // Arrange
         await DeleteAllCities();
+        var defaultPaginationQuery = new PaginationQuery();
 
         // Act
-        var response = await _httpClient.GetAsync("api/cities");
+        var response = await _httpClient.GetAsync(ApiRoutesV1.Cities.GetAll.Url);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var citiesResponse = await response.Content.ReadFromJsonAsync<IEnumerable<ExtendedCityResponse>>();
-        citiesResponse!.Should().BeEmpty();
+        var pagedResponse = await response.Content.ReadFromJsonAsync<PagedResponse<ExtendedCityResponse>>();
+        pagedResponse!.Data.Should().BeEmpty();
+        pagedResponse.PageSize.Should().Be(defaultPaginationQuery.PageSize);
+        pagedResponse.PageNumber.Should().Be(defaultPaginationQuery.PageNumber);
+        pagedResponse.NextPage.Should().BeNull();
+        pagedResponse.PreviousPage.Should().BeNull();
     }
 
     [Fact]
@@ -85,7 +99,7 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
         await _cityService.CreateAsync(city);
 
         // Act
-        var response = await _httpClient.GetAsync($"api/cities/{city.Id}");
+        var response = await _httpClient.GetAsync(ApiRoutesV1.Cities.Get.UrlFor(city.Id));
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -100,7 +114,7 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
     public async Task GetCity_ShouldReturnNotFound_WhenCityDoesNotExist()
     {
         // Act
-        var response = await _httpClient.GetAsync($"api/cities/{Guid.NewGuid()}");
+        var response = await _httpClient.GetAsync(ApiRoutesV1.Cities.Get.UrlFor(Guid.NewGuid()));
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -113,6 +127,8 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
         {
             await _cityService.DeleteAsync(city.Id);
         }
+        var citiesCount = (await _cityService.GetAsync()).ToList().Count;
+        if (citiesCount is not 0) throw new Exception($"Error occured while trying to delete all cities. {nameof(citiesCount)} is {citiesCount}.");
     }
 
     public void Dispose()

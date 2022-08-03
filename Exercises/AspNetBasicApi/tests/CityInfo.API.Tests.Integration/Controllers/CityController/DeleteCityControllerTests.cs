@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bogus;
+using CityInfo.API.Contracts.v1;
 using CityInfo.API.Domain;
 using CityInfo.API.Services;
 using FluentAssertions;
@@ -40,7 +41,7 @@ public class DeleteCityControllerTests: IClassFixture<CityInfoApiFactory>, IDisp
                 $"City with id {city.Id} could not be created to test {nameof(DeleteCity_ShouldDeleteCity_WhenCityExists)}");
 
         // Act
-        var response = await _httpClient.DeleteAsync($"api/cities/{city.Id}");
+        var response = await _httpClient.DeleteAsync(ApiRoutesV1.Cities.Delete.UrlFor(city.Id));
         var lookup = await _cityService.GetByIdAsync(city.Id);
 
         // Assert
@@ -52,7 +53,7 @@ public class DeleteCityControllerTests: IClassFixture<CityInfoApiFactory>, IDisp
     public async Task DeleteCity_ShouldReturnNotFound_WhenCityDoesNotExist()
     {
         // Act
-        var response = await _httpClient.DeleteAsync($"api/cities/{Guid.NewGuid()}");
+        var response = await _httpClient.DeleteAsync(ApiRoutesV1.Cities.Delete.UrlFor(Guid.NewGuid()));
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

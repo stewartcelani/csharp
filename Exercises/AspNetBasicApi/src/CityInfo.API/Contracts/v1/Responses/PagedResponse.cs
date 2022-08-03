@@ -1,4 +1,4 @@
-﻿namespace CityInfo.API.Contracts.Responses;
+﻿namespace CityInfo.API.Contracts.v1.Responses;
 
 public class PagedResponse<T>
 {

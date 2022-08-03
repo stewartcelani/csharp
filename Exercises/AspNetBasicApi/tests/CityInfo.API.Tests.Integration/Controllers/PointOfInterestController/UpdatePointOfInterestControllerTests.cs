@@ -7,8 +7,9 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Responses;
+using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Requests;
+using CityInfo.API.Contracts.v1.Responses;
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
 using CityInfo.API.Services;
@@ -54,7 +55,7 @@ public class UpdatePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
 
         // Act
         var response =
-            await _httpClient.PutAsJsonAsync($"api/cities/{city.Id}/pointsofinterest/{pointOfInterest.Id}", createPointOfInterestRequest);
+            await _httpClient.PutAsJsonAsync(ApiRoutesV1.PointsOfInterest.Update.UrlFor(city.Id, pointOfInterest.Id), createPointOfInterestRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -74,7 +75,7 @@ public class UpdatePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
 
         // Act
         var response =
-            await _httpClient.PutAsJsonAsync($"api/cities/{Guid.NewGuid()}/pointsofinterest/{Guid.NewGuid()}",
+            await _httpClient.PutAsJsonAsync(ApiRoutesV1.PointsOfInterest.Update.UrlFor(Guid.NewGuid(), Guid.NewGuid()),
                 createPointOfInterestRequest);
 
         // Assert
@@ -94,7 +95,7 @@ public class UpdatePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
         
         // Act
         var response =
-            await _httpClient.PutAsJsonAsync($"api/cities/{city.Id}/pointsofinterest/{Guid.NewGuid()}",
+            await _httpClient.PutAsJsonAsync(ApiRoutesV1.PointsOfInterest.Update.UrlFor(city.Id, Guid.NewGuid()),
                 createPointOfInterestRequest);
 
         // Assert
@@ -123,7 +124,7 @@ public class UpdatePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
         var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
         
         // Act
-        var response = await _httpClient.PatchAsync($"api/cities/{city.Id}/pointsofinterest/{pointOfInterest.Id}",
+        var response = await _httpClient.PatchAsync(ApiRoutesV1.PointsOfInterest.Update.UrlFor(city.Id, pointOfInterest.Id),
             requestContent);
         
         // Assert
@@ -148,7 +149,7 @@ public class UpdatePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
         var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
         
         // Act
-        var response = await _httpClient.PatchAsync($"api/cities/{Guid.NewGuid()}/pointsofinterest/{Guid.NewGuid()}",
+        var response = await _httpClient.PatchAsync(ApiRoutesV1.PointsOfInterest.Update.UrlFor(Guid.NewGuid(), Guid.NewGuid()),
             requestContent);
 
         // Assert
@@ -170,7 +171,7 @@ public class UpdatePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
         var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
         
         // Act
-        var response = await _httpClient.PatchAsync($"api/cities/{city.Id}/pointsofinterest/{Guid.NewGuid()}",
+        var response = await _httpClient.PatchAsync(ApiRoutesV1.PointsOfInterest.Update.UrlFor(city.Id, Guid.NewGuid()),
             requestContent);
 
         // Assert

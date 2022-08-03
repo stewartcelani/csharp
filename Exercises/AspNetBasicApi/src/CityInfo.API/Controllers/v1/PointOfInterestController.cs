@@ -1,9 +1,7 @@
-using System;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using CityInfo.API.Attributes;
-using CityInfo.API.Contracts.Requests;
+using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Requests;
 using CityInfo.API.Domain;
 using CityInfo.API.Exceptions;
 using CityInfo.API.Mappers;
@@ -15,10 +13,9 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CityInfo.API.Controllers;
+namespace CityInfo.API.Controllers.v1;
 
 [ApiController]
-[Route("api/cities/{cityId:guid}/pointsofinterest")]
 public class PointOfInterestController : ControllerBase
 {
     private readonly ICityService _cityService;
@@ -31,7 +28,7 @@ public class PointOfInterestController : ControllerBase
         _cityService = cityService ?? throw new ArgumentNullException(nameof(cityService));
     }
 
-    [HttpGet]
+    [HttpGet(ApiRoutesV1.PointsOfInterest.GetAll.Url)]
     public async Task<IActionResult> GetPointsOfInterest([FromRoute] Guid cityId)
     {
         if (!await _cityService.ExistsAsync(cityId)) return NotFound();
@@ -44,7 +41,7 @@ public class PointOfInterestController : ControllerBase
     }
 
     // ReSharper disable once RouteTemplates.ActionRoutePrefixCanBeExtractedToControllerRoute
-    [HttpGet("{pointOfInterestId:guid}")]
+    [HttpGet(ApiRoutesV1.PointsOfInterest.Get.Url)]
     public async Task<IActionResult> GetPointOfInterest([FromRoute] Guid pointOfInterestId)
     {
         var pointOfInterest = await _pointOfInterestService.GetByIdAsync(pointOfInterestId);
@@ -56,7 +53,7 @@ public class PointOfInterestController : ControllerBase
         return Ok(pointOfInterestResponse);
     }
 
-    [HttpPost]
+    [HttpPost(ApiRoutesV1.PointsOfInterest.Create.Url)]
     public async Task<IActionResult> CreatePointOfInterest([FromRoute] Guid cityId,
         [FromBody] CreatePointOfInterestRequest request)
     {
@@ -81,7 +78,7 @@ public class PointOfInterestController : ControllerBase
     // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
     // ReSharper disable once RouteTemplates.ActionRoutePrefixCanBeExtractedToControllerRoute
     // ReSharper disable once RouteTemplates.MethodMissingRouteParameters
-    [HttpPut("{pointOfInterestId:guid}")]
+    [HttpPut(ApiRoutesV1.PointsOfInterest.Update.Url)]
     public async Task<IActionResult> UpdatePointOfInterest([FromRoute] Guid cityId,
         [FromMultiSource] UpdatePointOfInterestRequest request)
     {
@@ -102,7 +99,7 @@ public class PointOfInterestController : ControllerBase
         return Ok(pointOfInterestResponse);
     }
 
-    [HttpPatch("{pointOfInterestId:guid}")]
+    [HttpPatch(ApiRoutesV1.PointsOfInterest.Update.Url)]
     public async Task<IActionResult> PartiallyUpdatePointOfInterest([FromRoute] Guid cityId,
         [FromRoute] Guid pointOfInterestId,
         JsonPatchDocument<CreatePointOfInterestRequest> patchDocument)
@@ -128,7 +125,7 @@ public class PointOfInterestController : ControllerBase
         return Ok(pointOfInterestResponse);
     }
 
-    [HttpDelete("{pointOfInterestId:guid}")]
+    [HttpDelete(ApiRoutesV1.PointsOfInterest.Delete.Url)]
     public async Task<IActionResult> DeletePointOfInterest([FromRoute] Guid pointOfInterestId)
     {
         if (!await _pointOfInterestService.ExistsAsync(pointOfInterestId)) return NotFound();

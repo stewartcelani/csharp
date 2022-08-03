@@ -1,4 +1,4 @@
-﻿using CityInfo.API.Contracts.Requests.Queries;
+﻿using CityInfo.API.Contracts.v1.Requests.Queries;
 
 namespace CityInfo.API.Services;
 

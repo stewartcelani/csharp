@@ -1,6 +1,6 @@
 using System;
-using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Requests.Queries;
+using CityInfo.API.Contracts.v1.Requests;
+using CityInfo.API.Contracts.v1.Requests.Queries;
 using CityInfo.API.Domain;
 using CityInfo.API.Domain.Filters;
 

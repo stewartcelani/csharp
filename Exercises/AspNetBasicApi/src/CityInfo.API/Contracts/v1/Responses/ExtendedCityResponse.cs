@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace CityInfo.API.Contracts.Responses;
+namespace CityInfo.API.Contracts.v1.Responses;
 
 public class ExtendedCityResponse
 {

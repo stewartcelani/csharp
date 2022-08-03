@@ -5,8 +5,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Responses;
+using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Requests;
+using CityInfo.API.Contracts.v1.Responses;
 using CityInfo.API.Domain;
 using CityInfo.API.Services;
 using FluentAssertions;
@@ -48,14 +49,17 @@ public class CreatePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
 
         // Act
         var response =
-            await _httpClient.PostAsJsonAsync($"api/cities/{city.Id}/pointsofinterest", createPointOfInterestRequest);
+            await _httpClient.PostAsJsonAsync(ApiRoutesV1.PointsOfInterest.Create.UrlFor(city.Id),
+                createPointOfInterestRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         var pointOfInterestResponse = await response.Content.ReadFromJsonAsync<PointOfInterestResponse>();
         pointOfInterestResponse.Should().BeEquivalentTo(createPointOfInterestRequest);
-        response.Headers.Location!.ToString().Should().EndWith($"/api/cities/{city.Id}/pointsofinterest/{pointOfInterestResponse!.Id}");
-        
+        response.Headers.Location!.ToString().Should().Be(_httpClient.BaseAddress +
+                                                          ApiRoutesV1.PointsOfInterest.Get.UrlFor(city.Id,
+                                                              pointOfInterestResponse!.Id));
+
         // Cleanup
         await _cityService.DeleteAsync(city.Id);
     }
@@ -68,7 +72,8 @@ public class CreatePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
 
         // Act
         var response =
-            await _httpClient.PostAsJsonAsync($"api/cities/{Guid.NewGuid()}/pointsofinterest", createPointOfInterestRequest);
+            await _httpClient.PostAsJsonAsync(ApiRoutesV1.PointsOfInterest.Create.UrlFor(Guid.NewGuid()),
+                createPointOfInterestRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

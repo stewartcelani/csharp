@@ -48,7 +48,7 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
             foreach (var property in includeProperties)
                 query = query.Include(property.Trim());
 
-        query = query.AsNoTracking();
+        if (orderBy is not null) query = orderBy(query);
 
         if (paginationFilter is not null)
         {
@@ -56,7 +56,9 @@ public abstract class GenericRepository<TEntity, TKey> : IRepository<TEntity, TK
             query = query.Skip(skip).Take(paginationFilter.PageSize);
         }
         
-        if (orderBy is not null) return await orderBy(query).ToListAsync();
+        query = query.AsNoTracking();
+        
+        /*if (orderBy is not null) return await orderBy(query).ToListAsync();*/
 
         return await query.ToListAsync();
     }

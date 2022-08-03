@@ -35,7 +35,7 @@ public class CityService : ICityService
         return cityEntity?.ToCity();
     }
 
-    public async Task<IEnumerable<City>> GetAsync(GetCitiesFilter? getCitiesFilter, PaginationFilter? paginationFilter)
+    public async Task<IEnumerable<City>> GetAsync(GetCitiesFilter getCitiesFilter, PaginationFilter paginationFilter)
     {
         Expression<Func<CityEntity, bool>>? predicate = null;
         if (getCitiesFilter?.Name is not null)
@@ -50,9 +50,7 @@ public class CityService : ICityService
     
     public async Task<IEnumerable<City>> GetAsync()
     {
-        var cityEntities =
-            await _cityRepository.GetAsync(null, _defaultIncludeProperties, q => q.OrderBy(x => x.Name));
-        return cityEntities.Select(x => x.ToCity());
+        return await GetAsync(new GetCitiesFilter(), new PaginationFilter());
     }
     
     public async Task<IEnumerable<City>> GetAsync(string name)

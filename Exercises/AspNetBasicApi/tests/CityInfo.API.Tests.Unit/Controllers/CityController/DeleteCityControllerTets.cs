@@ -17,12 +17,12 @@ public class DeleteCityControllerTests
 {
     private readonly Faker<City> _cityGenerator;
     private readonly ICityService _cityService = Substitute.For<ICityService>();
-    private readonly API.Controllers.CityController _sut;
+    private readonly API.Controllers.v1.CityController _sut;
 
 
     public DeleteCityControllerTests()
     {
-        _sut = new API.Controllers.CityController(_cityService);
+        _sut = new API.Controllers.v1.CityController(_cityService, new UriService("http://localhost/"));
         _cityGenerator = SharedTestContext.CityGenerator;
     }
 

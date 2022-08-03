@@ -5,8 +5,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Responses;
+using CityInfo.API.Contracts.v1;
+using CityInfo.API.Contracts.v1.Requests;
+using CityInfo.API.Contracts.v1.Responses;
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
 using CityInfo.API.Services;
@@ -51,7 +52,7 @@ public class UpdateCityControllerTests : IClassFixture<CityInfoApiFactory>, IDis
         var expectedCityResponse = updateCityRequest.ToCity().ToCityResponse();
 
         // Act
-        var response = await _httpClient.PutAsJsonAsync($"api/cities/{city.Id}", createCityRequest);
+        var response = await _httpClient.PutAsJsonAsync(ApiRoutesV1.Cities.Update.UrlFor(city.Id), createCityRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -66,7 +67,7 @@ public class UpdateCityControllerTests : IClassFixture<CityInfoApiFactory>, IDis
         var createCityRequest = _createCityRequestGenerator.Generate();
 
         // Act
-        var response = await _httpClient.PutAsJsonAsync($"api/cities/{Guid.NewGuid()}", createCityRequest);
+        var response = await _httpClient.PutAsJsonAsync(ApiRoutesV1.Cities.Update.UrlFor(Guid.NewGuid()), createCityRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

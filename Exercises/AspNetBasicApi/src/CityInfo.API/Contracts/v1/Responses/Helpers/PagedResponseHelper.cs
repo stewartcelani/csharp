@@ -1,10 +1,8 @@
-﻿using CityInfo.API.Contracts.Requests.Queries;
-using CityInfo.API.Contracts.Responses;
-using CityInfo.API.Domain.Entities.Common;
+﻿using CityInfo.API.Contracts.v1.Requests.Queries;
 using CityInfo.API.Domain.Filters;
 using CityInfo.API.Services;
 
-namespace CityInfo.API.Helpers;
+namespace CityInfo.API.Contracts.v1.Responses.Helpers;
 
 public static class PagedResponseHelper
 {

@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bogus;
-using CityInfo.API.Contracts.Requests;
+using CityInfo.API.Contracts.v1.Requests;
 using CityInfo.API.Domain;
 using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Model.Common;

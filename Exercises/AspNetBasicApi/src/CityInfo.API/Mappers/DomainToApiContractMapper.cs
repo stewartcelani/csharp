@@ -1,6 +1,6 @@
 using System.Linq;
-using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Responses;
+using CityInfo.API.Contracts.v1.Requests;
+using CityInfo.API.Contracts.v1.Responses;
 using CityInfo.API.Domain;
 
 namespace CityInfo.API.Mappers;

@@ -1,4 +1,4 @@
-﻿using CityInfo.API.Contracts.Requests;
+﻿using CityInfo.API.Contracts.v1.Requests;
 using FluentValidation;
 
 namespace CityInfo.API.Validators;

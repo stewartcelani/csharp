@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Bogus;
 using CityInfo.API.Domain;
 using CityInfo.API.Domain.Entities;
+using CityInfo.API.Domain.Filters;
 using CityInfo.API.Mappers;
 using CityInfo.API.Repositories;
 using CityInfo.API.Services;
@@ -89,7 +90,7 @@ public class GetCityServiceTests
     {
         // Arrange
         var cities = _cityGenerator.Generate(2);
-        _cityRepository.GetAsync(Arg.Any<Expression<Func<CityEntity, bool>>?>(), Arg.Any<IEnumerable<string>?>())
+        _cityRepository.GetAsync(Arg.Any<Expression<Func<CityEntity, bool>>?>(), Arg.Any<IEnumerable<string>?>(), Arg.Any<Func<IQueryable<CityEntity>, IOrderedQueryable<CityEntity>>?>(), Arg.Any<PaginationFilter?>())
             .Returns(cities.Select(x => x.ToCityEntity()));
 
         // Act
@@ -103,7 +104,7 @@ public class GetCityServiceTests
     public async Task GetAllAsync_ShouldReturnEmptyList_WhenNoCitiesExist()
     {
         // Arrange
-        _cityRepository.GetAsync(Arg.Any<Expression<Func<CityEntity, bool>>?>(), Arg.Any<IEnumerable<string>?>())
+        _cityRepository.GetAsync(Arg.Any<Expression<Func<CityEntity, bool>>?>(), Arg.Any<IEnumerable<string>?>(), Arg.Any<Func<IQueryable<CityEntity>, IOrderedQueryable<CityEntity>>?>(), Arg.Any<PaginationFilter?>())
             .Returns(Enumerable.Empty<CityEntity>());
 
         // Act

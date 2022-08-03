@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bogus;
+using CityInfo.API.Contracts.v1;
 using CityInfo.API.Domain;
 using CityInfo.API.Mappers;
 using CityInfo.API.Services;
@@ -46,7 +47,7 @@ public class DeletePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
 
         // Act
         var preDeleteLookup = await _pointOfInterestService.GetByIdAsync(pointOfInterest.Id);
-        var response = await _httpClient.DeleteAsync($"api/cities/{city.Id}/pointsofinterest/{pointOfInterest.Id}");
+        var response = await _httpClient.DeleteAsync(ApiRoutesV1.PointsOfInterest.Delete.UrlFor(city.Id, pointOfInterest.Id));
         var postDeleteLookup = await _pointOfInterestService.GetByIdAsync(pointOfInterest.Id);
         
         // Assert
@@ -69,7 +70,7 @@ public class DeletePointOfInterestControllerTests : IClassFixture<CityInfoApiFac
                 $"City with id {city.Id} could not be created to test {nameof(DeletePointOfInterest_ShouldReturnNotFound_WhenPointOfInterestDoesNotExist)}");
         
         // Act
-        var response = await _httpClient.DeleteAsync($"api/cities/{city.Id}/pointsofinterest/{Guid.NewGuid()}");
+        var response = await _httpClient.DeleteAsync(ApiRoutesV1.PointsOfInterest.Delete.UrlFor(city.Id, Guid.NewGuid()));
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

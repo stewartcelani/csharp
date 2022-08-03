@@ -59,7 +59,6 @@ builder.Services.AddTransient<ICityRepository, CityRepository>();
 builder.Services.AddTransient<IPointOfInterestRepository, PointOfInterestRepository>();
 builder.Services.AddTransient<ICityService, CityService>();
 builder.Services.AddTransient<IPointOfInterestService, PointOfInterestService>();
-
 builder.Services.AddScoped<IUriService>(provider =>
 {
     var accessor = provider.GetRequiredService<IHttpContextAccessor>();

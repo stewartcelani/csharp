@@ -1,8 +1,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using CityInfo.API.Contracts.Requests;
-using CityInfo.API.Contracts.Responses;
+using CityInfo.API.Contracts.v1.Requests;
+using CityInfo.API.Contracts.v1.Responses;
 using CityInfo.API.Domain;
 using CityInfo.API.Exceptions;
 using CityInfo.API.Mappers;
@@ -18,12 +18,12 @@ namespace CityInfo.API.Tests.Unit.Controllers.CityController;
 public class UpdateCityControllerTests
 {
     private readonly ICityService _cityService = Substitute.For<ICityService>();
-    private readonly API.Controllers.CityController _sut;
+    private readonly API.Controllers.v1.CityController _sut;
 
 
     public UpdateCityControllerTests()
     {
-        _sut = new API.Controllers.CityController(_cityService);
+        _sut = new API.Controllers.v1.CityController(_cityService, new UriService("http://localhost/"));
     }
 
     [Fact]
