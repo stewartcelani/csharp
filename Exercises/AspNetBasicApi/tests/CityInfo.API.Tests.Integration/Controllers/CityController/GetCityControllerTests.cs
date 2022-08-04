@@ -36,8 +36,6 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
         _cityGenerator = testContext.CityGenerator;
     }
     
-    // TODO: GetCities_ broken when running with other integration tests, there is one city more than there should be -- deleteallcities is not doing what it should?
-
     [Fact]
     public async Task GetCities_ReturnsCities_WhenCitiesExist()
     {
@@ -88,6 +86,65 @@ public class GetCityControllerTests : IClassFixture<CityInfoApiFactory>, IDispos
         pagedResponse.PageNumber.Should().Be(defaultPaginationQuery.PageNumber);
         pagedResponse.NextPage.Should().BeNull();
         pagedResponse.PreviousPage.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetCities_ShouldPaginateCorrectly_WhenMultiplePagesExist()
+    {
+        // Arrange
+        await DeleteAllCities();
+        var paginationQuery = new PaginationQuery { PageSize = 2 };
+        var cities = _cityGenerator.Generate(5).OrderBy(x => x.Name).ToList();
+        foreach (var city in cities)
+        {
+            await _cityService.CreateAsync(city);
+        }
+        var expectedConcatenatedCitiesResponse = cities.Select(x => x.ToExtendedCityResponse()).ToList();
+        var expectedPage1CitiesResponse = new List<ExtendedCityResponse>
+        {
+            expectedConcatenatedCitiesResponse[0],
+            expectedConcatenatedCitiesResponse[1]
+        };
+        var expectedPage2CitiesResponse = new List<ExtendedCityResponse>
+        {
+            expectedConcatenatedCitiesResponse[2],
+            expectedConcatenatedCitiesResponse[3]
+        };
+        var expectedPage3CitiesResponse = new List<ExtendedCityResponse>
+        {
+            expectedConcatenatedCitiesResponse[4],
+        };
+
+        // Act
+        var page1Url = ApiRoutesV1.Cities.GetAll.Url + paginationQuery.ToQueryString();
+        var page1Response = await _httpClient.GetAsync(page1Url);
+        var page1PaginatedResponse =
+            await page1Response.Content.ReadFromJsonAsync<PagedResponse<ExtendedCityResponse>>();
+        var page2Response = await _httpClient.GetAsync(page1PaginatedResponse!.NextPage);
+        var page2PaginatedResponse = await page2Response.Content.ReadFromJsonAsync<PagedResponse<ExtendedCityResponse>>();
+        var page3Response = await _httpClient.GetAsync(page2PaginatedResponse!.NextPage);
+        
+        // Assert
+        page1Response.StatusCode.Should().Be(HttpStatusCode.OK);
+        page2Response.StatusCode.Should().Be(HttpStatusCode.OK);
+        page3Response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var page3PaginatedResponse =
+            await page3Response.Content.ReadFromJsonAsync<PagedResponse<ExtendedCityResponse>>();
+        page1PaginatedResponse.Data.Should().BeEquivalentTo(expectedPage1CitiesResponse);
+        page1PaginatedResponse.PageSize.Should().Be(paginationQuery.PageSize);
+        page1PaginatedResponse.PageNumber.Should().Be(1);
+        page1PaginatedResponse.PreviousPage.Should().BeNull();
+        page2PaginatedResponse.Data.Should().BeEquivalentTo(expectedPage2CitiesResponse);
+        page2PaginatedResponse.PageSize.Should().Be(paginationQuery.PageSize);
+        page2PaginatedResponse.PageNumber.Should().Be(2);
+        page3PaginatedResponse!.Data.Should().BeEquivalentTo(expectedPage3CitiesResponse);
+        page3PaginatedResponse.PageSize.Should().Be(paginationQuery.PageSize);
+        page3PaginatedResponse.PageNumber.Should().Be(3);
+        page3PaginatedResponse.NextPage.Should().BeNull();
+        var concatenatedCitiesResponse =
+            (page1PaginatedResponse.Data.Concat(page2PaginatedResponse.Data.Concat(page3PaginatedResponse.Data)))
+            .OrderBy(x => x.Name);
+        concatenatedCitiesResponse.Should().BeEquivalentTo(expectedConcatenatedCitiesResponse);
     }
 
     [Fact]
