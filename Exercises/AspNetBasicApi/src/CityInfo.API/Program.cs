@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -39,6 +40,16 @@ builder.Services.AddSingleton(mailSettings);
 
 var databaseSettings = SettingsBinder.BindAndValidate<DatabaseSettings, DatabaseSettingsValidator>(config);
 builder.Services.AddSingleton(databaseSettings);
+
+var cacheSettings = SettingsBinder.BindAndValidate<CacheSettings, CacheSettingsValidator>(config);
+builder.Services.AddSingleton(cacheSettings);
+if (cacheSettings.Enabled)
+{
+    builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
+        ConnectionMultiplexer.Connect(cacheSettings.ConnectionString));
+    builder.Services.AddStackExchangeRedisCache(options => options.Configuration = cacheSettings.ConnectionString);
+    builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+}
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

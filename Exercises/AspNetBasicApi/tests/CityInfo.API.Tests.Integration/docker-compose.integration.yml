@@ -16,11 +16,15 @@ services:
       - CityInfoApi_DatabaseSettings__ConnectionString=Host=cityinfo-test-db;Username=testuser;Password=testpassword;Database=testdb;Port=5432;
       - CityInfoApi_DatabaseSettings__EnableSensitiveDataLogging=false
       - CityInfoApi_DatabaseSettings__SeedData=false
+      - CityInfoApi_CacheSettings__Enabled=false
+      - CityInfoApi_CacheSettings__ConnectionString=redis,password=RousTIOUTAKeTIcI
     volumes:
       - ~/.aspnet/https:/https:ro
     depends_on:
       cityinfo-test-db:
         condition: service_healthy
+      cityinfo-test-cache:
+        condition: service_started
   
   cityinfo-test-db:
     image: postgres:latest
@@ -36,3 +40,10 @@ services:
       retries: 10
     ports:
       - '5439:5432'
+
+  cityinfo-test-cache:
+    image: bitnami/redis:latest
+    restart: always
+    ports:
+      - '6579:6379'
+    command: redis-server --requirepass RousTIOUTAKeTIcI

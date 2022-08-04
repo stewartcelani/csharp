@@ -28,6 +28,7 @@ public class PointOfInterestController : ControllerBase
         _cityService = cityService ?? throw new ArgumentNullException(nameof(cityService));
     }
 
+    [Cached(60)]
     [HttpGet(ApiRoutesV1.PointsOfInterest.GetAll.Url)]
     public async Task<IActionResult> GetPointsOfInterest([FromRoute] Guid cityId)
     {
@@ -40,7 +41,7 @@ public class PointOfInterestController : ControllerBase
         return Ok(pointsOfInterestResponse);
     }
 
-    // ReSharper disable once RouteTemplates.ActionRoutePrefixCanBeExtractedToControllerRoute
+    [Cached(60)]
     [HttpGet(ApiRoutesV1.PointsOfInterest.Get.Url)]
     public async Task<IActionResult> GetPointOfInterest([FromRoute] Guid pointOfInterestId)
     {
@@ -74,10 +75,7 @@ public class PointOfInterestController : ControllerBase
         return CreatedAtAction(nameof(GetPointOfInterest),
             new { cityId, pointOfInterestId = pointOfInterestResponse.Id }, pointOfInterestResponse);
     }
-
-    // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
-    // ReSharper disable once RouteTemplates.ActionRoutePrefixCanBeExtractedToControllerRoute
-    // ReSharper disable once RouteTemplates.MethodMissingRouteParameters
+    
     [HttpPut(ApiRoutesV1.PointsOfInterest.Update.Url)]
     public async Task<IActionResult> UpdatePointOfInterest([FromRoute] Guid cityId,
         [FromMultiSource] UpdatePointOfInterestRequest request)

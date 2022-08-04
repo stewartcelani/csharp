@@ -25,6 +25,7 @@ public class CityController : ControllerBase
         _uriService = uriService ?? throw new NullReferenceException(nameof(uriService));
     }
 
+    [Cached(60)]
     [HttpGet(ApiRoutesV1.Cities.GetAll.Url)]
     public async Task<IActionResult> GetCities([FromQuery] GetCitiesQuery query, [FromQuery] PaginationQuery paginationQuery)
     {
@@ -41,6 +42,7 @@ public class CityController : ControllerBase
         return Ok(pagedResponse);
     }
 
+    [Cached(60)]
     [HttpGet(ApiRoutesV1.Cities.Get.Url)]
     public async Task<IActionResult> GetCity([FromRoute] Guid cityId)
     {
@@ -71,7 +73,7 @@ public class CityController : ControllerBase
         return CreatedAtAction(nameof(GetCity),
             new { cityId = cityResponse.Id }, cityResponse);
     }
-
+    
     [HttpPut(ApiRoutesV1.Cities.Update.Url)]
     public async Task<IActionResult> UpdateCity([FromMultiSource] UpdateCityRequest request)
     {

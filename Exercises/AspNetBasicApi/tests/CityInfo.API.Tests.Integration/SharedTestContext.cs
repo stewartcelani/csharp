@@ -65,13 +65,13 @@ public class SharedTestContext : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _dockerService.Start();
-        await Task.Delay(2000);
+        await Task.Delay(2000); // Hacky. Needed so tests don't run too early for controllers to hook up. Tried WaitForHttp variations with no success.
     }
 
     public new async Task DisposeAsync()
     {
         HttpClient.Dispose();
         _dockerService.Dispose();
-        await Task.Delay(2000);
+        await Task.Delay(5000);  // Hacky. Needed for ICompositeService.RemoveAllImages() not to cause tests to fail
     }
 }
