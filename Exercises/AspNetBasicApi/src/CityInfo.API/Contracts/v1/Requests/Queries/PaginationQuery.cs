@@ -1,4 +1,7 @@
-﻿namespace CityInfo.API.Contracts.v1.Requests.Queries;
+﻿using System.Web;
+using Newtonsoft.Json;
+
+namespace CityInfo.API.Contracts.v1.Requests.Queries;
 
 public class PaginationQuery
 {
@@ -17,4 +20,14 @@ public class PaginationQuery
     public int PageNumber { get; set; }
 
     public int PageSize { get; set; }
+}
+
+public static class PaginationQueryHelper
+{
+    public static string ToQueryString(this PaginationQuery paginationQuery)
+    {
+        var convert = JsonConvert.DeserializeObject<IDictionary<string, string>>(JsonConvert.SerializeObject(paginationQuery));
+        
+        return "?" + string.Join("&", (convert ?? throw new InvalidOperationException()).Select(x => HttpUtility.UrlEncode(x.Key) + "=" + HttpUtility.UrlEncode(x.Value)));
+    }
 }
