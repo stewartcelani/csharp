@@ -72,6 +72,7 @@ public class PointOfInterestController : ControllerBase
 
         var pointOfInterestResponse = pointOfInterest.ToPointOfInterestResponse();
 
+        
         return CreatedAtAction(nameof(GetPointOfInterest),
             new { cityId, pointOfInterestId = pointOfInterestResponse.Id }, pointOfInterestResponse);
     }
