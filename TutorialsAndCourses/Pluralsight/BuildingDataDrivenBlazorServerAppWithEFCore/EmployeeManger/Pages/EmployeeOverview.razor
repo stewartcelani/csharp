@@ -4,28 +4,27 @@
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter 
-@inject EmployeeManagerDbContext Context
+@inject IDbContextFactory<EmployeeManagerDbContext> DbFactory
+@implements IDisposable
 
 <PageTitle>Employees</PageTitle>
 
 <h1>Employees</h1>
-@if (employeesQueryable is null)
+@if (Loading)
 {
     <p>Loading...</p>
 }
 else
 {
-    
+     <div class="search-box">
+        <input type="search" autofocus @bind="SearchTerm" @bind:event="oninput" placeholder="Search..." />
+    </div>
     <QuickGrid Items="@FilteredEmployeesQueryable" Pagination="@pagination">
-        <PropertyColumn Property="@(employee => employee.Id)" Sortable="true">
-            <ColumnOptions>
-                <div class="search-box">
-                    <input type="search" autofocus @bind="firstNameFilter" @bind:event="oninput" placeholder="First name..." />
-                </div>
-            </ColumnOptions>
-        </PropertyColumn>
-        <PropertyColumn Property="@(employee => employee.FirstName)" Sortable="true" />
-        <PropertyColumn Property="@(employee => employee.LastName)" Sortable="true" />
+        <PropertyColumn Title="Employee ID" Property="@(employee => employee.Id)" Sortable="true" />
+        <PropertyColumn Title="First Name" Property="@(employee => employee.FirstName)" Sortable="true" />
+        <PropertyColumn Title="Last Name" Property="@(employee => employee.LastName)" Sortable="true" />
+        <PropertyColumn Title="Developer" Property="@(employee => employee.IsDeveloper)" Sortable="true" />
+        <PropertyColumn Title="Department" Property="@(employee => employee.Department.Name)" Sortable="true" />
     </QuickGrid>
     <Paginator Value="@pagination" />
 
@@ -33,21 +32,28 @@ else
 
 
 @code {
-    PaginationState pagination = new PaginationState { ItemsPerPage = 3 };
-    IQueryable<Employee>? employeesQueryable;
-    string firstNameFilter;
+    EmployeeManagerDbContext? DbContext;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    IQueryable<Employee>? EmployeesQueryable;
+    bool Loading = true;
+    string SearchTerm;
 
     IQueryable<Employee>? FilteredEmployeesQueryable
     {
         get
         {
-            if (employeesQueryable is null) return null;
+            if (EmployeesQueryable is null) return null;
             
-            var filteredEmployeesQueryable = employeesQueryable;
+            var filteredEmployeesQueryable = EmployeesQueryable;
 
-            if (!string.IsNullOrEmpty(firstNameFilter))
+            if (!string.IsNullOrEmpty(SearchTerm))
             {
-                filteredEmployeesQueryable = filteredEmployeesQueryable.Where(employee => employee.FirstName.Contains(firstNameFilter));
+                filteredEmployeesQueryable = filteredEmployeesQueryable
+                    .Where(e => 
+                        e.FirstName.Contains(SearchTerm) || 
+                        e.LastName.Contains(SearchTerm) ||
+                        e.Id.ToString().Contains(SearchTerm) ||
+                        e.Department.Name.Contains(SearchTerm));
             }
 
             return filteredEmployeesQueryable;
@@ -56,6 +62,29 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        employeesQueryable = Context.Employees.Include(employee => employee.Department).AsQueryable();
+        Loading = true;
+
+        try
+        {
+            DbContext = await DbFactory.CreateDbContextAsync();
+
+            if (DbContext?.Employees != null)
+            {
+                EmployeesQueryable = DbContext.Employees.Include(employee => employee.Department); //.AsQueryable();
+            }
+        }
+        finally
+        {
+            Loading = false;
+        }
+
+        await base.OnInitializedAsync();
     }
+    
+
+    public void Dispose()
+    {
+        DbContext?.Dispose();
+    }
+
 }
