@@ -1,0 +1,77 @@
+﻿@page "/fetchdata"
+@using SecureDemo.Domain
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Net.Http.Headers
+@inject HttpClient Http
+@inject IAccessTokenProvider TokenProvider
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+@if (jwtToken is not null)
+{
+    <p>@jwtToken</p>
+}
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var forecast in forecasts)
+        {
+            <tr>
+                <td>@forecast.Date.ToShortDateString()</td>
+                <td>@forecast.TemperatureC</td>
+                <td>@forecast.TemperatureF</td>
+                <td>@forecast.Summary</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private WeatherForecast[]? forecasts;
+    private string? jwtToken;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        var tokenResult = await TokenProvider.RequestAccessToken(new AccessTokenRequestOptions
+        {
+            Scopes = new[] {"api://00a84b97-bc48-493b-8b25-0513bdd5bf1c/API.User"}
+        });
+
+        if (tokenResult.TryGetToken(out var token))
+        {
+            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            jwtToken = token.Value;
+        }
+        
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("weatherforecast");
+
+        var owner = await Http.GetAsync("whoami");
+        var ownerContent = await owner.Content.ReadAsStringAsync();
+        Console.WriteLine(ownerContent);
+
+    }
+
+
+}
