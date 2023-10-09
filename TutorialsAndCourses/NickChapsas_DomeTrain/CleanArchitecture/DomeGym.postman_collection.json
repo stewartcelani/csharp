@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "3367e16f-4c37-40ec-b3d6-2d77e8789a16",
+		"name": "DomeGym",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20200585"
+	},
+	"item": [
+		{
+			"name": "CreateSubscription",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SubscriptionType\": \"Pro\",\r\n    \"AdminId\": \"1D459FF5-93A5-42B9-8A8A-033DD1C675E3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/subscriptions",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSubscription",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SubscriptionType\": \"Pro\",\r\n    \"AdminId\": \"1D459FF5-93A5-42B9-8A8A-033DD1C675E3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/subscriptions/7cb2ab4d-b982-412c-aad3-b9607c8710da",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"subscriptions",
+						"7cb2ab4d-b982-412c-aad3-b9607c8710da"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": "https://localhost:7259",
+			"type": "string"
+		}
+	]
+}
