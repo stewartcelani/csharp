@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movies.Api.Mapping;
 using Movies.Application.Models;
 using Movies.Application.Repositories;
+using Movies.Application.Services;
 using Movies.Contracts.Requests;
 using Movies.Contracts.Responses;
 
@@ -10,18 +12,19 @@ namespace Movies.Api.Controllers;
 [ApiController]
 public class MoviesController : ControllerBase
 {
-    private readonly IMovieRepository _movieRepository;
+    private readonly IMovieService _movieService;
 
-    public MoviesController(IMovieRepository movieRepository)
+    public MoviesController(IMovieService movieService)
     {
-        _movieRepository = movieRepository;
+        _movieService = movieService;
     }
 
+    [Authorize(AuthConstants.TrustedMemberPolicyName)]
     [HttpPost(ApiEndpoints.Movies.Create)]
-    public async Task<IActionResult> Create([FromBody] CreateMovieRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateMovieRequest request, CancellationToken token)
     {
         var movie = request.ToMovie();
-        var created = await _movieRepository.CreateAsync(movie);
+        var created = await _movieService.CreateAsync(movie, token);
         if (!created)
         {
             return Problem();
@@ -31,11 +34,11 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet(ApiEndpoints.Movies.Get)]
-    public async Task<IActionResult> Get([FromRoute] string idOrSlug)
+    public async Task<IActionResult> Get([FromRoute] string idOrSlug, CancellationToken token)
     {
         var movie = Guid.TryParse(idOrSlug, out var id)
-            ? await _movieRepository.GetByIdAsync(id)
-            : await _movieRepository.GetBySlugAsync(idOrSlug);
+            ? await _movieService.GetByIdAsync(id, token)
+            : await _movieService.GetBySlugAsync(idOrSlug, token);
         if (movie is null)
         {
             return NotFound();
@@ -46,18 +49,19 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet(ApiEndpoints.Movies.GetAll)]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken token)
     {
-        var movies = await _movieRepository.GetAllAsync();
+        var movies = await _movieService.GetAllAsync(token);
         var moviesResponse = movies.ToMoviesResponse();
         return Ok(moviesResponse);
     }
 
+    [Authorize(AuthConstants.TrustedMemberPolicyName)]
     [HttpPut(ApiEndpoints.Movies.Update)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateMovieRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateMovieRequest request, CancellationToken token)
     {
         var movie = request.ToMovie(id);
-        var updated = await _movieRepository.UpdateAsync(movie);
+        var updated = await _movieService.UpdateAsync(movie, token);
         if (!updated)
         {
             return NotFound();
@@ -67,10 +71,11 @@ public class MoviesController : ControllerBase
         return Ok(movieResponse);
     }
 
+    [Authorize(AuthConstants.AdminUserPolicyName)]
     [HttpDelete(ApiEndpoints.Movies.Delete)]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken token)
     {
-        var deleted = await _movieRepository.DeleteAsync(id);
+        var deleted = await _movieService.DeleteByIdAsync(id, token);
         if (!deleted)
         {
             return NotFound();

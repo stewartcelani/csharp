@@ -29,7 +29,7 @@ public class GymsController : ControllerBase
         var command = new CreateGymCommand(request.Name, subscriptionId);
 
         var createGymResult = await _mediator.Send(command);
-
+        
         return createGymResult.Match(
             gym => CreatedAtAction(
                 nameof(GetGym),
